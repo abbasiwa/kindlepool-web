@@ -11,6 +11,9 @@ jobs:
     defaults:
       run:
         working-directory: web
+    permissions:
+      contents: read
+      packages: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -18,7 +21,11 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: web/package-lock.json
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@kindlepool'
       - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm run lint
       - run: npx tsc -b --noEmit
       - run: npm run build
@@ -28,12 +35,19 @@ jobs:
     defaults:
       run:
         working-directory: widget
+    permissions:
+      contents: read
+      packages: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: widget/package.json
+          cache-dependency-path: widget/package-lock.json
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@kindlepool'
       - run: npm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm run build
