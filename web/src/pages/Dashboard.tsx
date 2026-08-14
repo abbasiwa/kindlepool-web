@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Card, Tabs, ProgressBar, Badge } from '../components/ui'
 import { useWallet } from '../lib/wallet'
-import { MOCK_POOLS } from '../lib/mock-data'
+import { getApi } from '../lib/sdk'
+import type { PoolData } from '@mikwansa/kindlepool-sdk'
 
 const tabs = [
   { id: 'created', label: 'Created' },
@@ -11,13 +12,43 @@ const tabs = [
   { id: 'history', label: 'History' },
 ]
 
-export function Dashboard() {
-  const { connected } = useWallet()
-  const [activeTab, setActiveTab] = useState('created')
+function fmt(n: string): string {
+  const big = BigInt(n || '0')
+  return big >= 1_000_000n ? `${Number(big) / 1_000_000} USDC` : `${big} units`
+}
 
-  const created = MOCK_POOLS.filter(() => false)
-  const funded = MOCK_POOLS.slice(0, 2)
-  const history = MOCK_POOLS.filter((p) => p.status === 'paid' || p.status === 'expired')
+function badgeOf(status: string): 'default' | 'warning' | 'success' | 'error' {
+  if (status === 'open') return 'default'
+  if (status === 'paid') return 'success'
+  if (status === 'expired' || status === 'cancelled') return 'error'
+  return 'warning'
+}
+
+export function Dashboard() {
+  const { connected, address } = useWallet()
+  const [activeTab, setActiveTab] = useState('created')
+  const [created, setCreated] = useState<PoolData[]>([])
+  const [funded, setFunded] = useState<PoolData[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (!connected || !address) return
+    let cancelled = false
+    setLoading(true)
+    Promise.all([
+      getApi().getPoolsByCreator(address).catch(() => ({ data: [] as PoolData[] })),
+      getApi().getPoolsBySupporter(address).catch(() => ({ data: [] as PoolData[] })),
+    ])
+      .then(([c, f]) => {
+        if (cancelled) return
+        setCreated(c.data ?? [])
+        setFunded(f.data ?? [])
+      })
+      .finally(() => { if (!cancelled) setLoading(false) })
+    return () => { cancelled = true }
+  }, [connected, address])
+
+  const history = created.filter((p) => p.status === 'paid' || p.status === 'expired' || p.status === 'cancelled')
 
   if (!connected) {
     return (
@@ -47,7 +78,9 @@ export function Dashboard() {
 
       <Tabs tabs={tabs} active={activeTab} onChange={setActiveTab} />
 
-      {activeTab === 'created' && (
+      {loading ? (
+        <p className="text-center text-muted-100 py-8">Loading…</p>
+      ) : activeTab === 'created' ? (
         <div className="space-y-4">
           {created.length === 0 ? (
             <p className="text-center text-muted-100 py-8">No pools created yet.</p>
@@ -57,21 +90,19 @@ export function Dashboard() {
                 <Card hover className="space-y-3">
                   <div className="flex items-start justify-between">
                     <div>
-                      <h3 className="font-bold">{pool.title}</h3>
-                      <p className="text-sm text-muted-100">{pool.supporters.length} supporters</p>
+                      <h3 className="font-bold">Pool #{pool.id}</h3>
+                      <p className="text-sm text-muted-100">{pool.total_supporters} supporters</p>
                     </div>
-                    <Badge>{pool.status}</Badge>
+                    <Badge variant={badgeOf(pool.status)}>{pool.status.replace('_', ' ')}</Badge>
                   </div>
-                  <ProgressBar value={pool.raised} max={pool.goal} />
-                  <div className="text-sm text-muted-100">{pool.raised} / {pool.goal} USDC</div>
+                  <ProgressBar value={Number(pool.total_deposited || '0')} max={Number(pool.goal || '1')} />
+                  <div className="text-sm text-muted-100">{fmt(pool.total_deposited)} / {fmt(pool.goal)}</div>
                 </Card>
               </Link>
             ))
           )}
         </div>
-      )}
-
-      {activeTab === 'funded' && (
+      ) : activeTab === 'funded' ? (
         <div className="space-y-4">
           {funded.length === 0 ? (
             <p className="text-center text-muted-100 py-8">No pools funded yet.</p>
@@ -81,21 +112,19 @@ export function Dashboard() {
                 <Card hover className="space-y-2">
                   <div className="flex items-start justify-between">
                     <div>
-                      <h3 className="font-bold">{pool.title}</h3>
-                      <p className="text-sm text-muted-100">{pool.creator}</p>
+                      <h3 className="font-bold">Pool #{pool.id}</h3>
+                      <p className="text-sm text-muted-100 font-mono">{`${pool.creator.slice(0, 8)}...`}</p>
                     </div>
-                    <Badge variant={pool.status === 'open' ? 'default' : 'warning'}>{pool.status}</Badge>
+                    <Badge variant={badgeOf(pool.status)}>{pool.status.replace('_', ' ')}</Badge>
                   </div>
-                  <ProgressBar value={pool.raised} max={pool.goal} />
-                  <div className="text-sm text-muted-100">Contributed: {pool.supporters[0]?.amount ?? 0} USDC</div>
+                  <ProgressBar value={Number(pool.total_deposited || '0')} max={Number(pool.goal || '1')} />
+                  <div className="text-sm text-muted-100">Raised: {fmt(pool.total_deposited)}</div>
                 </Card>
               </Link>
             ))
           )}
         </div>
-      )}
-
-      {activeTab === 'history' && (
+      ) : (
         <div className="space-y-4">
           {history.length === 0 ? (
             <p className="text-center text-muted-100 py-8">No completed pools yet.</p>
@@ -105,12 +134,12 @@ export function Dashboard() {
                 <Card hover className="space-y-2">
                   <div className="flex items-start justify-between">
                     <div>
-                      <h3 className="font-bold">{pool.title}</h3>
-                      <p className="text-sm text-muted-100">{pool.creator}</p>
+                      <h3 className="font-bold">Pool #{pool.id}</h3>
+                      <p className="text-sm text-muted-100 font-mono">{`${pool.creator.slice(0, 8)}...`}</p>
                     </div>
-                    <Badge variant={pool.status === 'paid' ? 'success' : 'error'}>{pool.status}</Badge>
+                    <Badge variant={badgeOf(pool.status)}>{pool.status.replace('_', ' ')}</Badge>
                   </div>
-                  <div className="text-sm text-muted-100">{pool.raised} USDC · {pool.supporters.length} supporters</div>
+                  <div className="text-sm text-muted-100">{fmt(pool.total_deposited)} · {pool.total_supporters} supporters</div>
                 </Card>
               </Link>
             ))

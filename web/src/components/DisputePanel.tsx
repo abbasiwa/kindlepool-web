@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion'
 import { Card, Button, Badge } from './ui'
 import { useWallet } from '../lib/wallet'
-import { useState } from 'react'
+import { getApi } from '../lib/sdk'
+import { useEffect, useState } from 'react'
 import { Scale, AlertTriangle, ArrowUpRight, Check, X, Clock } from 'lucide-react'
 
 export interface DisputeData {
@@ -28,16 +29,17 @@ export function DisputePanel() {
   const [loading, setLoading] = useState(true)
   const [activeDispute, setActiveDispute] = useState<number | null>(null)
 
-  // Fetch from API
-  useState(() => {
-    fetch('/api/v1/events?type=p_disp')
-      .then((r) => r.json())
+  // Fetch dispute events from the indexer via the SDK (reads data.payload.*)
+  useEffect(() => {
+    let cancelled = false
+    getApi().getEvents({ type: 'p_disp', limit: 50 })
       .then((res) => {
-        if (res?.data?.length) setDisputes(res.data.map(mapEventToDispute))
+        if (!cancelled && res?.data?.length) setDisputes(res.data.map(mapEventToDispute))
       })
       .catch(() => {})
-      .finally(() => setLoading(false))
-  })
+      .finally(() => { if (!cancelled) setLoading(false) })
+    return () => { cancelled = true }
+  }, [])
 
   const statusColors: Record<string, 'warning' | 'success' | 'default'> = {
     open: 'warning', resolved_creator: 'success', resolved_supporters: 'default', appealed: 'warning',
@@ -160,7 +162,9 @@ export function DisputePanel() {
 }
 
 function mapEventToDispute(event: any): DisputeData {
-  const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data
+  // Indexer stores event rows as { topics:[type], payload } — fields live in payload.
+  const raw = typeof event.data === 'string' ? JSON.parse(event.data) : event.data
+  const data = raw?.payload ?? raw ?? {}
   return {
     id: event.id ?? 0,
     poolId: data.pool_id ?? 0,

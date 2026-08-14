@@ -2,8 +2,10 @@ import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Card, Button, ProgressBar } from '../components/ui'
 import { useWallet } from '../lib/wallet'
-import { MOCK_POOLS } from '../lib/mock-data'
+import { getApi } from '../lib/sdk'
 import { Sparkles, Users, Shield } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import type { PoolData } from '@mikwansa/kindlepool-sdk'
 
 const features = [
   {
@@ -23,10 +25,29 @@ const features = [
   },
 ]
 
+function fmt(n: string): string {
+  const big = BigInt(n || '0')
+  return big >= 1_000_000n ? `${Number(big) / 1_000_000} USDC` : `${big} units`
+}
+
+function daysLeft(deadline: number): string {
+  if (!deadline) return 'Ending soon'
+  const days = Math.ceil((deadline * 1000 - Date.now()) / 86400000)
+  return days > 0 ? `${days} days left` : 'Ending soon'
+}
+
 export function Home() {
   const navigate = useNavigate()
   const { connected } = useWallet()
-  const featured = MOCK_POOLS.slice(0, 3)
+  const [featured, setFeatured] = useState<PoolData[]>([])
+
+  useEffect(() => {
+    let cancelled = false
+    getApi().listPools({ limit: 3, sort: 'most_funded' })
+      .then((r) => { if (!cancelled) setFeatured(r.data ?? []) })
+      .catch(() => { /* backend may be down; keep empty */ })
+    return () => { cancelled = true }
+  }, [])
 
   return (
     <div className="space-y-16">
@@ -94,16 +115,16 @@ export function Home() {
                 <div onClick={() => navigate(`/pool/${pool.id}`)}>
                   <Card hover className="space-y-4">
                     <div>
-                      <h3 className="font-bold text-base">{pool.title}</h3>
-                      <p className="text-sm text-muted-100">{pool.creator}</p>
+                      <h3 className="font-bold text-base">Pool #{pool.id}</h3>
+                      <p className="text-sm text-muted-100 font-mono">{`${pool.creator.slice(0, 8)}...${pool.creator.slice(-4)}`}</p>
                     </div>
-                    <ProgressBar value={pool.raised} max={pool.goal} />
+                    <ProgressBar value={Number(pool.total_deposited || '0')} max={Number(pool.goal || '1')} />
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-100">{pool.raised} / {pool.goal} USDC</span>
-                      <span className="text-warm-300 font-medium">{pool.supporters.length} supporters</span>
+                      <span className="text-muted-100">{fmt(pool.total_deposited)} / {fmt(pool.goal)}</span>
+                      <span className="text-warm-300 font-medium">{pool.total_supporters} supporters</span>
                     </div>
                     <div className="flex items-center justify-between text-xs text-muted-100">
-                      <span>{pool.deadline > 0 ? `${pool.deadline} days left` : 'Ending soon'}</span>
+                      <span>{daysLeft(pool.deadline)}</span>
                       <Button size="sm" onClick={(e) => { e.stopPropagation(); navigate(`/pool/${pool.id}`) }}>
                         {connected ? 'Fund' : 'View'}
                       </Button>

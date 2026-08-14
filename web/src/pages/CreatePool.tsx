@@ -5,10 +5,13 @@ import { useWallet } from '../lib/wallet'
 import { useToast } from '../lib/toast'
 import { useNavigate } from 'react-router-dom'
 import { POOL_TEMPLATES, cloneMilestones, type PoolTemplate } from '../lib/pool-templates'
+import { contract, walletSigner } from '../lib/contract'
 import { Upload, Check, Sparkles } from 'lucide-react'
 
+const USDC = import.meta.env.VITE_KINDPOOL_USDC ?? 'CD2CIUPXUDF3HFTBMKBS7SKAPNUGC4V2ZWJMBA2MG6GY76BKZN7OIYEY'
+
 export function CreatePool() {
-  const { connected } = useWallet()
+  const { connected, address, signAndSubmit } = useWallet()
   const { toast } = useToast()
   const navigate = useNavigate()
   const fileRef = useRef<HTMLInputElement>(null)
@@ -25,26 +28,47 @@ export function CreatePool() {
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
-  const displayStep = selectedTemplate ? step + 1 : step
+  // Step 0 = template, 1 = details, 2 = funding, 3 = review.
+  // Progress dots render 4 steps (0..3); displayStep mirrors the wizard step.
+  const displayStep = step
 
   const errors: Record<string, string> = {}
-  if (displayStep === 1) {
+  if (step === 1) {
     if (title.length > 100) errors.title = 'Title must be under 100 characters'
     if (description.length > 2000) errors.description = 'Description must be under 2000 characters'
   }
-  if (displayStep === 2) {
+  if (step === 2) {
     if (!goal || Number(goal) <= 0) errors.goal = 'Enter a valid goal amount'
     if (Number(goal) > 1000000) errors.goal = 'Goal cannot exceed 1,000,000 USDC'
   }
 
   const handleSubmit = async () => {
-    if (!connected) { toast('Connect your wallet first', 'error'); return }
+    if (!connected || !address) { toast('Connect your wallet first', 'error'); return }
+    if (errors.goal) { toast(errors.goal, 'error'); return }
     setSubmitting(true)
-    await new Promise((r) => setTimeout(r, 1500))
-    setSubmitting(false)
-    setSubmitted(true)
-    toast('Pool created successfully!', 'success')
-    setTimeout(() => navigate('/explore'), 2000)
+    try {
+      const goalUnits = BigInt(Math.round(Number(goal) * 1_000_000)) // USDC 7-decimals
+      const deadlineTs = Math.floor(Date.now() / 1000) + deadline * 86400
+      // 32-byte metadata hash: sha-256 of title+description (deterministic, no IPFS for beta)
+      const meta = new TextEncoder().encode(`${title}::${description}::${category}`)
+      const digest = await crypto.subtle.digest('SHA-256', meta)
+      const metadataHash = Array.from(new Uint8Array(digest)).map((b) => b.toString(16).padStart(2, '0')).join('')
+
+      const tx = contract()
+      const hash = await tx.create(
+        { creator: address, goal: goalUnits, deadline: deadlineTs, token: USDC, metadata_hash: metadataHash },
+        address,
+        walletSigner(signAndSubmit),
+      )
+      setSubmitting(false)
+      setSubmitted(true)
+      toast(`Pool created! tx: ${hash.slice(0, 12)}…`, 'success')
+      setTimeout(() => navigate('/explore'), 2500)
+    } catch (err: any) {
+      console.error('create pool failed', err)
+      setSubmitting(false)
+      toast(err?.message ?? 'Pool creation failed', 'error')
+    }
   }
 
   if (!connected) {
@@ -88,7 +112,7 @@ export function CreatePool() {
       </div>
 
       <Card className="space-y-6">
-        {/* Step 0: Template Selection */}
+        {/* Step 0: Template selection (or milestone editor when a template is chosen) */}
         {step === 0 && !selectedTemplate && (
           <motion.div key="s0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
             <h2 className="text-xl font-bold">Choose a Template</h2>
@@ -104,7 +128,6 @@ export function CreatePool() {
                     setDeadline(t.defaultDeadline)
                     setMilestones(cloneMilestones(t.suggestedMilestones))
                     if (t.id !== 'custom') setDescription('')
-                    setStep(1)
                   }}
                   className="text-left p-4 rounded-xl bg-cream-200 hover:bg-cream-300 transition-colors space-y-2"
                 >
@@ -129,7 +152,6 @@ export function CreatePool() {
               </div>
             </div>
 
-            {/* Suggested Milestones */}
             <div className="space-y-2">
               <h3 className="font-medium text-sm">Suggested Milestones</h3>
               {milestones.map((m, i) => (
@@ -153,7 +175,8 @@ export function CreatePool() {
           </motion.div>
         )}
 
-        {displayStep === 1 && selectedTemplate && (
+        {/* Step 1: Project Details */}
+        {step === 1 && (
           <motion.div key="s1" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
             <h2 className="text-xl font-bold">Project Details</h2>
             <Input label="Title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="What are you creating?" error={errors.title} maxLength={100} />
@@ -202,6 +225,7 @@ export function CreatePool() {
           </motion.div>
         )}
 
+        {/* Step 2: Funding */}
         {step === 2 && (
           <motion.div key="s2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
             <h2 className="text-xl font-bold">Funding</h2>
@@ -229,6 +253,7 @@ export function CreatePool() {
           </motion.div>
         )}
 
+        {/* Step 3: Review & Confirm */}
         {step === 3 && (
           <motion.div key="s3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
             <h2 className="text-xl font-bold">Review & Confirm</h2>

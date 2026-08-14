@@ -2,21 +2,21 @@ const CACHE = 'kindlepool-v1'
 const ASSETS = ['/', '/index.html', '/manifest.json']
 
 // Install: cache core assets
-self.addEventListener('install', (event: any) => {
+self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE).then((cache) => cache.addAll(ASSETS)),
   )
 })
 
 // Activate: clean old caches
-self.addEventListener('activate', (event: any) => {
+self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))),
   )
 })
 
 // Fetch: cache-first for static, network-first for API
-self.addEventListener('fetch', (event: any) => {
+self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url)
 
   if (url.pathname.startsWith('/api/')) {
@@ -34,7 +34,7 @@ self.addEventListener('fetch', (event: any) => {
 })
 
 // Push notification handler
-self.addEventListener('push', (event: any) => {
+self.addEventListener('push', (event) => {
   if (!event.data) return
 
   try {
@@ -62,7 +62,7 @@ self.addEventListener('push', (event: any) => {
 })
 
 // Notification click: navigate to the URL
-self.addEventListener('notificationclick', (event: any) => {
+self.addEventListener('notificationclick', (event) => {
   event.notification.close()
   const url = event.notification.data?.url ?? '/'
   event.waitUntil(

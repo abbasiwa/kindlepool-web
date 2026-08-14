@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Button, Input, Modal } from './ui'
 import { useToast } from '../lib/toast'
 import { useWallet } from '../lib/wallet'
+import { contract, walletSigner } from '../lib/contract'
 import { AlertTriangle, Send } from 'lucide-react'
 
 interface RaiseDisputeModalProps {
@@ -10,31 +11,47 @@ interface RaiseDisputeModalProps {
   poolTitle: string
   goalAmount: string
   poolStatus: string
+  poolId: number
 }
 
-export function RaiseDisputeModal({ open, onClose, poolTitle, goalAmount, poolStatus }: RaiseDisputeModalProps) {
-  const { connected, address } = useWallet()
+export function RaiseDisputeModal({ open, onClose, poolTitle, goalAmount, poolStatus, poolId }: RaiseDisputeModalProps) {
+  const { connected, address, signAndSubmit } = useWallet()
   const { toast } = useToast()
   const [reason, setReason] = useState<'rejected' | 'no_delivery'>('rejected')
   const [evidenceHash, setEvidenceHash] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
-  // Exact same formula as contract: goal * 100 / 10000
-  const feeAmount = Math.max(1, Math.floor(Number(goalAmount) * 100 / 10000))
+  // Contract formula: dispute_fee = goal * 100 / 10000 (no floor — audit #22)
+  const feeAmount = Math.floor(Number(goalAmount) * 100 / 10000)
   const appealFee = feeAmount * 2
 
   const handleSubmit = async () => {
-    if (!connected) { toast('Connect wallet first', 'error'); return }
+    if (!connected || !address) { toast('Connect wallet first', 'error'); return }
     if (!evidenceHash) { toast('Enter evidence hash', 'error'); return }
     if (poolStatus === 'disputed' || poolStatus === 'appealed') {
       toast('This pool already has an active dispute.', 'error')
       return
     }
     setSubmitting(true)
-    await new Promise((r) => setTimeout(r, 2000))
-    setSubmitting(false)
-    toast(`Dispute raised on "${poolTitle}" (fee: ${feeAmount} USDC)`, 'success')
-    onClose()
+    try {
+      const reasonCode = reason === 'rejected' ? 0 : 1
+      // 32-byte evidence hash from the IPFS-style input (utf8 → hex, pad/truncate to 64)
+      const bytes = new TextEncoder().encode(evidenceHash)
+      const hex = Array.from(bytes).map((b) => b.toString(16).padStart(2, '0')).join('')
+      const hash32 = hex.padEnd(64, '0').slice(0, 64)
+      const hash = await contract().raiseDispute(
+        { pool_id: poolId, disputant: address, reason: reasonCode, evidence_hash: hash32 },
+        address,
+        walletSigner(signAndSubmit),
+      )
+      toast(`Dispute raised on "${poolTitle}" (fee: ${feeAmount} USDC) — tx ${hash.slice(0, 12)}…`, 'success')
+      onClose()
+    } catch (err: any) {
+      console.error('raise dispute failed', err)
+      toast(err?.message ?? 'Failed to raise dispute', 'error')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (

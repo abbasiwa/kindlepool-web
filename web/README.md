@@ -1,32 +1,40 @@
-# React + TypeScript + Vite
+# KindlePool Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Frontend PWA for KindlePool — micro-sponsor pools on Stellar Soroban.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Vite + React 19 + TypeScript
+- `@stellar/freighter-api` — wallet
+- `@mikwansa/kindlepool-sdk` — contract + indexer API client (from GitHub Packages)
+- Tailwind CSS 4
 
-## React Compiler
+## Architecture (Phase 1 — web uses contracts)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```
+Browser (React PWA)
+  │
+  ├─ Writes ──► Freighter signs ──► @mikwansa/kindlepool-sdk KindlePoolContract
+  │                                   (build → simulate → assemble → sign → submit)
+  │
+  └─ Reads ──► KindlePoolAPI (indexer backend, /api/v1)
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+- `src/lib/sdk.ts` — contract + API singletons from `VITE_*` env vars
+- `src/lib/contract.ts` — `walletSigner()` bridges the wallet's `signAndSubmit` to the SDK
+- `src/lib/relayer.ts` — gasless relay client (fee-bump via backend)
+- Pages call `contract().create/deposit/vote/...` for writes and `getApi().listPools/getPool/...` for reads
+
+## Env vars
+
+See `.env.example`. Required: `VITE_KINDLEPOOL_CONTRACT_ID`, `VITE_INDEXER_URL`.
+
+## Commands
+
+```bash
+npm install        # needs NODE_AUTH_TOKEN for the private SDK
+npm run dev
+npm run build
+npm test           # vitest
+npm run lint
+```

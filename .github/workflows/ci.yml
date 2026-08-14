@@ -22,13 +22,16 @@ jobs:
           cache: npm
           cache-dependency-path: web/package-lock.json
           registry-url: 'https://npm.pkg.github.com'
-          scope: '@kindlepool'
+          scope: '@mikwansa'
       - run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm run lint
       - run: npx tsc -b --noEmit
+      - run: npm test
       - run: npm run build
+      - name: Validate service worker syntax (#6)
+        run: node --check public/sw.js
 
   widget:
     runs-on: ubuntu-latest
@@ -46,7 +49,7 @@ jobs:
           cache: npm
           cache-dependency-path: widget/package-lock.json
           registry-url: 'https://npm.pkg.github.com'
-          scope: '@kindlepool'
+          scope: '@mikwansa'
       - run: npm install
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
