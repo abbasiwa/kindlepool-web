@@ -7,7 +7,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@nekwasar/kindlepool-sdk": "^0.1.0",
+    "@mikwansa/kindlepool-sdk": "^0.1.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
