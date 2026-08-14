@@ -1,0 +1,16 @@
+{
+  "name": "kindlepool-web",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "web",
+    "widget"
+  ],
+  "scripts": {
+    "dev": "npm --workspace web run dev",
+    "build": "npm --workspace web run build",
+    "build:widget": "npm --workspace widget run build",
+    "lint": "npm --workspace web run lint",
+    "test": "npm run test --workspaces --if-present"
+  }
+}
