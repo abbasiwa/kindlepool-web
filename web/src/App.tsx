@@ -9,6 +9,7 @@ import { useLayout } from './hooks/useLayout'
 import { MobileLayout } from './layouts/MobileLayout'
 import { DesktopLayout } from './layouts/DesktopLayout'
 import { ToastProvider } from './lib/toast'
+import { RequireAuth } from './components/RequireAuth'
 import { useEffect, type ReactNode } from 'react'
 import { useLocation } from 'react-router-dom'
 
@@ -79,14 +80,14 @@ export default function App() {
                       <Route path="/explore" element={<Explore />} />
                       <Route path="/pool/:id" element={<PoolDetail />} />
                       <Route path="/create" element={<CreatePool />} />
-                      <Route path="/dashboard" element={<Dashboard />} />
-                      <Route path="/add-funds" element={<AddFunds />} />
-                      <Route path="/creator" element={<CreatorAnalytics />} />
-                      <Route path="/disputes" element={<Disputes />} />
+                      <Route path="/dashboard" element={<RequireAuth><Dashboard /></RequireAuth>} />
+                      <Route path="/add-funds" element={<RequireAuth><AddFunds /></RequireAuth>} />
+                      <Route path="/creator" element={<RequireAuth><CreatorAnalytics /></RequireAuth>} />
+                      <Route path="/disputes" element={<RequireAuth><Disputes /></RequireAuth>} />
                       <Route path="/developers" element={<DeveloperPortal />} />
                       <Route path="/pricing" element={<Pricing />} />
                       <Route path="/leaderboard" element={<Leaderboard />} />
-                      <Route path="/analytics" element={<PlatformAnalytics />} />
+                      <Route path="/analytics" element={<RequireAuth><PlatformAnalytics /></RequireAuth>} />
 
                       {/* Phase 4 */}
                       <Route path="/about" element={<About />} />
@@ -95,7 +96,7 @@ export default function App() {
                       <Route path="/changelog" element={<Changelog />} />
                       <Route path="/security" element={<Security />} />
                       <Route path="/status" element={<Status />} />
-                      <Route path="/settings" element={<Settings />} />
+                      <Route path="/settings" element={<RequireAuth><Settings /></RequireAuth>} />
                       <Route path="/docs" element={<Docs />} />
                       <Route path="/docs/:slug" element={<DocPage />} />
                       <Route path="/legal/:doc" element={<LegalPage />} />

@@ -14,7 +14,12 @@ export function AuthCallback() {
     if (!token) { setStatus('error'); return }
     ;(async () => {
       const result = await verifyToken(token)
-      if (result.ok) { setStatus('ok'); setTimeout(() => navigate('/settings', { replace: true }), 1200) }
+      if (result.ok) {
+        setStatus('ok')
+        const backTo = sessionStorage.getItem('kindlepool_return')
+        sessionStorage.removeItem('kindlepool_return')
+        setTimeout(() => navigate(backTo ?? '/settings', { replace: true }), 1200)
+      }
       else setStatus('error')
     })()
   }, [params, verifyToken, navigate])
