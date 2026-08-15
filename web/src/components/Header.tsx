@@ -2,25 +2,21 @@ import { useState, useRef, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useTheme } from '../lib/theme'
 import { useWallet } from '../lib/wallet'
 import { useAuth } from '../lib/auth'
 import { Button } from './ui'
 import { NotificationBell } from './NotificationBell'
 import { Logo } from './Logo'
-import { Moon, Sun, Wallet, Globe } from 'lucide-react'
+import { Wallet, Globe, Plus } from 'lucide-react'
 
 const NAV = [
   { to: '/explore', key: 'nav.explore' },
   { to: '/create', key: 'nav.create' },
   { to: '/dashboard', key: 'nav.dashboard' },
-  { to: '/leaderboard', label: 'Leaderboard' },
-  { to: '/disputes', label: 'Disputes' },
 ]
 
 export function Header() {
   const { t, i18n } = useTranslation()
-  const { theme, toggle } = useTheme()
   const { address, connected, connecting, connect, disconnect } = useWallet()
   const { user } = useAuth()
   const [langOpen, setLangOpen] = useState(false)
@@ -42,37 +38,44 @@ export function Header() {
     return () => document.removeEventListener('mousedown', handler)
   }, [])
 
+  const active = (to: string) => location.pathname === to
+
   return (
     <header className="sticky top-0 z-40 bg-surface-1/85 backdrop-blur-xl border-b border-border-subtle">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-        <Link to="/" className="flex items-center shrink-0">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+        {/* Brand */}
+        <Link to="/" className="flex items-center shrink-0" aria-label="KindlePool home">
           <Logo size={30} />
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-1">
-          {NAV.map((item) => {
-            const active = location.pathname === item.to
-            return (
-              <Link
-                key={item.to}
-                to={item.to}
-                className={`px-3 py-2 rounded-xl text-sm font-medium transition-colors ${
-                  active ? 'text-accent-primary bg-accent-soft' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'
-                }`}
-              >
-                {item.label ?? t(item.key)}
-              </Link>
-            )
-          })}
-          <Link to="/add-funds" className="px-3 py-2 rounded-xl text-sm font-medium text-accent-primary hover:text-accent-hover hover:bg-accent-soft transition-colors">
+        {/* ── Tablet + Desktop: full nav ── */}
+        <nav className="hidden md:flex items-center gap-1">
+          {NAV.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              className={`px-3 py-2 rounded-xl text-sm font-medium transition-colors ${
+                active(item.to) ? 'text-accent-primary bg-accent-soft' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'
+              }`}
+            >
+              {t(item.key)}
+            </Link>
+          ))}
+          <Link
+            to="/add-funds"
+            className="ml-1 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold text-accent-foreground bg-accent-primary hover:bg-accent-hover transition-colors"
+          >
+            <Plus size={16} strokeWidth={2.5} />
             {t('nav.addFunds')}
           </Link>
         </nav>
 
+        {/* ── Right actions ── */}
         <div className="flex items-center gap-1.5">
           <NotificationBell />
 
-          <div ref={langRef} className="relative">
+          {/* Language (desktop only) */}
+          <div ref={langRef} className="relative hidden lg:block">
             <button
               onClick={() => setLangOpen(!langOpen)}
               className="p-2 rounded-xl hover:bg-surface-hover transition-colors text-text-muted"
@@ -104,26 +107,41 @@ export function Header() {
             </AnimatePresence>
           </div>
 
-          <button
-            onClick={toggle}
-            className="p-2 rounded-xl hover:bg-surface-hover transition-colors text-text-muted"
-            aria-label={t('theme.toggle')}
-          >
-            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-          </button>
+          {/* Mobile: menu is in bottom nav; desktop: wallet */}
+          <div className="hidden sm:block">
+            {connected ? (
+              <div className="flex items-center gap-2 pl-1">
+                <span className="text-sm text-text-muted">
+                  <Wallet size={14} className="inline mr-1" />
+                  {address ? truncate(address) : ''}
+                </span>
+                <Button size="sm" variant="ghost" onClick={disconnect}>{t('nav.disconnect')}</Button>
+              </div>
+            ) : (
+              <Button size="sm" onClick={connect} loading={connecting}>
+                {connecting ? t('nav.connecting') : user ? user.email?.split('@')[0] : t('nav.connect')}
+              </Button>
+            )}
+          </div>
 
+          {/* Mobile: compact connect */}
           {connected ? (
-            <div className="flex items-center gap-2 pl-1">
-              <span className="text-sm text-text-muted hidden sm:inline">
-                <Wallet size={14} className="inline mr-1" />
-                {address ? truncate(address) : ''}
-              </span>
-              <Button size="sm" variant="ghost" onClick={disconnect}>{t('nav.disconnect')}</Button>
-            </div>
+            <button
+              onClick={disconnect}
+              className="sm:hidden p-2 rounded-xl text-accent-primary hover:bg-accent-soft transition-colors"
+              aria-label={t('nav.disconnect')}
+            >
+              <Wallet size={20} />
+            </button>
           ) : (
-            <Button size="sm" onClick={connect} loading={connecting}>
+            <button
+              onClick={connect}
+              className="sm:hidden inline-flex items-center gap-1.5 px-3 h-9 rounded-xl text-sm font-semibold text-accent-foreground bg-accent-primary hover:bg-accent-hover transition-colors"
+              aria-label={t('nav.connect')}
+            >
+              <Wallet size={16} />
               {connecting ? t('nav.connecting') : user ? user.email?.split('@')[0] : t('nav.connect')}
-            </Button>
+            </button>
           )}
         </div>
       </div>

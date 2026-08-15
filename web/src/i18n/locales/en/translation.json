@@ -6,7 +6,9 @@
     "addFunds": "Add Funds",
     "connect": "Connect Wallet",
     "disconnect": "Disconnect",
-    "connecting": "Connecting..."
+    "connecting": "Connecting...",
+    "home": "Home",
+    "more": "Menu"
   },
   "home": {
     "hero": {

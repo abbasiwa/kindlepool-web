@@ -3,8 +3,9 @@ import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 
 /**
- * Desktop layout: multi-column shell, top nav only, wider max-width,
- * more content density.
+ * Tablet + Desktop layout (≥768px): full structure — top nav with all
+ * links, wide canvas, footer with full site map. Tablet (768–1023px)
+ * and desktop (≥1024px) share this shell.
  */
 export function DesktopLayout({ children }: { children: ReactNode }) {
   return (

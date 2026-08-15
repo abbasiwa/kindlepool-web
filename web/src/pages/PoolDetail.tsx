@@ -226,10 +226,10 @@ export function PoolDetail() {
           <span className="text-sm text-text-muted">{deadlineLabel}</span>
         </div>
         <ProgressBar value={Number(raised)} max={Number(goal) || 1} />
-        <div className="grid grid-cols-3 gap-3 text-center text-sm">
-          <div className="rounded-xl border border-border-subtle p-4"><div className="font-semibold text-success">Yes: {pool.yes_votes.toLocaleString()}</div></div>
-          <div className="rounded-xl border border-border-subtle p-4"><div className="font-semibold text-danger">No: {pool.no_votes.toLocaleString()}</div></div>
-          <div className="rounded-xl border border-border-subtle p-4"><div className="font-semibold text-text-primary">{pool.total_supporters} supporters</div></div>
+        <div className="grid grid-cols-3 gap-2 sm:gap-3 text-center text-sm">
+          <div className="rounded-xl border border-border-subtle p-3 sm:p-4"><div className="font-semibold text-success">Yes: {pool.yes_votes.toLocaleString()}</div></div>
+          <div className="rounded-xl border border-border-subtle p-3 sm:p-4"><div className="font-semibold text-danger">No: {pool.no_votes.toLocaleString()}</div></div>
+          <div className="rounded-xl border border-border-subtle p-3 sm:p-4"><div className="font-semibold text-text-primary">{pool.total_supporters} supporters</div></div>
         </div>
         <div className="flex flex-col sm:flex-row gap-3">
           {pool.status === 'open' && (

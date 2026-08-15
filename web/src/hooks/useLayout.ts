@@ -1,24 +1,30 @@
 import { useState, useEffect } from 'react'
 
-export type LayoutMode = 'mobile' | 'desktop'
+export type LayoutMode = 'mobile' | 'tablet' | 'desktop'
 
 /**
- * Container-query based layout detection. Mobile ≤ 768px, desktop > 768px.
- * Uses the window width as a proxy (container queries need CSS `@container`
- * support; for layout switching the window size is the pragmatic signal).
+ * Three-tier responsive layout detection:
+ *  - mobile  ≤ 767px   → least structure (bottom nav, compact top bar)
+ *  - tablet  768–1023px → same structure as desktop
+ *  - desktop ≥ 1024px  → most structure (full top nav, wide canvas)
  */
 export function useLayout(): LayoutMode {
   const [mode, setMode] = useState<LayoutMode>(() =>
-    typeof window !== 'undefined' ? (window.innerWidth <= 768 ? 'mobile' : 'desktop') : 'desktop',
+    typeof window !== 'undefined' ? resolveMode(window.innerWidth) : 'desktop',
   )
 
   useEffect(() => {
-    const mq = window.matchMedia('(max-width: 768px)')
-    const update = () => setMode(mq.matches ? 'mobile' : 'desktop')
+    const update = () => setMode(resolveMode(window.innerWidth))
     update()
-    mq.addEventListener('change', update)
-    return () => mq.removeEventListener('change', update)
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
   }, [])
 
   return mode
+}
+
+function resolveMode(width: number): LayoutMode {
+  if (width <= 767) return 'mobile'
+  if (width <= 1023) return 'tablet'
+  return 'desktop'
 }

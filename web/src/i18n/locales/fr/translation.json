@@ -6,7 +6,9 @@
     "addFunds": "Ajouter des fonds",
     "connect": "Connecter le portefeuille",
     "disconnect": "Déconnecter",
-    "connecting": "Connexion..."
+    "connecting": "Connexion...",
+    "home": "Accueil",
+    "more": "Menu"
   },
   "home": {
     "hero": {
@@ -16,9 +18,18 @@
       "create": "Créer un pool"
     },
     "features": {
-      "specific": { "title": "Financez un travail spécifique", "desc": "Soutenez un projet particulier, pas un créateur. Votre argent va au travail auquel vous croyez." },
-      "voted": { "title": "Voté par la communauté", "desc": "Les donateurs votent sur la qualité. Les fonds sont libérés seulement si le travail répond aux standards." },
-      "refunds": { "title": "Remboursements automatiques", "desc": "Si l'objectif n'est pas atteint ou le travail refusé, les fonds retournent automatiquement aux donateurs." }
+      "specific": {
+        "title": "Financez un travail spécifique",
+        "desc": "Soutenez un projet particulier, pas un créateur. Votre argent va au travail auquel vous croyez."
+      },
+      "voted": {
+        "title": "Voté par la communauté",
+        "desc": "Les donateurs votent sur la qualité. Les fonds sont libérés seulement si le travail répond aux standards."
+      },
+      "refunds": {
+        "title": "Remboursements automatiques",
+        "desc": "Si l'objectif n'est pas atteint ou le travail refusé, les fonds retournent automatiquement aux donateurs."
+      }
     },
     "trending": "Pools populaires",
     "viewAll": "Voir tout →",
@@ -33,7 +44,12 @@
     "search": "Rechercher des pools...",
     "empty": "Aucun pool trouvé.",
     "createOne": "Créer un →",
-    "tabs": { "all": "Tous", "open": "Ouverts", "voting": "Vote", "funded": "Financés" },
+    "tabs": {
+      "all": "Tous",
+      "open": "Ouverts",
+      "voting": "Vote",
+      "funded": "Financés"
+    },
     "supporters": "{{count}} donateurs",
     "daysLeft": "{{days}} jours restants",
     "endingToday": "Se termine aujourd'hui"
@@ -80,7 +96,11 @@
     "connect": "Connecter le portefeuille",
     "success": "Pool créé !",
     "redirecting": "Redirection vers l'exploration...",
-    "steps": { "details": "Détails du projet", "funding": "Financement", "review": "Réviser et confirmer" },
+    "steps": {
+      "details": "Détails du projet",
+      "funding": "Financement",
+      "review": "Réviser et confirmer"
+    },
     "form": {
       "title": "Titre",
       "titlePlaceholder": "Que créez-vous ?",
@@ -102,18 +122,45 @@
       "creating": "Création du pool..."
     },
     "review": {
-      "title": "Titre", "category": "Catégorie", "goal": "Objectif", "deadline": "Date limite", "cover": "Couverture",
+      "title": "Titre",
+      "category": "Catégorie",
+      "goal": "Objectif",
+      "deadline": "Date limite",
+      "cover": "Couverture",
       "agree": "En créant ce pool, vous acceptez de livrer le travail promis. Les fonds sont libérés seulement après l'approbation des donateurs."
     },
-    "deadlines": { "3": "3 jours", "7": "7 jours", "14": "14 jours", "30": "30 jours" },
-    "categories": { "art": "Art", "writing": "Écriture", "music": "Musique", "code": "Code", "other": "Autre" }
+    "deadlines": {
+      "3": "3 jours",
+      "7": "7 jours",
+      "14": "14 jours",
+      "30": "30 jours"
+    },
+    "categories": {
+      "art": "Art",
+      "writing": "Écriture",
+      "music": "Musique",
+      "code": "Code",
+      "other": "Autre"
+    }
   },
   "dashboard": {
     "title": "Tableau de bord",
     "notConnected": "Connectez votre portefeuille pour voir votre tableau de bord.",
-    "stats": { "created": "Créés", "funded": "Financés", "successRate": "Taux de succès" },
-    "tabs": { "created": "Créés", "funded": "Financés", "history": "Historique" },
-    "empty": { "created": "Aucun pool créé pour le moment.", "funded": "Aucun pool financé pour le moment.", "history": "Aucun pool terminé pour le moment." },
+    "stats": {
+      "created": "Créés",
+      "funded": "Financés",
+      "successRate": "Taux de succès"
+    },
+    "tabs": {
+      "created": "Créés",
+      "funded": "Financés",
+      "history": "Historique"
+    },
+    "empty": {
+      "created": "Aucun pool créé pour le moment.",
+      "funded": "Aucun pool financé pour le moment.",
+      "history": "Aucun pool terminé pour le moment."
+    },
     "supporters": "{{count}} donateurs",
     "contributed": "Contribué : {{amount}} USDC"
   },
@@ -128,11 +175,14 @@
       "emailDesc": "Créez un portefeuille avec votre email"
     },
     "email": {
-      "label": "Adresse email", "placeholder": "vous@exemple.com",
-      "create": "Créer un portefeuille", "creating": "Création du portefeuille..."
+      "label": "Adresse email",
+      "placeholder": "vous@exemple.com",
+      "create": "Créer un portefeuille",
+      "creating": "Création du portefeuille..."
     },
     "purchase": {
-      "label": "Montant (USD)", "placeholder": "Entrez le montant en USD",
+      "label": "Montant (USD)",
+      "placeholder": "Entrez le montant en USD",
       "fee": "Vous recevrez ≈ {{amount}} USDC (frais de 3 %)",
       "buy": "Acheter ${{amount}} USDC",
       "processing": "Traitement...",
@@ -142,7 +192,9 @@
       "connect": "Connectez le portefeuille pour continuer",
       "change": "← Changer de méthode"
     },
-    "done": { "again": "Ajouter à nouveau" }
+    "done": {
+      "again": "Ajouter à nouveau"
+    }
   },
   "notifications": {
     "title": "Notifications",
@@ -159,18 +211,36 @@
     }
   },
   "common": {
-    "loading": "Chargement...", "error": "Quelque chose s'est mal passé.", "retry": "Réessayer",
-    "close": "Fermer", "save": "Enregistrer", "cancel": "Annuler",
-    "delete": "Supprimer", "confirm": "Confirmer", "search": "Rechercher",
-    "noResults": "Aucun résultat.", "viewAll": "Tout voir",
-    "showMore": "Afficher plus", "showLess": "Afficher moins"
+    "loading": "Chargement...",
+    "error": "Quelque chose s'est mal passé.",
+    "retry": "Réessayer",
+    "close": "Fermer",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "confirm": "Confirmer",
+    "search": "Rechercher",
+    "noResults": "Aucun résultat.",
+    "viewAll": "Tout voir",
+    "showMore": "Afficher plus",
+    "showLess": "Afficher moins"
   },
-  "theme": { "light": "Clair", "dark": "Sombre", "toggle": "Changer le thème" },
+  "theme": {
+    "light": "Clair",
+    "dark": "Sombre",
+    "toggle": "Changer le thème"
+  },
   "toast": {
     "walletRequired": "Connectez d'abord le portefeuille",
-    "voted": "Vote {{vote}} !", "approved": "approuvé", "rejected": "rejeté"
+    "voted": "Vote {{vote}} !",
+    "approved": "approuvé",
+    "rejected": "rejeté"
   },
   "status": {
-    "open": "ouvert", "vote": "vote", "paid": "payé", "expired": "expiré", "awaitingVote": "en attente de vote"
+    "open": "ouvert",
+    "vote": "vote",
+    "paid": "payé",
+    "expired": "expiré",
+    "awaitingVote": "en attente de vote"
   }
 }

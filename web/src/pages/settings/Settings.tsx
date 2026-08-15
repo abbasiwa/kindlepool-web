@@ -3,19 +3,17 @@ import { useNavigate, Link } from 'react-router-dom'
 import { useWallet } from '../../lib/wallet'
 import { useAuth } from '../../lib/auth'
 import { useToast } from '../../lib/toast'
-import { useTheme } from '../../lib/theme'
 import { getApi } from '../../lib/sdk'
 import { Card, Input, Button } from '../../components/ui'
 import { useMeta } from '../../lib/seo'
 
-import { User, Mail, Wallet, Bell, Palette, Shield, Lock, Plug, FileText, Scale, LogOut, Link2 } from 'lucide-react'
+import { User, Mail, Wallet, Bell, Shield, Lock, Plug, FileText, Scale, LogOut, Link2 } from 'lucide-react'
 
 const tabs = [
   { id: 'profile', label: 'Profile', icon: User },
   { id: 'email', label: 'Email & Login', icon: Mail },
   { id: 'wallet', label: 'Wallet', icon: Wallet },
   { id: 'notifications', label: 'Notifications', icon: Bell },
-  { id: 'appearance', label: 'Appearance', icon: Palette },
   { id: 'sessions', label: 'Sessions & Security', icon: Shield },
   { id: 'privacy', label: 'Privacy & Data', icon: Lock },
   { id: 'apps', label: 'Connected Apps', icon: Plug },
@@ -29,7 +27,6 @@ export function Settings() {
   const { address, connected } = useWallet()
   const { user, logout, linkWallet, login, requestWalletChallenge } = useAuth()
   const { toast } = useToast()
-  const { theme, setTheme } = useTheme()
   const navigate = useNavigate()
   const [active, setActive] = useState('profile')
   const [displayName, setDisplayName] = useState('')
@@ -196,19 +193,6 @@ export function Settings() {
                 </label>
               ))}
               <Button onClick={() => toast('Preferences saved (syncs with notifier on deploy)', 'success')}>Save Preferences</Button>
-            </Card>
-          )}
-
-          {active === 'appearance' && (
-            <Card className="space-y-4">
-              <h2 className="text-lg font-semibold">Appearance</h2>
-              <div className="grid grid-cols-3 gap-2">
-                {(['light', 'dark', 'system'] as const).map((t) => (
-                  <button key={t} onClick={() => { setTheme(t); toast(`Theme: ${t}`, 'success') }}
-                    className={`py-3 rounded-xl capitalize text-sm transition-colors ${theme === t ? 'bg-accent-primary text-accent-foreground' : 'bg-surface-2 hover:bg-surface-hover'}`}>{t}</button>
-                ))}
-              </div>
-              <p className="text-xs text-text-muted">Persisted via localStorage; meta theme-color follows Surface-0.</p>
             </Card>
           )}
 

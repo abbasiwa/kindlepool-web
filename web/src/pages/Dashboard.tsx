@@ -61,7 +61,7 @@ export function Dashboard() {
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-8">
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-3 sm:gap-4">
         <Card className="text-center !p-4">
           <div className="text-2xl font-display font-semibold text-text-primary tracking-tight text-accent-primary">{created.length}</div>
           <div className="text-sm text-text-muted">Created</div>

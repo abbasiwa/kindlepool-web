@@ -117,7 +117,7 @@ export function CreatePool() {
           <motion.div key="s0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
             <h2 className="text-xl font-display font-semibold text-text-primary tracking-tight">Choose a Template</h2>
             <p className="text-sm text-text-muted">Start with a pre-configured template or create a custom pool.</p>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {POOL_TEMPLATES.map((t) => (
                 <button
                   key={t.id}
