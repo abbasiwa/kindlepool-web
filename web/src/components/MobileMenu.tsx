@@ -6,7 +6,7 @@ import { Logo } from './Logo'
 import { useAuth } from '../lib/auth'
 import { Button } from './ui'
 import {
-  LayoutDashboard, Wallet, Code2, BookOpen, CircleHelp, StickyNote, Info,
+  LayoutDashboard, Code2, BookOpen, CircleHelp, StickyNote, Info,
   Shield, Scale, FileText, X, Globe, LogOut, Compass, Settings, CreditCard,
 } from 'lucide-react'
 
@@ -15,7 +15,7 @@ interface MobileMenuProps {
   onClose: () => void
 }
 
-const exploreItems = [
+const publicItems = [
   { to: '/explore', label: 'Explore', icon: Compass },
   { to: '/pricing', label: 'Pricing', icon: CreditCard },
   { to: '/how-it-works', label: 'How It Works', icon: BookOpen },
@@ -24,7 +24,7 @@ const exploreItems = [
   { to: '/developers', label: 'Developers', icon: Code2 },
 ]
 
-const accountItems = [
+const authItems = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/settings', label: 'Settings', icon: Settings },
 ]
@@ -63,18 +63,18 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
     { code: 'fr', label: 'Français' },
   ]
 
-  const Item = ({ item, onClick }: { item: (typeof exploreItems)[number] | (typeof accountItems)[number] | (typeof companyItems)[number]; onClick: () => void }) => {
+  const Item = ({ item, onClick }: { item: (typeof publicItems)[number] | (typeof authItems)[number] | (typeof companyItems)[number]; onClick: () => void }) => {
     const Icon = item.icon
     const isActive = location.pathname === item.to
     return (
       <Link
         to={item.to}
         onClick={onClick}
-        className={`flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-[13px] transition-colors ${
+        className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors ${
           isActive ? 'bg-accent-soft text-accent-primary font-semibold' : 'text-text-primary hover:bg-surface-hover'
         }`}
       >
-        <Icon size={17} strokeWidth={1.8} className="shrink-0" />
+        <Icon size={18} strokeWidth={1.8} className="shrink-0" />
         <span className="truncate">{item.label}</span>
       </Link>
     )
@@ -115,13 +115,10 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
             </div>
 
             {/* Account */}
-            <div className="px-4 pt-3 pb-1 shrink-0">
+            <div className="px-4 pt-4 pb-2 shrink-0">
               {user ? (
-                <div className="flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-surface-2">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <Wallet size={16} className="text-accent-primary shrink-0" />
-                    <span className="text-sm text-text-primary truncate">{user.email}</span>
-                  </div>
+                <div className="flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl bg-surface-2">
+                  <span className="text-sm text-text-primary truncate">{user.email}</span>
                   <button
                     onClick={async () => { await logout(); onClose() }}
                     className="text-xs font-semibold text-text-muted hover:text-text-primary shrink-0 flex items-center gap-1"
@@ -136,30 +133,31 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
               )}
             </div>
 
-            {/* Menu content — compact 2-col grid, fits viewport, no scroll */}
-            <div className="flex-1 overflow-hidden px-4 pt-3 pb-2 flex flex-col gap-3">
-              {user && (
+            {/* Menu content — role-aware, no scroll */}
+            <div className="flex-1 overflow-hidden px-4 py-3 flex flex-col gap-5">
+              {user ? (
                 <div>
-                  <div className="px-1 pb-1.5 text-[11px] font-semibold uppercase tracking-wider text-text-muted">Account</div>
-                  <div className="grid grid-cols-2 gap-1">
-                    {accountItems.map((item) => <Item key={item.to} item={item} onClick={onClose} />)}
+                  <div className="px-1 pb-2 text-[11px] font-semibold uppercase tracking-wider text-text-muted">Account</div>
+                  <div className="space-y-1">
+                    {authItems.map((item) => <Item key={item.to} item={item} onClick={onClose} />)}
                   </div>
                 </div>
+              ) : (
+                <>
+                  <div>
+                    <div className="px-1 pb-2 text-[11px] font-semibold uppercase tracking-wider text-text-muted">Menu</div>
+                    <div className="space-y-1">
+                      {publicItems.map((item) => <Item key={item.to} item={item} onClick={onClose} />)}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="px-1 pb-2 text-[11px] font-semibold uppercase tracking-wider text-text-muted">Company</div>
+                    <div className="space-y-1">
+                      {companyItems.map((item) => <Item key={item.to} item={item} onClick={onClose} />)}
+                    </div>
+                  </div>
+                </>
               )}
-              <div>
-                <div className="px-1 pb-1.5 text-[11px] font-semibold uppercase tracking-wider text-text-muted">
-                  {user ? 'Explore' : 'Menu'}
-                </div>
-                <div className="grid grid-cols-2 gap-1">
-                  {exploreItems.map((item) => <Item key={item.to} item={item} onClick={onClose} />)}
-                </div>
-              </div>
-              <div>
-                <div className="px-1 pb-1.5 text-[11px] font-semibold uppercase tracking-wider text-text-muted">Company</div>
-                <div className="grid grid-cols-2 gap-1">
-                  {companyItems.map((item) => <Item key={item.to} item={item} onClick={onClose} />)}
-                </div>
-              </div>
             </div>
 
             {/* Language */}

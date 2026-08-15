@@ -127,24 +127,6 @@ export function Header() {
               </Button>
             </div>
           )}
-
-          {/* Mobile auth button */}
-          {user ? (
-            <Link
-              to="/settings"
-              className="sm:hidden inline-flex items-center justify-center w-9 h-9 rounded-xl text-accent-primary hover:bg-accent-soft transition-colors"
-              aria-label="Settings"
-            >
-              <UserCircle size={22} />
-            </Link>
-          ) : (
-            <Link
-              to="/login"
-              className="sm:hidden inline-flex items-center px-3 h-9 rounded-xl text-sm font-semibold text-accent-foreground bg-accent-primary hover:bg-accent-hover transition-colors"
-            >
-              {t('nav.signIn')}
-            </Link>
-          )}
         </div>
       </div>
     </header>

@@ -16,12 +16,12 @@ export function BottomNav() {
     ? [
         { to: '/', label: 'nav.home', icon: Home },
         { to: '/explore', label: 'nav.explore', icon: Compass },
-        { to: '/dashboard', label: 'nav.dashboard', icon: UserCircle, prominent: true },
+        { to: '/dashboard', label: 'nav.dashboard', icon: UserCircle },
       ]
     : [
         { to: '/', label: 'nav.home', icon: Home },
         { to: '/explore', label: 'nav.explore', icon: Compass },
-        { to: '/login', label: 'nav.signIn', icon: UserCircle, prominent: true },
+        { to: '/login', label: 'nav.signIn', icon: UserCircle },
       ]
 
   return (
@@ -31,26 +31,6 @@ export function BottomNav() {
           {items.map((item) => {
             const Icon = item.icon
             const active = pathname === item.to
-            if (item.prominent) {
-              return (
-                <div key={item.to} className="relative flex-1 flex justify-center">
-                  <button
-                    onClick={() => navigate(item.to)}
-                    aria-label={t(item.label)}
-                    className={`absolute -top-5 flex flex-col items-center justify-center w-14 h-14 rounded-2xl border shadow-card transition-all ${
-                      active
-                        ? 'bg-accent-primary text-accent-foreground border-accent-hover'
-                        : 'bg-surface-1 text-accent-primary border-border-subtle'
-                    }`}
-                  >
-                    <Icon size={24} strokeWidth={2.2} />
-                  </button>
-                  <span className={`mt-8 text-[10px] font-medium ${active ? 'text-accent-primary' : 'text-text-muted'}`}>
-                    {t(item.label)}
-                  </span>
-                </div>
-              )
-            }
             return (
               <button
                 key={item.to}
