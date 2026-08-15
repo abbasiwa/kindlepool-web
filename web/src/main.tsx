@@ -17,10 +17,7 @@ if ('serviceWorker' in navigator) {
   })
 }
 
-// Request notification permission for push (must be user-gesture triggered later)
-if ('Notification' in window && Notification.permission === 'default') {
-  // Don't auto-request — will be triggered by user action in PushNotificationPrompt
-}
+// Push notification permission is requested via user gesture on the Notifications settings page.
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

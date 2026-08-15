@@ -8,8 +8,6 @@ export interface WalletContextType {
   disconnect: () => void
   signAndSubmit: (xdr: string) => Promise<string | null>
   network: string
-  emailWallet: string | null
-  createEmailWallet: (email: string) => Promise<string | null>
 }
 
 const WalletContext = createContext<WalletContextType>({
@@ -20,8 +18,6 @@ const WalletContext = createContext<WalletContextType>({
   disconnect: () => {},
   signAndSubmit: async () => null,
   network: 'testnet',
-  emailWallet: null,
-  createEmailWallet: async () => null,
 })
 
 async function getFreighterAddress(): Promise<string | null> {
@@ -65,7 +61,6 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const [address, setAddress] = useState<string | null>(null)
   const [connecting, setConnecting] = useState(false)
   const [network, setNetwork] = useState('Test SDF Network ; September 2015')
-  const [emailWallet, setEmailWallet] = useState<string | null>(null)
 
   useEffect(() => {
     (async () => {
@@ -91,14 +86,6 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     return await freighterSignAndSubmit(xdr, network)
   }, [network])
 
-  const createEmailWallet = useCallback(async (_email: string): Promise<string | null> => {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'
-    const addr = 'G' + Array.from({ length: 55 }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
-    setEmailWallet(addr)
-    setAddress(addr)
-    return addr
-  }, [])
-
   return (
     <WalletContext.Provider
       value={{
@@ -109,8 +96,6 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         disconnect,
         signAndSubmit,
         network,
-        emailWallet,
-        createEmailWallet,
       }}
     >
       {children}

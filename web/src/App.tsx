@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import './i18n'
 import { ThemeProvider } from './lib/theme'
 import { WalletProvider } from './lib/wallet'
+import { AuthProvider } from './lib/auth'
 import { NotificationProvider } from './lib/notifications'
 import { CreatorProvider } from './lib/creator'
 import { useLayout } from './hooks/useLayout'
@@ -33,6 +34,8 @@ import { Changelog } from './pages/Changelog'
 import { Security } from './pages/Security'
 import { Status } from './pages/Status'
 import { Settings } from './pages/settings/Settings'
+import { Login } from './pages/Login'
+import { AuthCallback } from './pages/AuthCallback'
 import { Docs } from './pages/docs/DocsIndex'
 import { DocPage } from './pages/docs/DocPage'
 import { LegalPage } from './pages/legal/LegalPage'
@@ -64,45 +67,51 @@ export default function App() {
   return (
     <ThemeProvider>
       <WalletProvider>
-        <ToastProvider>
-          <BrowserRouter>
-            <ScrollToTop />
-            <NotificationProvider>
-              <CreatorProvider>
-                <Shell>
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/explore" element={<Explore />} />
-                    <Route path="/pool/:id" element={<PoolDetail />} />
-                    <Route path="/create" element={<CreatePool />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/add-funds" element={<AddFunds />} />
-                    <Route path="/creator" element={<CreatorAnalytics />} />
-                    <Route path="/disputes" element={<Disputes />} />
-                    <Route path="/developers" element={<DeveloperPortal />} />
-                    <Route path="/pricing" element={<Pricing />} />
-                    <Route path="/leaderboard" element={<Leaderboard />} />
-                    <Route path="/analytics" element={<PlatformAnalytics />} />
+        <AuthProvider>
+          <ToastProvider>
+            <BrowserRouter>
+              <ScrollToTop />
+              <NotificationProvider>
+                <CreatorProvider>
+                  <Shell>
+                    <Routes>
+                      <Route path="/" element={<Home />} />
+                      <Route path="/explore" element={<Explore />} />
+                      <Route path="/pool/:id" element={<PoolDetail />} />
+                      <Route path="/create" element={<CreatePool />} />
+                      <Route path="/dashboard" element={<Dashboard />} />
+                      <Route path="/add-funds" element={<AddFunds />} />
+                      <Route path="/creator" element={<CreatorAnalytics />} />
+                      <Route path="/disputes" element={<Disputes />} />
+                      <Route path="/developers" element={<DeveloperPortal />} />
+                      <Route path="/pricing" element={<Pricing />} />
+                      <Route path="/leaderboard" element={<Leaderboard />} />
+                      <Route path="/analytics" element={<PlatformAnalytics />} />
 
-                    {/* Phase 4 */}
-                    <Route path="/about" element={<About />} />
-                    <Route path="/faq" element={<FAQ />} />
-                    <Route path="/how-it-works" element={<HowItWorks />} />
-                    <Route path="/changelog" element={<Changelog />} />
-                    <Route path="/security" element={<Security />} />
-                    <Route path="/status" element={<Status />} />
-                    <Route path="/settings" element={<Settings />} />
-                    <Route path="/docs" element={<Docs />} />
-                    <Route path="/docs/:slug" element={<DocPage />} />
-                    <Route path="/legal/:doc" element={<LegalPage />} />
+                      {/* Phase 4 */}
+                      <Route path="/about" element={<About />} />
+                      <Route path="/faq" element={<FAQ />} />
+                      <Route path="/how-it-works" element={<HowItWorks />} />
+                      <Route path="/changelog" element={<Changelog />} />
+                      <Route path="/security" element={<Security />} />
+                      <Route path="/status" element={<Status />} />
+                      <Route path="/settings" element={<Settings />} />
+                      <Route path="/docs" element={<Docs />} />
+                      <Route path="/docs/:slug" element={<DocPage />} />
+                      <Route path="/legal/:doc" element={<LegalPage />} />
 
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </Shell>
-              </CreatorProvider>
-            </NotificationProvider>
-          </BrowserRouter>
-        </ToastProvider>
+                      {/* Phase 5 auth */}
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/auth/verify" element={<AuthCallback />} />
+
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </Shell>
+                </CreatorProvider>
+              </NotificationProvider>
+            </BrowserRouter>
+          </ToastProvider>
+        </AuthProvider>
       </WalletProvider>
     </ThemeProvider>
   )

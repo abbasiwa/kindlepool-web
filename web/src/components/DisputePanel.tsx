@@ -2,11 +2,13 @@ import { motion } from 'framer-motion'
 import { Card, Button, Badge } from './ui'
 import { useWallet } from '../lib/wallet'
 import { getApi } from '../lib/sdk'
+import { ArbitrateModal } from './ArbitrateModal'
 import { useEffect, useState } from 'react'
 import { Scale, AlertTriangle, ArrowUpRight, Check, X, Clock } from 'lucide-react'
 
 export interface DisputeData {
   id: number
+  disputeId: number
   poolId: number
   poolTitle: string
   raisedBy: string
@@ -28,13 +30,31 @@ export function DisputePanel() {
   const [disputes, setDisputes] = useState<DisputeData[]>([])
   const [loading, setLoading] = useState(true)
   const [activeDispute, setActiveDispute] = useState<number | null>(null)
+  const [arbitrating, setArbitrating] = useState<DisputeData | null>(null)
 
-  // Fetch dispute events from the indexer via the SDK (reads data.payload.*)
+  // Fetch dispute events (raised + resolved) from the indexer via the SDK.
   useEffect(() => {
     let cancelled = false
-    getApi().getEvents({ type: 'p_disp', limit: 50 })
-      .then((res) => {
-        if (!cancelled && res?.data?.length) setDisputes(res.data.map(mapEventToDispute))
+    Promise.all([
+      getApi().getEvents({ type: 'p_disp', limit: 50 }).catch(() => ({ data: [] as any[] })),
+      getApi().getEvents({ type: 'p_resl', limit: 50 }).catch(() => ({ data: [] as any[] })),
+    ])
+      .then(([raised, resolved]) => {
+        if (cancelled) return
+        const disputes = (raised.data ?? []).map(mapEventToDispute)
+        const resolvedByPool = new Map<number, number>()
+        for (const e of resolved.data ?? []) {
+          const raw = typeof e.data === 'string' ? JSON.parse(e.data) : e.data
+          const payload = raw?.payload ?? raw ?? {}
+          const poolId = payload.pool_id ?? 0
+          resolvedByPool.set(poolId, payload.resolution ?? 0)
+        }
+        for (const d of disputes) {
+          const resolution = resolvedByPool.get(d.poolId)
+          if (resolution === 1) d.status = 'resolved_creator'
+          else if (resolution === 2) d.status = 'resolved_supporters'
+        }
+        setDisputes(disputes)
       })
       .catch(() => {})
       .finally(() => { if (!cancelled) setLoading(false) })
@@ -128,7 +148,7 @@ export function DisputePanel() {
               </div>
 
               {(d.status === 'open' || d.status === 'appealed') && (
-                <Button size="sm" variant="secondary" onClick={() => window.location.href = `/disputes/${d.id}/arbitrate`}>
+                <Button size="sm" variant="secondary" onClick={() => setArbitrating(d)}>
                   <ArrowUpRight size={14} /> Vote as Arbitrator
                 </Button>
               )}
@@ -157,6 +177,17 @@ export function DisputePanel() {
           </motion.div>
         ))
       )}
+
+      {arbitrating && (
+        <ArbitrateModal
+          open
+          onClose={() => setArbitrating(null)}
+          poolId={arbitrating.poolId}
+          disputeId={arbitrating.disputeId}
+          poolTitle={arbitrating.poolTitle}
+          onVoteCast={() => setArbitrating(null)}
+        />
+      )}
     </div>
   )
 }
@@ -167,11 +198,14 @@ function mapEventToDispute(event: any): DisputeData {
   const data = raw?.payload ?? raw ?? {}
   return {
     id: event.id ?? 0,
+    // The on-chain dispute id (contract now emits it in p_disp). Fall back to
+    // pool_id for older events (resolve_dispute needs the real id).
+    disputeId: data.dispute_id ?? data.pool_id ?? 0,
     poolId: data.pool_id ?? 0,
     poolTitle: `Pool #${data.pool_id ?? 0}`,
     raisedBy: (data.raised_by ?? 'unknown').slice(0, 8) + '...',
     reason: data.reason ?? 0,
-    reasonText: data.reason === 1 ? 'Work not delivered' : 'Work does not meet quality standards',
+    reasonText: data.reason === 1 ? 'Work not delivered' : 'Work rejected unfairly',
     evidenceHash: data.evidence_hash ?? '',
     fee: data.fee ?? '0',
     status: 'open',

@@ -81,17 +81,16 @@ export function CreatorProvider({ children }: { children: ReactNode }) {
   }, [address, profile])
 
   const verifyEmail = useCallback(async (email: string): Promise<boolean> => {
-    await new Promise((r) => setTimeout(r, 1500))
     if (!profile || !address) return false
+    // Email verification requires an authenticated account (Phase 5 auth).
     const updated = { ...profile, email, verificationTier: 'email' as const }
     setProfile(updated)
     localStorage.setItem(`kindlepool-creator-${address}`, JSON.stringify(updated))
-    toast('Email verified!', 'success')
+    toast('Email saved', 'success')
     return true
   }, [address, profile, toast])
 
   const verifySocial = useCallback(async (platform: string, handle: string): Promise<boolean> => {
-    await new Promise((r) => setTimeout(r, 1500))
     if (!profile || !address) return false
     const existing = profile.socialLinks.filter((l) => l.platform !== platform)
     const updated = {
@@ -102,7 +101,7 @@ export function CreatorProvider({ children }: { children: ReactNode }) {
     }
     setProfile(updated)
     localStorage.setItem(`kindlepool-creator-${address}`, JSON.stringify(updated))
-    toast(`${platform} account verified!`, 'success')
+    toast(`${platform} account saved!`, 'success')
     return true
   }, [address, profile, toast])
 

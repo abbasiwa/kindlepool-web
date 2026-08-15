@@ -7,6 +7,8 @@ import { useState, useMemo, useEffect } from 'react'
 import { getApi } from '../lib/sdk'
 import { contract, walletSigner } from '../lib/contract'
 import { useMeta } from '../lib/seo'
+import { useAuth } from '../lib/auth'
+import { LoginPrompt } from '../components/LoginPrompt'
 import { RaiseDisputeModal } from '../components/RaiseDisputeModal'
 import { ArrowLeft, Check, X, Upload, AlertTriangle } from 'lucide-react'
 import type { PoolData, SupporterData } from '@mikwansa/kindlepool-sdk'
@@ -17,7 +19,9 @@ export function PoolDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { connected, address, signAndSubmit } = useWallet()
+  const { user } = useAuth()
   const { toast } = useToast()
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false)
 
   const poolId = Number(id)
   const [pool, setPool] = useState<PoolData | null>(null)
@@ -229,7 +233,7 @@ export function PoolDetail() {
         </div>
         <div className="flex flex-col sm:flex-row gap-3">
           {pool.status === 'open' && (
-            <Button className="flex-1" size="lg" onClick={() => connected ? setShowDeposit(true) : toast('Connect wallet first', 'error')}>
+            <Button className="flex-1" size="lg" onClick={() => connected ? (user ? setShowDeposit(true) : setShowLoginPrompt(true)) : toast('Connect wallet first', 'error')}>
               Fund This Pool
             </Button>
           )}
@@ -344,6 +348,8 @@ export function PoolDetail() {
           <Button className="w-full" onClick={handleSubmitWork} loading={submitting}>Submit for Review</Button>
         </div>
       </Modal>
+
+      <LoginPrompt open={showLoginPrompt} onClose={() => setShowLoginPrompt(false)} />
     </motion.div>
   )
 }
