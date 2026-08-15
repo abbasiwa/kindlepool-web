@@ -9,3 +9,5 @@ dist-ssr/
 logs/
 .vite/
 .DS_Store
+.vercel
+.env*
