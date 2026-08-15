@@ -6,7 +6,7 @@ import { getApi } from '../lib/sdk'
 import { useMeta } from '../lib/seo'
 import { Sparkles, Users, Shield } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import type { PoolData } from '@mikwansa/kindlepool-sdk'
+import type { PoolData } from '@abbasiwa/kindlepool-sdk'
 
 const features = [
   {

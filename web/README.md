@@ -4,7 +4,7 @@ The frontend for [KindlePool](https://kindlepool.app) — micro-sponsor pools fo
 
 Users browse pools, create pools, fund them, vote on delivered work, and resolve disputes — all with their own Stellar wallet. An email login provides account-level features.
 
-> Backend, contract, and SDK live in [`mikwansa/kindlepool-api`](https://github.com/mikwansa/kindlepool-api).
+> Backend, contract, and SDK live in [`abbasiwa/kindlepool-api`](https://github.com/abbasiwa/kindlepool-api).
 
 ---
 
@@ -27,7 +27,7 @@ Users browse pools, create pools, fund them, vote on delivered work, and resolve
 - Vite + React 19 + TypeScript
 - Tailwind CSS 4 (design tokens)
 - Stellar wallet integration (Freighter)
-- `@mikwansa/kindlepool-sdk` — contract + API client
+- `@abbasiwa/kindlepool-sdk` — contract + API client
 - react-router, framer-motion, react-i18next, vitest
 
 ---

@@ -59,10 +59,10 @@ export function DeveloperPortal() {
         <h2 className="text-xl font-bold text-text-primary">Quick Start</h2>
         <div className="bg-surface-2 rounded-xl p-4 font-mono text-sm space-y-2">
           <p className="text-text-muted"># Install the SDK</p>
-          <p className="text-text-primary font-medium">npm install @mikwansa/kindlepool-sdk</p>
+          <p className="text-text-primary font-medium">npm install @abbasiwa/kindlepool-sdk</p>
           <p className="text-text-muted mt-3"># List trending pools</p>
           <p className="text-text-primary font-medium">
-            {`import { KindlePoolAPI } from '@mikwansa/kindlepool-sdk'`}<br />
+            {`import { KindlePoolAPI } from '@abbasiwa/kindlepool-sdk'`}<br />
             {`const api = new KindlePoolAPI({ baseUrl: 'https://kindlepool-api.herokuapp.com', apiKey: 'kp_your_key' })`}<br />
             {`const pools = await api.listPools({ sort: 'most_funded' })`}
           </p>
@@ -120,7 +120,7 @@ export function DeveloperPortal() {
           <h3 className="font-bold text-text-primary">Contract SDK</h3>
           <p className="text-sm text-text-muted">Interact directly with the Soroban contract.</p>
           <div className="bg-surface-2 rounded-xl p-3 font-mono text-xs space-y-1">
-            <p className="text-text-muted">{'import { KindlePoolContract } from \'@mikwansa/kindlepool-sdk\''}</p>
+            <p className="text-text-muted">{'import { KindlePoolContract } from \'@abbasiwa/kindlepool-sdk\''}</p>
             <p className="text-text-muted">{'const contract = new KindlePoolContract('}</p>
             <p className="text-text-muted">{'  \'CA...CONTRACT_ID...\''}</p>
             <p className="text-text-muted">{')'}</p>

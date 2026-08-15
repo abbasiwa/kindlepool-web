@@ -11,7 +11,7 @@ import { useAuth } from '../lib/auth'
 import { LoginPrompt } from '../components/LoginPrompt'
 import { RaiseDisputeModal } from '../components/RaiseDisputeModal'
 import { ArrowLeft, Check, X, Upload, AlertTriangle } from 'lucide-react'
-import type { PoolData, SupporterData } from '@mikwansa/kindlepool-sdk'
+import type { PoolData, SupporterData } from '@abbasiwa/kindlepool-sdk'
 
 const WORK_HASH = '2222222222222222222222222222222222222222222222222222222222222222'
 

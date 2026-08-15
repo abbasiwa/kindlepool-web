@@ -5,7 +5,7 @@ import { Card, ProgressBar, Badge, Tabs, Input } from '../components/ui'
 import { getApi } from '../lib/sdk'
 import { useMeta } from '../lib/seo'
 import { Search } from 'lucide-react'
-import type { PoolData, PoolStatus } from '@mikwansa/kindlepool-sdk'
+import type { PoolData, PoolStatus } from '@abbasiwa/kindlepool-sdk'
 
 const tabs = [
   { id: 'all', label: 'All' },

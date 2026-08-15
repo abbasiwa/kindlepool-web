@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { Card, Tabs, ProgressBar, Badge } from '../components/ui'
 import { useWallet } from '../lib/wallet'
 import { getApi } from '../lib/sdk'
-import type { PoolData } from '@mikwansa/kindlepool-sdk'
+import type { PoolData } from '@abbasiwa/kindlepool-sdk'
 
 const tabs = [
   { id: 'created', label: 'Created' },

@@ -9,7 +9,7 @@ import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-const API_REPO = process.env.VITE_DOCS_REPO ?? 'mikwansa/kindlepool-api'
+const API_REPO = process.env.VITE_DOCS_REPO ?? 'abbasiwa/kindlepool-api'
 const BRANCH = process.env.VITE_DOCS_BRANCH ?? 'main'
 const RAW = `https://raw.githubusercontent.com/${API_REPO}/${BRANCH}/docs`
 

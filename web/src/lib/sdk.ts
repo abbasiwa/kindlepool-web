@@ -1,4 +1,4 @@
-import { KindlePoolContract, KindlePoolAPI } from '@mikwansa/kindlepool-sdk'
+import { KindlePoolContract, KindlePoolAPI } from '@abbasiwa/kindlepool-sdk'
 
 const env = import.meta.env
 

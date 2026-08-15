@@ -22,7 +22,7 @@ jobs:
           cache: npm
           cache-dependency-path: web/package-lock.json
           registry-url: 'https://npm.pkg.github.com'
-          scope: '@mikwansa'
+          scope: '@abbasiwa'
       - run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -51,7 +51,7 @@ jobs:
           cache: npm
           cache-dependency-path: widget/package-lock.json
           registry-url: 'https://npm.pkg.github.com'
-          scope: '@mikwansa'
+          scope: '@abbasiwa'
       - run: npm install
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

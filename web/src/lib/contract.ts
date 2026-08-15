@@ -1,4 +1,4 @@
-import type { TxSigner } from '@mikwansa/kindlepool-sdk'
+import type { TxSigner } from '@abbasiwa/kindlepool-sdk'
 
 /**
  * Wrap a wallet signer (Freighter via useWallet().signAndSubmit) into the
@@ -17,4 +17,4 @@ export function walletSigner(signAndSubmit: (xdr: string) => Promise<string | nu
 
 // Re-export the shared contract client so page code imports from one place.
 export { getContract as contract } from './sdk'
-export type { TxSigner } from '@mikwansa/kindlepool-sdk'
+export type { TxSigner } from '@abbasiwa/kindlepool-sdk'

@@ -12,8 +12,8 @@
     "prebuild": "node scripts/fetch-docs.mjs && node scripts/sitemap.mjs"
   },
   "dependencies": {
+    "@abbasiwa/kindlepool-sdk": "^0.2.0",
     "@creit.tech/xbull-wallet-connect": "^0.4.0",
-    "@mikwansa/kindlepool-sdk": "^0.1.2",
     "@moonpay/moonpay-react": "^1.10.6",
     "@stellar/freighter-api": "^6.0.1",
     "@tailwindcss/vite": "^4.3.3",
