@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { Card, Button, ProgressBar } from '../components/ui'
 import { useWallet } from '../lib/wallet'
 import { getApi } from '../lib/sdk'
+import { useMeta } from '../lib/seo'
 import { Sparkles, Users, Shield } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import type { PoolData } from '@mikwansa/kindlepool-sdk'
@@ -40,6 +41,7 @@ export function Home() {
   const navigate = useNavigate()
   const { connected } = useWallet()
   const [featured, setFeatured] = useState<PoolData[]>([])
+  useMeta({ description: 'Micro-sponsor pools for creators on Stellar Soroban. Fund specific work, auto-refunds if goals fail.', path: '/' })
 
   useEffect(() => {
     let cancelled = false

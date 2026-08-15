@@ -10,13 +10,13 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ variant = 'primary', size = 'md', loading, icon, children, className = '', ...props }, ref) => {
-    const base = 'inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-200 select-none disabled:opacity-50 disabled:cursor-not-allowed'
+  ({ variant = 'primary', size = 'md', loading, icon, children, className = '', disabled, ...props }, ref) => {
+    const base = 'inline-flex items-center justify-center gap-2 font-medium rounded-xl transition-all duration-200 select-none disabled:opacity-50 disabled:cursor-not-allowed'
 
     const variants = {
-      primary: 'bg-warm-300 text-cream-50 hover:bg-warm-400 active:scale-[0.98]',
-      secondary: 'bg-cream-200 text-text-light hover:bg-cream-300 active:scale-[0.98] border border-cream-400',
-      ghost: 'bg-transparent text-text-light hover:bg-cream-200 active:scale-[0.98]',
+      primary: 'bg-accent-primary text-accent-foreground hover:bg-accent-hover active:scale-[0.98]',
+      secondary: 'bg-surface-2 text-text-primary hover:bg-cream-300 active:scale-[0.98] border border-surface-2',
+      ghost: 'bg-transparent text-text-primary hover:bg-surface-2 active:scale-[0.98]',
       danger: 'bg-error text-cream-50 hover:opacity-90 active:scale-[0.98]',
     }
 
@@ -31,13 +31,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         whileTap={{ scale: 0.97 }}
         className={`${base} ${variants[variant]} ${sizes[size]} ${className}`}
-        disabled={loading || props.disabled}
+        disabled={loading || disabled}
         {...(props as any)}
       >
         {loading ? (
           <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
         ) : (
-          children
+          <>{icon}{children}</>
         )}
       </motion.button>
     )

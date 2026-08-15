@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /create
+Disallow: /dashboard
+Disallow: /settings
+Disallow: /api/
+
+Sitemap: https://kindlepool.vercel.app/sitemap.xml

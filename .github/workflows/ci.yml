@@ -30,6 +30,8 @@ jobs:
       - run: npx tsc -b --noEmit
       - run: npm test
       - run: npm run build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Validate service worker syntax (#6)
         run: node --check public/sw.js
 

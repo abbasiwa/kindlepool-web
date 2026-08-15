@@ -3,6 +3,7 @@ import { useState, useMemo, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Card, ProgressBar, Badge, Tabs, Input } from '../components/ui'
 import { getApi } from '../lib/sdk'
+import { useMeta } from '../lib/seo'
 import { Search } from 'lucide-react'
 import type { PoolData, PoolStatus } from '@mikwansa/kindlepool-sdk'
 
@@ -36,6 +37,7 @@ export function Explore() {
   const [search, setSearch] = useState('')
   const [pools, setPools] = useState<PoolData[]>([])
   const [loading, setLoading] = useState(true)
+  useMeta({ title: 'Explore Pools', description: 'Browse and fund micro-sponsor pools for creators on Stellar.', path: '/explore' })
 
   useEffect(() => {
     let cancelled = false

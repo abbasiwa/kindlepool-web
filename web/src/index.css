@@ -1,111 +1,139 @@
 @import "tailwindcss";
 
 /* ─── Design System ───────────────────────────────────────────
-   Neo-Brutalism Lite · Organic Modernism · Tactile Minimal UI
-   Cream aesthetics. No cyberpunk, no stark grids, no heavy shadows.
+   KindlePool design system (Phase 4)
+   · Two-layer tokens (primitive + semantic)
+   · Single accent: electric indigo (#3D3DFF)
+   · Surface-0/1/2, Text-Primary/Muted
+   · Spatial scale: 4,8,12,16,24,32,48,64,96,128
+   · Font: Plus Jakarta Sans (400 body / 500 headers / 600 micro)
+   · No drop shadows, no gradients, no frosted glass
    ───────────────────────────────────────────────────────────── */
 
 @theme {
-  /* ─── Light Mode (default) ─── */
-  --color-cream-50: #FFFDF9;
-  --color-cream-100: #FFF8F0;
+  /* ─── Primitive: neutrals (100–900) ─── */
+  --color-cream-50: #FFFFFF;
+  --color-cream-100: #FFFDF9;
   --color-cream-200: #FAF0E6;
   --color-cream-300: #F0E6D8;
   --color-cream-400: #E8D5C4;
   --color-cream-500: #D4C5B5;
+  --color-cream-600: #A89A8A;
+  --color-cream-700: #6B5D50;
+  --color-cream-800: #3A332E;
+  --color-cream-900: #1A1614;
 
-  --color-warm-100: #E8D5C4;
-  --color-warm-200: #D4A574;
-  --color-warm-300: #C4956A;
-  --color-warm-400: #B8845A;
-  --color-warm-500: #A0704A;
+  /* ─── Primitive: electric indigo (100–900) ─── */
+  --color-indigo-100: #ECECFF;
+  --color-indigo-200: #D4D4FF;
+  --color-indigo-300: #A6A6FF;
+  --color-indigo-400: #6F6FFF;
+  --color-indigo-500: #3D3DFF;
+  --color-indigo-600: #2E2ED6;
+  --color-indigo-700: #2323A8;
+  --color-indigo-800: #1A1A80;
+  --color-indigo-900: #121258;
 
-  --color-muted-100: #8A7A6A;
-  --color-muted-200: #6B5D50;
-  --color-muted-300: #5A4E42;
+  /* ─── Primitive: status (low saturation) ─── */
+  --color-success: #4FA97B;
+  --color-error: #C94F4F;
+  --color-warning: #D4A23A;
+  --color-info: #3D8BBF;
 
-  --color-text-light: #2D2520;
-  --color-text-dark: #1A1614;
+  /* ─── Semantic ─── */
+  --color-surface-0: var(--color-cream-100);
+  --color-surface-1: var(--color-cream-50);
+  --color-surface-2: var(--color-cream-200);
+  --color-text-primary: var(--color-cream-900);
+  --color-text-muted: var(--color-cream-600);
+  --color-accent-primary: var(--color-indigo-500);
+  --color-accent-hover: var(--color-indigo-600);
+  --color-accent-foreground: var(--color-cream-50);
 
-  --color-surface: var(--color-cream-100);
-  --color-surface-alt: var(--color-cream-200);
-  --color-surface-elevated: var(--color-cream-50);
+  /* Back-compat aliases used by existing pages */
+  --color-warm-100: var(--color-indigo-100);
+  --color-warm-200: var(--color-indigo-200);
+  --color-warm-300: var(--color-indigo-500);
+  --color-warm-400: var(--color-indigo-600);
+  --color-warm-500: var(--color-indigo-700);
+  --color-muted-100: var(--color-cream-600);
+  --color-muted-200: var(--color-cream-700);
+  --color-muted-300: var(--color-cream-800);
+  --color-text-light: var(--color-cream-900);
+  --color-text-dark: var(--color-cream-900);
+  --color-surface: var(--color-surface-0);
+  --color-surface-alt: var(--color-surface-2);
+  --color-surface-elevated: var(--color-surface-1);
+  --color-accent: var(--color-accent-primary);
+  --color-accent-hover: var(--color-accent-hover);
 
-  --color-accent: var(--color-warm-300);
-  --color-accent-hover: var(--color-warm-400);
-  --color-accent-soft: var(--color-warm-100);
+  /* ─── Typography (Plus Jakarta Sans) ─── */
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
-  --color-success: #8BC4A0;
-  --color-error: #D49A9A;
-  --color-warning: #D4C46A;
-  --color-info: #8AB8D4;
-
-  --font-sans: 'Nunito', 'Quicksand', 'Plus Jakarta Sans', system-ui, sans-serif;
-
-  --text-xs: clamp(0.75rem, 0.7rem + 0.15vw, 0.875rem);
-  --text-sm: clamp(0.875rem, 0.8rem + 0.25vw, 1rem);
-  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
-  --text-lg: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
-  --text-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.75rem);
-  --text-2xl: clamp(1.5rem, 1.25rem + 1vw, 2.25rem);
-  --text-3xl: clamp(1.875rem, 1.5rem + 1.5vw, 3rem);
+  /* ─── Fluid type (bigger text, generous spacing) ─── */
+  --text-xs: clamp(0.8125rem, 0.78rem + 0.15vw, 0.9375rem);
+  --text-sm: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
+  --text-base: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  --text-lg: clamp(1.1875rem, 1.1rem + 0.5vw, 1.4375rem);
+  --text-xl: clamp(1.375rem, 1.25rem + 0.7vw, 1.8125rem);
+  --text-2xl: clamp(1.625rem, 1.4rem + 1vw, 2.3125rem);
+  --text-3xl: clamp(2rem, 1.7rem + 1.5vw, 3.125rem);
 
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
   --radius-xl: 1.25rem;
 
-  --shadow-tactile: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
-  --shadow-lift: 0 4px 12px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.03);
-  --shadow-modal: 0 8px 30px rgba(0,0,0,0.08);
+  /* No drop shadows (constraint). Only focus ring accent. */
+  --shadow-tactile: none;
+  --shadow-lift: none;
+  --shadow-modal: none;
 
-  --transition-fast: 150ms ease-out;
-  --transition-normal: 250ms ease-out;
-  --transition-slow: 400ms ease-out;
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ─── Dark Mode (via data-theme attribute) ─── */
+/* ─── Dark Mode (via data-theme) ─── */
 [data-theme="dark"] {
-  --color-surface: #1A1614;
-  --color-surface-alt: #2D2520;
-  --color-surface-elevated: #3A3028;
+  --color-surface-0: var(--color-cream-900);
+  --color-surface-1: var(--color-cream-800);
+  --color-surface-2: var(--color-cream-700);
+  --color-text-primary: var(--color-cream-50);
+  --color-text-muted: var(--color-cream-500);
 
   --color-cream-50: #1A1614;
-  --color-cream-100: #2D2520;
-  --color-cream-200: #3A3028;
-  --color-cream-300: #4A3D32;
-  --color-cream-400: #5A4D40;
+  --color-cream-100: #221E1A;
+  --color-cream-200: #2D2520;
+  --color-cream-300: #3A332E;
+  --color-cream-400: #4A4038;
   --color-cream-500: #6B5D50;
+  --color-cream-600: #8A7A6A;
+  --color-cream-700: #A89A8A;
+  --color-cream-800: #E8DDD0;
+  --color-cream-900: #FFFDF9;
 
-  --color-warm-100: #5A4D40;
-  --color-warm-200: #B8845A;
-  --color-warm-300: #C4956A;
-  --color-warm-400: #D4A574;
-  --color-warm-500: #E0B888;
-
-  --color-muted-100: #8A7A6A;
-  --color-muted-200: #A09080;
-  --color-muted-300: #B8A898;
-
-  --color-text-light: #E8DDD0;
-  --color-text-dark: #F0E8DC;
-
-  --color-accent: var(--color-warm-400);
-  --color-accent-hover: var(--color-warm-500);
-
-  --color-success: #6BA880;
-  --color-error: #B07A7A;
-  --color-warning: #B8A84A;
-  --color-info: #6A98B4;
+  --color-indigo-100: #121258;
+  --color-indigo-200: #1A1A80;
+  --color-indigo-300: #2323A8;
+  --color-indigo-400: #2E2ED6;
+  --color-indigo-500: #6F6FFF;
+  --color-indigo-600: #A6A6FF;
+  --color-indigo-700: #D4D4FF;
+  --color-indigo-800: #ECECFF;
+  --color-indigo-900: #F5F5FF;
 }
 
 /* ─── Base Styles ─── */
 html {
   font-family: var(--font-sans);
-  color: var(--color-text-light);
-  background: var(--color-surface);
+  font-weight: 400;
+  color: var(--color-text-primary);
+  background: var(--color-surface-0);
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -114,25 +142,22 @@ html {
 
 body {
   margin: 0;
-  line-height: 1.6;
+  line-height: 1.65;
+  overscroll-behavior-y: none;
 }
 
-/* ─── Animations ─── */
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+h1, h2, h3, h4, h5, h6 { font-weight: 500; }
+
+/* Focus ring: 2px solid accent (constraint) */
+:focus-visible {
+  outline: 2px solid var(--color-accent-primary);
+  outline-offset: 2px;
 }
 
-@keyframes slide-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes scale-in {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
-
+/* ─── Animations (no shadows) ─── */
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slide-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes scale-in { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
@@ -142,7 +167,7 @@ body {
 .animate-slide-up { animation: slide-up var(--transition-slow) both; }
 .animate-scale-in { animation: scale-in var(--transition-normal) both; }
 .animate-shimmer {
-  background: linear-gradient(90deg, var(--color-cream-200) 25%, var(--color-cream-300) 50%, var(--color-cream-200) 75%);
+  background: linear-gradient(90deg, var(--color-surface-2) 25%, var(--color-cream-300) 50%, var(--color-surface-2) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
 }
@@ -156,6 +181,10 @@ body {
 
 /* ─── Scrollbar ─── */
 ::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--color-surface); }
-::-webkit-scrollbar-thumb { background: var(--color-cream-400); border-radius: 999px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-warm-200); }
+::-webkit-scrollbar-track { background: var(--color-surface-0); }
+::-webkit-scrollbar-thumb { background: var(--color-surface-2); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-accent-primary); }
+
+/* ─── Safe-area + top bar ─── */
+.safe-top { padding-top: env(safe-area-inset-top); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }

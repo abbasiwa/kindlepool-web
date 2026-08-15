@@ -6,6 +6,7 @@ import { useToast } from '../lib/toast'
 import { useState, useMemo, useEffect } from 'react'
 import { getApi } from '../lib/sdk'
 import { contract, walletSigner } from '../lib/contract'
+import { useMeta } from '../lib/seo'
 import { RaiseDisputeModal } from '../components/RaiseDisputeModal'
 import { ArrowLeft, Check, X, Upload, AlertTriangle } from 'lucide-react'
 import type { PoolData, SupporterData } from '@mikwansa/kindlepool-sdk'
@@ -23,6 +24,20 @@ export function PoolDetail() {
   const [supporters, setSupporters] = useState<SupporterData[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  useMeta({
+    title: pool ? `Pool #${pool.id}` : 'Pool',
+    description: pool ? `A KindlePool micro-sponsor pool: ${pool.goal} goal, ${pool.total_supporters} supporters.` : undefined,
+    path: `/pool/${poolId}`,
+    type: 'product',
+    jsonLd: pool ? [{
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: `KindlePool #${pool.id}`,
+      description: `Micro-sponsor pool on Stellar Soroban with goal ${pool.goal}.`,
+      offers: { '@type': 'Offer', price: pool.total_deposited, priceCurrency: 'USD' },
+    }] : [],
+  })
 
   const [showDeposit, setShowDeposit] = useState(false)
   const [depositAmount, setDepositAmount] = useState('')
