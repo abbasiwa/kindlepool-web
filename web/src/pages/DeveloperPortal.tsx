@@ -23,7 +23,7 @@ export function DeveloperPortal() {
 
   const handleGenerateKey = async () => {
     if (!keyName) { toast('Enter a name for your key', 'error'); return }
-    const base = import.meta.env.VITE_INDEXER_URL ?? 'https://kindlepool-api.herokuapp.com'
+    const base = import.meta.env.VITE_INDEXER_URL ?? 'https://kindlepool-api-f31559cad8e5.herokuapp.com'
     try {
       const res = await fetch(`${base}/api/v1/admin/keys`, {
         method: 'POST',
@@ -63,7 +63,7 @@ export function DeveloperPortal() {
           <p className="text-text-muted mt-3"># List trending pools</p>
           <p className="text-text-primary font-medium">
             {`import { KindlePoolAPI } from '@abbasiwa/kindlepool-sdk'`}<br />
-            {`const api = new KindlePoolAPI({ baseUrl: 'https://kindlepool-api.herokuapp.com', apiKey: 'kp_your_key' })`}<br />
+            {`const api = new KindlePoolAPI({ baseUrl: 'https://kindlepool-api-f31559cad8e5.herokuapp.com', apiKey: 'kp_your_key' })`}<br />
             {`const pools = await api.listPools({ sort: 'most_funded' })`}
           </p>
         </div>

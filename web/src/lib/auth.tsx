@@ -39,7 +39,7 @@ function authHeaders(token: string): Record<string, string> {
 }
 
 async function apiFetch(path: string, init?: RequestInit): Promise<Response> {
-  const base = import.meta.env.VITE_INDEXER_URL ?? 'https://kindlepool-api.herokuapp.com'
+  const base = import.meta.env.VITE_INDEXER_URL ?? 'https://kindlepool-api-f31559cad8e5.herokuapp.com'
   return fetch(`${base}/api/v1${path}`, init)
 }
 
@@ -95,9 +95,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify({ email }),
       })
       const data = await res.json().catch(() => ({}))
-      return res.ok ? { ok: true } : { ok: false, error: data.error ?? 'Failed to send magic link' }
-    } catch {
-      return { ok: false, error: 'Network error — check connection and try again' }
+      if (res.ok) return { ok: true }
+      return { ok: false, error: data.error ?? `Request failed (${res.status})` }
+    } catch (err: any) {
+      return { ok: false, error: err?.message ?? 'Failed to send magic link' }
     }
   }, [])
 
@@ -105,13 +106,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const res = await apiFetch(`/auth/verify?token=${encodeURIComponent(magicToken)}`)
       const data = await res.json().catch(() => ({}))
-      if (!res.ok || !data.token) return { ok: false, error: data.error ?? 'Invalid magic link' }
+      if (!res.ok || !data.token) return { ok: false, error: data.error ?? `Invalid magic link (${res.status})` }
       persist(data.token, data.user)
       setToken(data.token)
       setUser(data.user)
       return { ok: true }
-    } catch {
-      return { ok: false, error: 'Network error — please try the link again' }
+    } catch (err: any) {
+      return { ok: false, error: err?.message ?? 'Failed to verify link' }
     }
   }, [])
 
