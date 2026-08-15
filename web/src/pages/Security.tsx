@@ -7,7 +7,7 @@ export function Security() {
   return (
     <div className="max-w-3xl mx-auto space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-text-primary">Security</h1>
+        <h1 className="text-3xl font-display font-semibold text-text-primary tracking-tight text-text-primary">Security</h1>
         <p className="text-text-muted mt-2">How KindlePool keeps creator and supporter funds safe.</p>
       </div>
 

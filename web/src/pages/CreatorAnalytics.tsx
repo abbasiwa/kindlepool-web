@@ -25,7 +25,7 @@ const categoryData = [
   { name: 'Code', value: 10 },
 ]
 
-const COLORS = ['#C4956A', '#D4A574', '#E8D5C4', '#B8845A']
+const COLORS = ['#1F8A50', '#49B374', '#ABE0BD', '#1A7044']
 
 const milestones: Milestone[] = [
   { label: 'Sketch / Concept', percent: 30, completed: true, current: false },
@@ -43,8 +43,8 @@ export function CreatorAnalytics() {
   if (!connected) {
     return (
       <div className="text-center py-16">
-        <h1 className="text-3xl font-bold mb-4">Creator Studio</h1>
-        <p className="text-muted-100">Connect your wallet to access creator tools.</p>
+        <h1 className="text-3xl font-display font-semibold text-text-primary tracking-tight mb-4">Creator Studio</h1>
+        <p className="text-text-muted">Connect your wallet to access creator tools.</p>
       </div>
     )
   }
@@ -67,8 +67,8 @@ export function CreatorAnalytics() {
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-8">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Creator Studio</h1>
-          <p className="text-muted-100 mt-1">Manage your pools and track performance</p>
+          <h1 className="text-3xl font-display font-semibold text-text-primary tracking-tight">Creator Studio</h1>
+          <p className="text-text-muted mt-1">Manage your pools and track performance</p>
         </div>
         <div className="flex gap-3">
           <Button variant="ghost" size="sm" onClick={() => setShowVerification(true)}>
@@ -82,11 +82,11 @@ export function CreatorAnalytics() {
         {stats.map((s) => (
           <Card key={s.label} className="!p-4 space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-muted-100">{s.icon}</span>
+              <span className="text-text-muted">{s.icon}</span>
               {profile && <span className="text-xs text-success font-medium">{s.change}</span>}
             </div>
-            <div className="text-2xl font-bold">{s.value}</div>
-            <div className="text-xs text-muted-100">{s.label}</div>
+            <div className="text-2xl font-display font-semibold text-text-primary tracking-tight">{s.value}</div>
+            <div className="text-xs text-text-muted">{s.label}</div>
           </Card>
         ))}
       </div>
@@ -99,7 +99,7 @@ export function CreatorAnalytics() {
               {(['1m', '3m', '6m', '1y'] as const).map((r) => (
                 <button key={r} onClick={() => setTimeRange(r)}
                   className={`px-2 py-1 text-xs rounded-lg transition-colors ${
-                    timeRange === r ? 'bg-warm-300 text-cream-50' : 'bg-cream-200 text-muted-100 hover:text-text-light'
+                    timeRange === r ? 'bg-accent-primary text-text-inverse' : 'bg-surface-hover text-text-muted hover:text-text-primary'
                   }`}>{r}</button>
               ))}
             </div>
@@ -107,10 +107,10 @@ export function CreatorAnalytics() {
           <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={filteredData}>
-                <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#8A7A6A' }} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#8A7A6A' }} />
+                <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#7E8A85' }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#7E8A85' }} />
                 <Tooltip />
-                <Line type="monotone" dataKey="earned" stroke="#C4956A" strokeWidth={2} dot={{ fill: '#C4956A', r: 4 }} />
+                <Line type="monotone" dataKey="earned" stroke="#1F8A50" strokeWidth={2} dot={{ fill: '#1F8A50', r: 4 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -131,7 +131,7 @@ export function CreatorAnalytics() {
               {categoryData.map((d, i) => (
                 <div key={d.name} className="flex items-center gap-2 text-xs">
                   <span className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[i] }} />
-                  <span className="text-muted-100">{d.name}</span>
+                  <span className="text-text-muted">{d.name}</span>
                   <span className="font-medium">{d.value}%</span>
                 </div>
               ))}
@@ -143,7 +143,7 @@ export function CreatorAnalytics() {
       <Card className="space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="font-bold">Active Milestone — Digital Portrait</h3>
-          <span className="text-xs text-muted-100">500 USDC · 3 supporters</span>
+          <span className="text-xs text-text-muted">500 USDC · 3 supporters</span>
         </div>
         <MilestoneTimeline milestones={milestones} totalAmount={500} />
       </Card>
@@ -155,12 +155,12 @@ export function CreatorAnalytics() {
             <div className="flex items-start justify-between">
               <div>
                 <h4 className="font-medium">{pool.title}</h4>
-                <p className="text-xs text-muted-100">{pool.supporters} supporters</p>
+                <p className="text-xs text-text-muted">{pool.supporters} supporters</p>
               </div>
               <Badge variant={pool.status === 'active' ? 'success' : 'default'}>{pool.status}</Badge>
             </div>
             {pool.goal > 0 && <ProgressBar value={pool.raised} max={pool.goal} />}
-            <div className="flex items-center justify-between text-xs text-muted-100">
+            <div className="flex items-center justify-between text-xs text-text-muted">
               <span>{pool.raised} / {pool.goal} USDC</span>
               <Button size="sm" variant="ghost" onClick={() => navigate(`/pool/${pool.id}`)}>Manage →</Button>
             </div>

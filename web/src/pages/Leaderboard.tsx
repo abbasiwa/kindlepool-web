@@ -43,17 +43,17 @@ export function Leaderboard() {
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-8">
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
-          <Trophy className="text-warm-300" size={28} />
+          <Trophy className="text-accent-primary" size={28} />
           <div>
-            <h1 className="text-3xl font-bold">Leaderboard</h1>
-            <p className="text-muted-100 mt-1">Top creators on KindlePool</p>
+            <h1 className="text-3xl font-display font-semibold text-text-primary tracking-tight">Leaderboard</h1>
+            <p className="text-text-muted mt-1">Top creators on KindlePool</p>
           </div>
         </div>
-        <div className="flex gap-1 bg-cream-200 rounded-xl p-1">
+        <div className="flex gap-1 bg-surface-hover rounded-xl p-1">
           {(['7d', '30d', 'all'] as const).map((r) => (
             <button key={r} onClick={() => setTimeRange(r)}
               className={`px-3 py-1.5 text-xs rounded-lg font-medium transition-colors ${
-                timeRange === r ? 'bg-surface text-text-light' : 'text-muted-100 hover:text-text-light'
+                timeRange === r ? 'bg-surface text-text-primary' : 'text-text-muted hover:text-text-primary'
               }`}>{r === '7d' ? '7 Days' : r === '30d' ? '30 Days' : 'All Time'}</button>
           ))}
         </div>
@@ -67,7 +67,7 @@ export function Leaderboard() {
             <Card hover className="!p-4" onClick={() => handleCardClick(item.rank)}>
               <div className="flex items-center gap-4">
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ${
-                  item.rank <= 3 ? 'bg-warm-300 text-cream-50' : 'bg-cream-200 text-muted-200'
+                  item.rank <= 3 ? 'bg-accent-primary text-text-inverse' : 'bg-surface-hover text-text-secondary'
                 }`}>{item.rank}</div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
@@ -77,14 +77,14 @@ export function Leaderboard() {
                     </Badge>
                     {changeIcon(item.change)}
                   </div>
-                  <div className="flex items-center gap-4 text-xs text-muted-100 mt-0.5">
+                  <div className="flex items-center gap-4 text-xs text-text-muted mt-0.5">
                     <span className="flex items-center gap-1"><Award size={12} /> {item.pools} pools</span>
                     <span className="flex items-center gap-1"><Users size={12} /> {item.supporters}</span>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="font-bold text-warm-300">{item.earned.toLocaleString()} USDC</div>
-                  <div className="text-xs text-muted-100">earned</div>
+                  <div className="font-bold text-accent-primary">{item.earned.toLocaleString()} USDC</div>
+                  <div className="text-xs text-text-muted">earned</div>
                 </div>
               </div>
             </Card>

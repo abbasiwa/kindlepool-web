@@ -39,7 +39,7 @@ function applyTheme(theme: Theme) {
   localStorage.setItem('kindlepool-theme', theme)
   const meta = document.querySelector('meta[name="theme-color"]')
   if (meta) {
-    meta.setAttribute('content', mode === 'light' ? '#FFFDF9' : '#1A1614')
+    meta.setAttribute('content', mode === 'light' ? '#F0FAF7' : '#0C120F')
   }
 }
 

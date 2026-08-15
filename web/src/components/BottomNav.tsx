@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Home, Compass, PlusCircle, Bell, User } from 'lucide-react'
+import { Home, Compass, PlusCircle, User, Bell } from 'lucide-react'
 
 const items = [
   { to: '/', label: 'Home', icon: Home },
@@ -9,16 +9,12 @@ const items = [
   { to: '/disputes', label: 'Disputes', icon: Bell },
 ]
 
-/**
- * Mobile-only bottom navigation. Fixed, safe-area aware, top border only
- * (no shadow per design constraints). 48px+ touch targets.
- */
 export function BottomNav() {
   const navigate = useNavigate()
   const { pathname } = useLocation()
 
   return (
-    <nav className="fixed bottom-0 inset-x-0 z-40 bg-surface-1 border-t border-surface-2 safe-bottom">
+    <nav className="fixed bottom-0 inset-x-0 z-40 bg-surface-1/95 backdrop-blur-xl border-t border-border-subtle safe-bottom">
       <div className="flex items-stretch justify-around max-w-3xl mx-auto">
         {items.map((item) => {
           const Icon = item.icon

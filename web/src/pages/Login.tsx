@@ -33,7 +33,7 @@ export function Login() {
     return (
       <div className="max-w-md mx-auto text-center space-y-4">
         <CheckCircle2 size={40} className="mx-auto text-success" />
-        <h1 className="text-2xl font-bold text-text-primary">Check your email</h1>
+        <h1 className="text-2xl font-display font-semibold text-text-primary tracking-tight text-text-primary">Check your email</h1>
         <p className="text-text-muted">We sent a login link to <strong>{email}</strong>. It expires in 10 minutes.</p>
         <button onClick={() => navigate('/')} className="text-accent-primary hover:underline text-sm">← Back home</button>
       </div>
@@ -43,7 +43,7 @@ export function Login() {
   return (
     <div className="max-w-md mx-auto space-y-6">
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold text-text-primary">Sign in to KindlePool</h1>
+        <h1 className="text-3xl font-display font-semibold text-text-primary tracking-tight text-text-primary">Sign in to KindlePool</h1>
         <p className="text-text-muted">Email magic-link — no password needed.</p>
       </div>
       <Card>

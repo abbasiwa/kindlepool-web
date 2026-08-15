@@ -88,7 +88,7 @@ export function Settings() {
   if (!connected && !signedIn) {
     return (
       <div className="max-w-2xl mx-auto text-center py-16 space-y-4">
-        <h1 className="text-3xl font-bold mb-4">Settings</h1>
+        <h1 className="text-3xl font-display font-semibold text-text-primary tracking-tight mb-4">Settings</h1>
         <p className="text-text-muted">Sign in with email or connect a wallet to manage your account.</p>
         <Button onClick={() => navigate('/login')}>Sign In</Button>
       </div>
@@ -101,7 +101,7 @@ export function Settings() {
     <div className="max-w-4xl mx-auto space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-text-primary">Settings</h1>
+          <h1 className="text-3xl font-display font-semibold text-text-primary tracking-tight text-text-primary">Settings</h1>
           <p className="text-text-muted mt-1">
             {signedIn ? `Signed in as ${user?.email}` : 'Wallet connected'} · {connected ? `wallet ${short}` : 'no wallet'}
           </p>
@@ -205,7 +205,7 @@ export function Settings() {
               <div className="grid grid-cols-3 gap-2">
                 {(['light', 'dark', 'system'] as const).map((t) => (
                   <button key={t} onClick={() => { setTheme(t); toast(`Theme: ${t}`, 'success') }}
-                    className={`py-3 rounded-xl capitalize text-sm transition-colors ${theme === t ? 'bg-accent-primary text-accent-foreground' : 'bg-surface-2 hover:bg-cream-300'}`}>{t}</button>
+                    className={`py-3 rounded-xl capitalize text-sm transition-colors ${theme === t ? 'bg-accent-primary text-accent-foreground' : 'bg-surface-2 hover:bg-surface-hover'}`}>{t}</button>
                 ))}
               </div>
               <p className="text-xs text-text-muted">Persisted via localStorage; meta theme-color follows Surface-0.</p>

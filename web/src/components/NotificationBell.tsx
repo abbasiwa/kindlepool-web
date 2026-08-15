@@ -40,7 +40,7 @@ export function NotificationBell() {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="relative p-2 rounded-xl hover:bg-cream-200 transition-colors text-muted-100"
+        className="relative p-2 rounded-xl hover:bg-surface-hover transition-colors text-text-muted"
         aria-label={t('notifications.title')}
       >
         <Bell size={18} />
@@ -48,7 +48,7 @@ export function NotificationBell() {
           <motion.span
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-warm-300 text-cream-50 text-[10px] font-bold flex items-center justify-center"
+            className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-accent-primary text-text-inverse text-[10px] font-bold flex items-center justify-center"
           >
             {unreadCount > 9 ? '9+' : unreadCount}
           </motion.span>
@@ -62,12 +62,12 @@ export function NotificationBell() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.95 }}
             transition={{ duration: 0.15 }}
-            className="absolute right-0 top-full mt-2 w-80 bg-surface rounded-2xl shadow-modal border border-cream-400/50 overflow-hidden z-50"
+            className="absolute right-0 top-full mt-2 w-80 bg-surface rounded-2xl shadow-modal border border-border-default/50 overflow-hidden z-50"
           >
-            <div className="flex items-center justify-between px-4 py-3 border-b border-cream-400/30">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-border-default/30">
               <h3 className="font-bold text-sm">{t('notifications.title')}</h3>
               {unreadCount > 0 && (
-                <button onClick={markAllRead} className="text-xs text-warm-300 hover:text-warm-400 flex items-center gap-1">
+                <button onClick={markAllRead} className="text-xs text-accent-primary hover:text-accent-hover flex items-center gap-1">
                   <CheckCheck size={14} /> {t('notifications.markAllRead')}
                 </button>
               )}
@@ -75,14 +75,14 @@ export function NotificationBell() {
 
             <div className="max-h-80 overflow-y-auto">
               {notifications.length === 0 ? (
-                <div className="py-8 text-center text-sm text-muted-100">{t('notifications.empty')}</div>
+                <div className="py-8 text-center text-sm text-text-muted">{t('notifications.empty')}</div>
               ) : (
                 notifications.map((n) => (
                   <button
                     key={n.id}
                     onClick={() => handleNotificationClick(n)}
-                    className={`w-full text-left px-4 py-3 flex items-start gap-3 hover:bg-cream-200 transition-colors ${
-                      !n.read ? 'bg-cream-100' : ''
+                    className={`w-full text-left px-4 py-3 flex items-start gap-3 hover:bg-surface-hover transition-colors ${
+                      !n.read ? 'bg-surface-2' : ''
                     }`}
                   >
                     <span className="text-lg shrink-0 mt-0.5">{iconMap[n.type] ?? '🔔'}</span>
@@ -90,11 +90,11 @@ export function NotificationBell() {
                       <p className={`text-sm ${!n.read ? 'font-medium' : ''}`}>
                         {t(`notifications.items.${n.type}`, { amount: n.amount, pool: n.poolTitle })}
                       </p>
-                      <p className="text-xs text-muted-100 mt-0.5">
+                      <p className="text-xs text-text-muted mt-0.5">
                         {formatRelativeTime(n.createdAt)}
                       </p>
                     </div>
-                    {!n.read && <span className="w-2 h-2 rounded-full bg-warm-300 shrink-0 mt-1.5" />}
+                    {!n.read && <span className="w-2 h-2 rounded-full bg-accent-primary shrink-0 mt-1.5" />}
                   </button>
                 ))
               )}

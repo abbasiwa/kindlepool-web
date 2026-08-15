@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { Logo } from './Logo'
 
 const product = [
   { to: '/explore', label: 'Explore Pools' },
@@ -27,45 +28,33 @@ const legal = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-surface-2 bg-surface-1 mt-16">
-      <div className="max-w-6xl mx-auto px-4 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
-        <div className="col-span-2 md:col-span-1 space-y-3">
-          <div className="font-semibold text-text-primary">KindlePool</div>
-          <p className="text-sm text-text-muted leading-relaxed">
+    <footer className="border-t border-border-subtle bg-surface-1 mt-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="col-span-2 md:col-span-1 space-y-4">
+          <Logo size={28} />
+          <p className="text-sm text-text-muted leading-relaxed max-w-[16rem]">
             Fund the work, not the creator. Trustless micro-sponsor pools on Stellar Soroban.
           </p>
         </div>
 
-        <div className="space-y-2">
-          <div className="text-xs font-semibold text-text-muted uppercase tracking-wider">Product</div>
-          {product.map((l) => (
-            <Link key={l.to} to={l.to} className="block text-sm text-text-muted hover:text-accent-primary transition-colors">
-              {l.label}
-            </Link>
-          ))}
-        </div>
-
-        <div className="space-y-2">
-          <div className="text-xs font-semibold text-text-muted uppercase tracking-wider">Resources</div>
-          {resources.map((l) => (
-            <Link key={l.to} to={l.to} className="block text-sm text-text-muted hover:text-accent-primary transition-colors">
-              {l.label}
-            </Link>
-          ))}
-        </div>
-
-        <div className="space-y-2">
-          <div className="text-xs font-semibold text-text-muted uppercase tracking-wider">Legal</div>
-          {legal.map((l) => (
-            <Link key={l.to} to={l.to} className="block text-sm text-text-muted hover:text-accent-primary transition-colors">
-              {l.label}
-            </Link>
-          ))}
-        </div>
+        {[
+          { title: 'Product', links: product },
+          { title: 'Resources', links: resources },
+          { title: 'Legal', links: legal },
+        ].map((col) => (
+          <div key={col.title} className="space-y-3">
+            <div className="text-xs font-semibold text-text-muted uppercase tracking-wider">{col.title}</div>
+            {col.links.map((l) => (
+              <Link key={l.to} to={l.to} className="block text-sm text-text-muted hover:text-accent-primary transition-colors">
+                {l.label}
+              </Link>
+            ))}
+          </div>
+        ))}
       </div>
 
-      <div className="border-t border-surface-2">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-text-muted">
+      <div className="border-t border-border-subtle">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-text-muted">
           <span>© {new Date().getFullYear()} KindlePool · Testnet beta</span>
           <span>Built on Stellar Soroban</span>
         </div>

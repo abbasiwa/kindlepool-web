@@ -1,173 +1,251 @@
 @import "tailwindcss";
 
-/* ─── Design System ───────────────────────────────────────────
-   KindlePool design system (Phase 4)
-   · Two-layer tokens (primitive + semantic)
-   · Single accent: electric indigo (#3D3DFF)
-   · Surface-0/1/2, Text-Primary/Muted
-   · Spatial scale: 4,8,12,16,24,32,48,64,96,128
-   · Font: Plus Jakarta Sans (400 body / 500 headers / 600 micro)
-   · No drop shadows, no gradients, no frosted glass
-   ───────────────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════
+   KindlePool Design System — "Leaf"
+   · Canvas: soft mint #F0FAF7
+   · Brand: normal green (leaf-600) + dark green (leaf-700)
+   · Fonts: Inter (body) · Space Grotesk (display) · JetBrains Mono
+   · Enterprise-grade spacing/type/shadow scales
+   ═══════════════════════════════════════════════════════════ */
 
 @theme {
-  /* ─── Primitive: neutrals (100–900) ─── */
-  --color-cream-50: #FFFFFF;
-  --color-cream-100: #FFFDF9;
-  --color-cream-200: #FAF0E6;
-  --color-cream-300: #F0E6D8;
-  --color-cream-400: #E8D5C4;
-  --color-cream-500: #D4C5B5;
-  --color-cream-600: #A89A8A;
-  --color-cream-700: #6B5D50;
-  --color-cream-800: #3A332E;
-  --color-cream-900: #1A1614;
+  /* ── Brand: leaf greens ── */
+  --color-leaf-50: #EDF9F1;
+  --color-leaf-100: #D6F0DE;
+  --color-leaf-200: #ABE0BD;
+  --color-leaf-300: #79CC98;
+  --color-leaf-400: #49B374;
+  --color-leaf-500: #2C9E5F;
+  --color-leaf-600: #1F8A50;
+  --color-leaf-700: #1A7044;
+  --color-leaf-800: #155738;
+  --color-leaf-900: #0F4029;
+  --color-leaf-950: #092B1C;
 
-  /* ─── Primitive: electric indigo (100–900) ─── */
-  --color-indigo-100: #ECECFF;
-  --color-indigo-200: #D4D4FF;
-  --color-indigo-300: #A6A6FF;
-  --color-indigo-400: #6F6FFF;
-  --color-indigo-500: #3D3DFF;
-  --color-indigo-600: #2E2ED6;
-  --color-indigo-700: #2323A8;
-  --color-indigo-800: #1A1A80;
-  --color-indigo-900: #121258;
+  /* ── Mint canvas ── */
+  --color-mint-0: #F0FAF7;
+  --color-mint-50: #F7FCFA;
+  --color-mint-100: #EAF6F1;
+  --color-mint-200: #D9EEE5;
 
-  /* ─── Primitive: status (low saturation) ─── */
-  --color-success: #4FA97B;
-  --color-error: #C94F4F;
-  --color-warning: #D4A23A;
-  --color-info: #3D8BBF;
+  /* ── Warm ink neutrals ── */
+  --color-ink-0: #FFFFFF;
+  --color-ink-50: #FBFCFC;
+  --color-ink-100: #F3F5F4;
+  --color-ink-200: #E6EAE8;
+  --color-ink-300: #D2D8D5;
+  --color-ink-400: #A8B2AE;
+  --color-ink-500: #7E8A85;
+  --color-ink-600: #5C6863;
+  --color-ink-700: #3F4A45;
+  --color-ink-800: #28322E;
+  --color-ink-900: #17201C;
+  --color-ink-950: #0C120F;
 
-  /* ─── Semantic ─── */
-  --color-surface-0: var(--color-cream-100);
-  --color-surface-1: var(--color-cream-50);
-  --color-surface-2: var(--color-cream-200);
-  --color-text-primary: var(--color-cream-900);
-  --color-text-muted: var(--color-cream-600);
-  --color-accent-primary: var(--color-indigo-500);
-  --color-accent-hover: var(--color-indigo-600);
-  --color-accent-foreground: var(--color-cream-50);
+  /* ── Status ── */
+  --color-success: #2C9E5F;
+  --color-warning: #D99A2B;
+  --color-danger: #D5484A;
+  --color-info: #3B82A0;
 
-  /* Back-compat aliases used by existing pages */
-  --color-warm-100: var(--color-indigo-100);
-  --color-warm-200: var(--color-indigo-200);
-  --color-warm-300: var(--color-indigo-500);
-  --color-warm-400: var(--color-indigo-600);
-  --color-warm-500: var(--color-indigo-700);
-  --color-muted-100: var(--color-cream-600);
-  --color-muted-200: var(--color-cream-700);
-  --color-muted-300: var(--color-cream-800);
-  --color-text-light: var(--color-cream-900);
-  --color-text-dark: var(--color-cream-900);
+  /* ── Semantic ── */
+  --color-surface-0: var(--color-mint-0);
+  --color-surface-1: var(--color-ink-0);
+  --color-surface-2: var(--color-mint-50);
+  --color-surface-hover: var(--color-mint-100);
+  --color-surface-elevated: var(--color-ink-0);
+  --color-text-primary: var(--color-ink-900);
+  --color-text-secondary: var(--color-ink-700);
+  --color-text-muted: var(--color-ink-500);
+  --color-text-inverse: var(--color-ink-0);
+  --color-accent-primary: var(--color-leaf-600);
+  --color-accent-hover: var(--color-leaf-700);
+  --color-accent-soft: var(--color-leaf-100);
+  --color-accent-foreground: var(--color-ink-0);
+  --color-border-subtle: var(--color-ink-200);
+  --color-border-default: var(--color-ink-300);
+  --color-border-strong: var(--color-ink-400);
+
+  /* ── Back-compat aliases (sweep in progress; remove after) ── */
+  --color-warm-100: var(--color-leaf-100);
+  --color-warm-200: var(--color-leaf-200);
+  --color-warm-300: var(--color-leaf-600);
+  --color-warm-400: var(--color-leaf-700);
+  --color-warm-500: var(--color-leaf-800);
+  --color-cream-50: var(--color-ink-0);
+  --color-cream-100: var(--color-ink-50);
+  --color-cream-200: var(--color-ink-100);
+  --color-cream-300: var(--color-ink-200);
+  --color-cream-400: var(--color-ink-300);
+  --color-cream-500: var(--color-ink-400);
+  --color-cream-600: var(--color-ink-500);
+  --color-cream-700: var(--color-ink-600);
+  --color-cream-800: var(--color-ink-700);
+  --color-cream-900: var(--color-ink-900);
+  --color-muted-100: var(--color-ink-500);
+  --color-muted-200: var(--color-ink-600);
+  --color-muted-300: var(--color-ink-700);
+  --color-text-light: var(--color-ink-900);
+  --color-text-dark: var(--color-ink-900);
   --color-surface: var(--color-surface-0);
   --color-surface-alt: var(--color-surface-2);
   --color-surface-elevated: var(--color-surface-1);
   --color-accent: var(--color-accent-primary);
   --color-accent-hover: var(--color-accent-hover);
+  --color-error: var(--color-danger);
 
-  /* ─── Typography (Plus Jakarta Sans) ─── */
-  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  /* ── Fonts: modern ── */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
-  /* ─── Fluid type (bigger text, generous spacing) ─── */
-  --text-xs: clamp(0.8125rem, 0.78rem + 0.15vw, 0.9375rem);
-  --text-sm: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
-  --text-base: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
-  --text-lg: clamp(1.1875rem, 1.1rem + 0.5vw, 1.4375rem);
-  --text-xl: clamp(1.375rem, 1.25rem + 0.7vw, 1.8125rem);
-  --text-2xl: clamp(1.625rem, 1.4rem + 1vw, 2.3125rem);
-  --text-3xl: clamp(2rem, 1.7rem + 1.5vw, 3.125rem);
+  /* ── Type scale (bigger, modern) ── */
+  --text-xs: 0.75rem;        /* 12 */
+  --text-sm: 0.875rem;       /* 14 */
+  --text-base: 1rem;         /* 16 */
+  --text-lg: 1.125rem;       /* 18 */
+  --text-xl: 1.25rem;        /* 20 */
+  --text-2xl: 1.5rem;        /* 24 */
+  --text-3xl: 1.875rem;      /* 30 */
+  --text-4xl: 2.25rem;       /* 36 */
+  --text-5xl: 3rem;          /* 48 */
+  --text-6xl: 3.75rem;       /* 60 */
 
+  /* ── Radii ── */
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
   --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
 
-  /* No drop shadows (constraint). Only focus ring accent. */
-  --shadow-tactile: none;
-  --shadow-lift: none;
-  --shadow-modal: none;
+  /* ── Shadows (enterprise, soft) ── */
+  --shadow-subtle: 0 1px 2px rgba(12, 18, 15, 0.04);
+  --shadow-card: 0 1px 3px rgba(12, 18, 15, 0.06), 0 4px 16px rgba(12, 18, 15, 0.04);
+  --shadow-popover: 0 4px 12px rgba(12, 18, 15, 0.08), 0 12px 32px rgba(12, 18, 15, 0.08);
+  --shadow-modal: 0 8px 24px rgba(12, 18, 15, 0.12), 0 20px 48px rgba(12, 18, 15, 0.12);
+  --shadow-tactile: var(--shadow-subtle);
+  --shadow-lift: var(--shadow-card);
 
+  /* ── Motion ── */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-normal: 200ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ─── Dark Mode (via data-theme) ─── */
+/* ── Dark mode (leaf/ink mirrored) ── */
 [data-theme="dark"] {
-  --color-surface-0: var(--color-cream-900);
-  --color-surface-1: var(--color-cream-800);
-  --color-surface-2: var(--color-cream-700);
-  --color-text-primary: var(--color-cream-50);
-  --color-text-muted: var(--color-cream-500);
+  --color-surface-0: var(--color-ink-950);
+  --color-surface-1: var(--color-ink-900);
+  --color-surface-2: var(--color-ink-800);
+  --color-surface-hover: var(--color-ink-800);
+  --color-surface-elevated: var(--color-ink-800);
+  --color-text-primary: var(--color-ink-50);
+  --color-text-secondary: var(--color-ink-200);
+  --color-text-muted: var(--color-ink-400);
+  --color-text-inverse: var(--color-ink-950);
+  --color-border-subtle: var(--color-ink-800);
+  --color-border-default: var(--color-ink-700);
+  --color-border-strong: var(--color-ink-600);
 
-  --color-cream-50: #1A1614;
-  --color-cream-100: #221E1A;
-  --color-cream-200: #2D2520;
-  --color-cream-300: #3A332E;
-  --color-cream-400: #4A4038;
-  --color-cream-500: #6B5D50;
-  --color-cream-600: #8A7A6A;
-  --color-cream-700: #A89A8A;
-  --color-cream-800: #E8DDD0;
-  --color-cream-900: #FFFDF9;
+  --color-leaf-50: #092B1C;
+  --color-leaf-100: #0F4029;
+  --color-leaf-200: #155738;
+  --color-leaf-300: #1A7044;
+  --color-leaf-400: #1F8A50;
+  --color-leaf-500: #2C9E5F;
+  --color-leaf-600: #49B374;
+  --color-leaf-700: #79CC98;
+  --color-leaf-800: #ABE0BD;
+  --color-leaf-900: #D6F0DE;
 
-  --color-indigo-100: #121258;
-  --color-indigo-200: #1A1A80;
-  --color-indigo-300: #2323A8;
-  --color-indigo-400: #2E2ED6;
-  --color-indigo-500: #6F6FFF;
-  --color-indigo-600: #A6A6FF;
-  --color-indigo-700: #D4D4FF;
-  --color-indigo-800: #ECECFF;
-  --color-indigo-900: #F5F5FF;
+  --color-mint-0: var(--color-ink-950);
+  --color-mint-50: var(--color-ink-900);
+  --color-mint-100: var(--color-ink-900);
+  --color-mint-200: var(--color-ink-800);
+
+  --color-ink-0: #0C120F;
+  --color-ink-50: #17201C;
+  --color-ink-100: #1C2822;
+  --color-ink-200: #28322E;
+  --color-ink-300: #3F4A45;
+  --color-ink-400: #5C6863;
+  --color-ink-500: #7E8A85;
+  --color-ink-600: #A8B2AE;
+  --color-ink-700: #D2D8D5;
+  --color-ink-800: #E6EAE8;
+  --color-ink-900: #F3F5F4;
+  --color-ink-950: #FBFCFC;
+
+  --color-warm-100: var(--color-leaf-100);
+  --color-warm-200: var(--color-leaf-200);
+  --color-warm-300: var(--color-leaf-600);
+  --color-warm-400: var(--color-leaf-700);
+  --color-warm-500: var(--color-leaf-800);
+  --color-cream-50: var(--color-ink-0);
+  --color-cream-100: var(--color-ink-50);
+  --color-cream-200: var(--color-ink-100);
+  --color-cream-300: var(--color-ink-200);
+  --color-cream-400: var(--color-ink-300);
+  --color-cream-500: var(--color-ink-400);
+  --color-cream-600: var(--color-ink-500);
+  --color-cream-700: var(--color-ink-600);
+  --color-cream-800: var(--color-ink-700);
+  --color-cream-900: var(--color-ink-800);
+  --color-muted-100: var(--color-ink-400);
+  --color-muted-200: var(--color-ink-500);
+  --color-muted-300: var(--color-ink-600);
+  --color-text-light: var(--color-ink-50);
+  --color-text-dark: var(--color-ink-50);
+  --color-accent-foreground: var(--color-ink-950);
 }
 
-/* ─── Base Styles ─── */
+/* ── Base ── */
 html {
   font-family: var(--font-sans);
-  font-weight: 400;
   color: var(--color-text-primary);
   background: var(--color-surface-0);
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   overscroll-behavior-y: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
 }
 
 body {
   margin: 0;
+  font-size: 1rem;
   line-height: 1.65;
+  letter-spacing: -0.01em;
   overscroll-behavior-y: none;
 }
 
-h1, h2, h3, h4, h5, h6 { font-weight: 500; }
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
 
-/* Focus ring: 2px solid accent (constraint) */
+code, pre, kbd, .font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Focus ring: leaf accent */
 :focus-visible {
   outline: 2px solid var(--color-accent-primary);
   outline-offset: 2px;
 }
 
-/* ─── Animations (no shadows) ─── */
+/* ── Animations ── */
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
-@keyframes slide-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes scale-in { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
+@keyframes slide-up { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes scale-in { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
 
 .animate-fade-in { animation: fade-in var(--transition-normal) both; }
 .animate-slide-up { animation: slide-up var(--transition-slow) both; }
 .animate-scale-in { animation: scale-in var(--transition-normal) both; }
 .animate-shimmer {
-  background: linear-gradient(90deg, var(--color-surface-2) 25%, var(--color-cream-300) 50%, var(--color-surface-2) 75%);
+  background: linear-gradient(90deg, var(--color-surface-2) 25%, var(--color-border-subtle) 50%, var(--color-surface-2) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
 }
@@ -177,14 +255,15 @@ h1, h2, h3, h4, h5, h6 { font-weight: 500; }
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+  html { scroll-behavior: auto; }
 }
 
-/* ─── Scrollbar ─── */
-::-webkit-scrollbar { width: 8px; }
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: var(--color-surface-0); }
-::-webkit-scrollbar-thumb { background: var(--color-surface-2); border-radius: 999px; }
+::-webkit-scrollbar-thumb { background: var(--color-border-default); border-radius: 999px; border: 2px solid var(--color-surface-0); }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-accent-primary); }
 
-/* ─── Safe-area + top bar ─── */
+/* ── Safe-area helpers ── */
 .safe-top { padding-top: env(safe-area-inset-top); }
 .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }

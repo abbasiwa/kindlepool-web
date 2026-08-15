@@ -45,8 +45,8 @@ export function PricingSection() {
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h2 className="text-3xl font-bold">Simple Pricing</h2>
-        <p className="text-muted-100 mt-2 max-w-lg mx-auto">
+        <h2 className="text-3xl font-display font-semibold text-text-primary tracking-tight">Simple Pricing</h2>
+        <p className="text-text-muted mt-2 max-w-lg mx-auto">
           Pay only when your pool succeeds. No hidden fees, no monthly subscriptions.
         </p>
       </div>
@@ -59,7 +59,7 @@ export function PricingSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
           >
-            <Card className={`relative h-full flex flex-col ${tier.popular ? 'border-warm-300 border-2' : ''}`}>
+            <Card className={`relative h-full flex flex-col ${tier.popular ? 'border-accent-primary/40 border-2' : ''}`}>
               {tier.popular && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                   <Badge variant="warning">Most Popular</Badge>
@@ -69,19 +69,19 @@ export function PricingSection() {
               <div className="space-y-4 flex-1">
                 <div className="flex items-center gap-3">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                    tier.popular ? 'bg-warm-300 text-cream-50' : 'bg-cream-200 text-muted-200'
+                    tier.popular ? 'bg-accent-primary text-text-inverse' : 'bg-surface-hover text-text-secondary'
                   }`}>
                     {tier.icon}
                   </div>
                   <div>
                     <h3 className="font-bold text-lg">{tier.name}</h3>
-                    <p className="text-sm text-muted-100">{tier.description}</p>
+                    <p className="text-sm text-text-muted">{tier.description}</p>
                   </div>
                 </div>
 
                 <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-bold">{tier.fee}</span>
-                  <span className="text-sm text-muted-100">per successful pool</span>
+                  <span className="text-3xl font-display font-semibold text-text-primary tracking-tight">{tier.fee}</span>
+                  <span className="text-sm text-text-muted">per successful pool</span>
                 </div>
 
                 <ul className="space-y-2.5">

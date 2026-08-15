@@ -186,15 +186,15 @@ export function PoolDetail() {
   }, [pool])
 
   if (loading) {
-    return <div className="text-center py-16"><p className="text-muted-100">Loading pool…</p></div>
+    return <div className="text-center py-16"><p className="text-text-muted">Loading pool…</p></div>
   }
 
   if (error || !pool) {
     return (
       <div className="text-center py-16">
-        <h2 className="text-xl font-bold">Pool not found</h2>
-        <p className="text-muted-100 mt-2">{error ?? `No pool with ID #${id} exists.`}</p>
-        <button onClick={() => navigate(-1)} className="text-warm-300 mt-4 inline-block hover:text-warm-400 transition-colors">
+        <h2 className="text-xl font-display font-semibold text-text-primary tracking-tight">Pool not found</h2>
+        <p className="text-text-muted mt-2">{error ?? `No pool with ID #${id} exists.`}</p>
+        <button onClick={() => navigate(-1)} className="text-accent-primary mt-4 inline-block hover:text-accent-hover transition-colors">
           ← Go back
         </button>
       </div>
@@ -203,33 +203,33 @@ export function PoolDetail() {
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl mx-auto space-y-8">
-      <button onClick={() => navigate(-1)} className="inline-flex items-center gap-2 text-sm text-muted-100 hover:text-text-light transition-colors">
+      <button onClick={() => navigate(-1)} className="inline-flex items-center gap-2 text-sm text-text-muted hover:text-text-primary transition-colors">
         <ArrowLeft size={16} /> Back
       </button>
 
       <div className="space-y-4">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-3xl font-bold">Pool #{pool.id}</h1>
-            <p className="text-muted-100 mt-1">{pool.creator} · {pool.contract_id ? 'KindlePool' : ''}</p>
+            <h1 className="text-3xl sm:text-4xl font-display font-semibold text-text-primary tracking-tight">Pool #{pool.id}</h1>
+            <p className="text-text-muted mt-1 font-mono text-sm">{pool.creator.slice(0, 6)}...{pool.creator.slice(-4)}</p>
           </div>
           <Badge variant={badgeVariant}>{pool.status.replace('_', ' ')}</Badge>
         </div>
-        {isCreator && <p className="text-sm text-warm-300">You are the creator of this pool.</p>}
+        {isCreator && <p className="text-sm text-accent-primary font-medium">You are the creator of this pool.</p>}
       </div>
 
-      <Card className="space-y-4">
+      <Card elevated className="p-7 space-y-5">
         <div className="flex items-center justify-between">
-          <span className="text-2xl font-bold">
-            {raised.toString()} <span className="text-base font-normal text-muted-100">/ {goal.toString()} units</span>
+          <span className="text-2xl font-display font-semibold text-text-primary">
+            {raised.toLocaleString()} <span className="text-base font-normal text-text-muted">/ {goal.toLocaleString()} units</span>
           </span>
-          <span className="text-sm text-muted-100">{deadlineLabel}</span>
+          <span className="text-sm text-text-muted">{deadlineLabel}</span>
         </div>
         <ProgressBar value={Number(raised)} max={Number(goal) || 1} />
         <div className="grid grid-cols-3 gap-3 text-center text-sm">
-          <div className="bg-cream-200 rounded-xl p-3"><div className="font-bold text-green-700">Yes: {pool.yes_votes}</div></div>
-          <div className="bg-cream-200 rounded-xl p-3"><div className="font-bold text-red-700">No: {pool.no_votes}</div></div>
-          <div className="bg-cream-200 rounded-xl p-3"><div className="font-bold">{pool.total_supporters} supporters</div></div>
+          <div className="rounded-xl border border-border-subtle p-4"><div className="font-semibold text-success">Yes: {pool.yes_votes.toLocaleString()}</div></div>
+          <div className="rounded-xl border border-border-subtle p-4"><div className="font-semibold text-danger">No: {pool.no_votes.toLocaleString()}</div></div>
+          <div className="rounded-xl border border-border-subtle p-4"><div className="font-semibold text-text-primary">{pool.total_supporters} supporters</div></div>
         </div>
         <div className="flex flex-col sm:flex-row gap-3">
           {pool.status === 'open' && (
@@ -273,23 +273,23 @@ export function PoolDetail() {
       {pool.work_hash && (
         <Card className="space-y-2">
           <h3 className="font-semibold">Submitted Work</h3>
-          <p className="text-sm text-muted-100 break-all">Hash: {pool.work_hash}</p>
+          <p className="text-sm text-text-muted break-all">Hash: {pool.work_hash}</p>
           {pool.vote_deadline && (
-            <p className="text-sm text-muted-100">Voting ends: {new Date(pool.vote_deadline * 1000).toLocaleDateString()}</p>
+            <p className="text-sm text-text-muted">Voting ends: {new Date(pool.vote_deadline * 1000).toLocaleDateString()}</p>
           )}
         </Card>
       )}
 
       <div className="space-y-4">
-        <h2 className="text-xl font-bold">Supporters ({supporters.length})</h2>
+        <h2 className="text-xl font-display font-semibold text-text-primary tracking-tight">Supporters ({supporters.length})</h2>
         {supporters.length === 0 ? (
-          <p className="text-muted-100 text-sm">No supporters yet.</p>
+          <p className="text-text-muted text-sm">No supporters yet.</p>
         ) : (
           <div className="space-y-2">
             {supporters.map((s) => (
-              <div key={s.address} className="flex items-center justify-between py-2 px-4 bg-cream-200 rounded-xl">
+              <div key={s.address} className="flex items-center justify-between py-2 px-4 bg-surface-hover rounded-xl">
                 <span className="text-sm font-mono">{`${s.address.slice(0, 8)}...${s.address.slice(-4)}`}</span>
-                <span className="text-sm text-muted-100">{s.amount} units</span>
+                <span className="text-sm text-text-muted">{s.amount} units</span>
               </div>
             ))}
           </div>
@@ -314,7 +314,7 @@ export function PoolDetail() {
 
       <Modal open={showVote} onClose={() => setShowVote(false)} title="Vote on Work">
         <div className="space-y-4 text-center">
-          <p className="text-muted-100">Does this work meet the quality you expected?</p>
+          <p className="text-text-muted">Does this work meet the quality you expected?</p>
           <div className="flex gap-4">
             <Button variant="primary" className="flex-1" onClick={() => handleVote(true)} loading={submitting}>
               <Check size={18} /> Approve
@@ -328,7 +328,7 @@ export function PoolDetail() {
 
       <Modal open={showFinalize} onClose={() => setShowFinalize(false)} title="Finalize Pool">
         <div className="space-y-4 text-center">
-          <p className="text-muted-100">Settle this pool. Goal met + approved → creator paid. Otherwise supporters refunded.</p>
+          <p className="text-text-muted">Settle this pool. Goal met + approved → creator paid. Otherwise supporters refunded.</p>
           <Button className="w-full" onClick={handleFinalize} loading={submitting}>Finalize Pool</Button>
         </div>
       </Modal>
@@ -344,7 +344,7 @@ export function PoolDetail() {
 
       <Modal open={showSubmitWork} onClose={() => setShowSubmitWork(false)} title="Submit Work">
         <div className="space-y-4">
-          <p className="text-sm text-muted-100">Submit the completed work hash for supporter review.</p>
+          <p className="text-sm text-text-muted">Submit the completed work hash for supporter review.</p>
           <Button className="w-full" onClick={handleSubmitWork} loading={submitting}>Submit for Review</Button>
         </div>
       </Modal>

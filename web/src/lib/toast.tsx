@@ -16,7 +16,7 @@ const ToastContext = createContext<ToastContextType>({ toast: () => {} })
 const colors: Record<string, string> = {
   success: 'border-success',
   error: 'border-error',
-  info: 'border-warm-300',
+  info: 'border-accent-primary/40',
 }
 
 let nextId = 0
@@ -52,10 +52,10 @@ export function ToastProvider({ children }: { children: ReactNode }) {
               transition={{ duration: 0.25 }}
               className={`bg-surface border-l-4 ${colors[t.type]} rounded-xl p-4 shadow-modal flex items-start gap-3`}
             >
-              <p className="text-sm text-text-light flex-1">{t.message}</p>
+              <p className="text-sm text-text-primary flex-1">{t.message}</p>
               <button
                 onClick={() => dismiss(t.id)}
-                className="text-muted-100 hover:text-text-light transition-colors shrink-0"
+                className="text-text-muted hover:text-text-primary transition-colors shrink-0"
                 aria-label="Dismiss"
               >
                 ✕

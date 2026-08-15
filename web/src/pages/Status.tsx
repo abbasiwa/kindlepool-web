@@ -19,7 +19,7 @@ export function Status() {
   return (
     <div className="max-w-2xl mx-auto space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-text-primary">Service Status</h1>
+        <h1 className="text-3xl font-display font-semibold text-text-primary tracking-tight text-text-primary">Service Status</h1>
         <p className="text-text-muted mt-1 text-sm">All systems nominal · last checked {now.slice(0, 19).replace('T', ' ')} UTC</p>
       </div>
       <div className="space-y-3">

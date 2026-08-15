@@ -10,7 +10,7 @@ export function Changelog() {
   return (
     <div className="max-w-2xl mx-auto space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-text-primary">Changelog</h1>
+        <h1 className="text-3xl font-display font-semibold text-text-primary tracking-tight text-text-primary">Changelog</h1>
         <p className="text-text-muted mt-2">What's shipping, and when.</p>
       </div>
       {entries.map((e) => (

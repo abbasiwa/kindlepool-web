@@ -20,7 +20,7 @@ export function FAQ() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-text-primary">Frequently Asked Questions</h1>
+        <h1 className="text-3xl font-display font-semibold text-text-primary tracking-tight text-text-primary">Frequently Asked Questions</h1>
         <p className="text-text-muted mt-2">Everything you need to know about funding and creating pools.</p>
       </div>
       <div className="space-y-3">

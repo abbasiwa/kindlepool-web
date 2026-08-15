@@ -54,7 +54,7 @@ export function FiatOnramp() {
         <div className="w-16 h-16 rounded-full bg-success/20 flex items-center justify-center mx-auto">
           <Check className="text-success" size={32} />
         </div>
-        <h3 className="text-xl font-bold">Check your email</h3>
+        <h3 className="text-xl font-display font-semibold text-text-primary tracking-tight">Check your email</h3>
         <p className="text-sm text-text-muted">We sent a login link to {email || user?.email}. Open it to continue.</p>
         <Button onClick={reset} variant="secondary">Done</Button>
       </motion.div>
@@ -76,7 +76,7 @@ export function FiatOnramp() {
       {step === 'select' && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
           <button onClick={() => { setMethod('existing'); setStep('amount') }}
-            className="w-full flex items-center gap-3 p-4 rounded-xl bg-surface-2 hover:bg-cream-300 transition-colors text-left">
+            className="w-full flex items-center gap-3 p-4 rounded-xl bg-surface-2 hover:bg-surface-hover transition-colors text-left">
             <Wallet size={20} className="text-accent-primary shrink-0" />
             <div>
               <p className="font-medium text-sm">Use my wallet</p>
@@ -84,7 +84,7 @@ export function FiatOnramp() {
             </div>
           </button>
           <button onClick={() => { setMethod('email'); setStep('amount') }}
-            className="w-full flex items-center gap-3 p-4 rounded-xl bg-surface-2 hover:bg-cream-300 transition-colors text-left">
+            className="w-full flex items-center gap-3 p-4 rounded-xl bg-surface-2 hover:bg-surface-hover transition-colors text-left">
             <Mail size={20} className="text-accent-primary shrink-0" />
             <div>
               <p className="font-medium text-sm">Sign in with email</p>
@@ -115,7 +115,7 @@ export function FiatOnramp() {
                 {[10, 25, 50, 100].map((a) => (
                   <button key={a} onClick={() => setFiatAmount(String(a))}
                     className={`flex-1 py-2 text-sm rounded-xl font-medium transition-colors ${
-                      fiatAmount === String(a) ? 'bg-accent-primary text-accent-foreground' : 'bg-surface-2 hover:bg-cream-300'
+                      fiatAmount === String(a) ? 'bg-accent-primary text-accent-foreground' : 'bg-surface-2 hover:bg-surface-hover'
                     }`}>${a}</button>
                 ))}
               </div>

@@ -17,7 +17,7 @@ export function Docs() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-text-primary">Documentation</h1>
+        <h1 className="text-3xl font-display font-semibold text-text-primary tracking-tight text-text-primary">Documentation</h1>
         <p className="text-text-muted mt-2">Technical documentation for builders and researchers.</p>
       </div>
 

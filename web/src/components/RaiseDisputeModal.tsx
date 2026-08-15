@@ -61,7 +61,7 @@ export function RaiseDisputeModal({ open, onClose, poolTitle, goalAmount, poolSt
           <AlertTriangle size={20} className="text-warning shrink-0 mt-0.5" />
           <div>
             <p className="text-sm font-medium">Disputing: {poolTitle}</p>
-            <p className="text-xs text-muted-100 mt-1">
+            <p className="text-xs text-text-muted mt-1">
               Raising a dispute requires a fee of <strong>{feeAmount} USDC</strong> (1% of pool goal). 
               If you win, the fee is returned. Appeals cost <strong>{appealFee} USDC</strong>.
             </p>
@@ -69,15 +69,15 @@ export function RaiseDisputeModal({ open, onClose, poolTitle, goalAmount, poolSt
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-muted-200">Reason</label>
+          <label className="text-sm font-medium text-text-secondary">Reason</label>
           <div className="flex gap-2">
             <button onClick={() => setReason('rejected')}
               className={`flex-1 py-3 rounded-xl text-sm font-medium transition-colors ${
-                reason === 'rejected' ? 'bg-warm-300 text-cream-50' : 'bg-cream-200 hover:bg-cream-300'
+                reason === 'rejected' ? 'bg-accent-primary text-text-inverse' : 'bg-surface-hover hover:bg-surface-hover'
               }`}>Work Rejected Unfairly</button>
             <button onClick={() => setReason('no_delivery')}
               className={`flex-1 py-3 rounded-xl text-sm font-medium transition-colors ${
-                reason === 'no_delivery' ? 'bg-warm-300 text-cream-50' : 'bg-cream-200 hover:bg-cream-300'
+                reason === 'no_delivery' ? 'bg-accent-primary text-text-inverse' : 'bg-surface-hover hover:bg-surface-hover'
               }`}>Work Not Delivered</button>
           </div>
         </div>
@@ -86,10 +86,10 @@ export function RaiseDisputeModal({ open, onClose, poolTitle, goalAmount, poolSt
           onChange={(e) => setEvidenceHash(e.target.value)}
           placeholder="Qm..." />
 
-        <div className="bg-cream-200 rounded-xl p-3 space-y-1.5 text-sm">
-          <div className="flex justify-between"><span className="text-muted-100">Dispute Fee</span><span>{feeAmount} USDC</span></div>
+        <div className="bg-surface-hover rounded-xl p-3 space-y-1.5 text-sm">
+          <div className="flex justify-between"><span className="text-text-muted">Dispute Fee</span><span>{feeAmount} USDC</span></div>
           <div className="flex justify-between">
-            <span className="text-muted-100">Your Wallet</span>
+            <span className="text-text-muted">Your Wallet</span>
             <span className="font-mono text-xs">{address ? `${address.slice(0, 8)}...${address.slice(-4)}` : 'Not connected'}</span>
           </div>
         </div>

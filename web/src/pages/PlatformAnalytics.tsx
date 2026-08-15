@@ -22,7 +22,7 @@ const categoryBreakdown = [
   { name: 'Other', value: 7 },
 ]
 
-const COLORS = ['#C4956A', '#D4A574', '#E8D5C4', '#B8845A', '#A0704A']
+const COLORS = ['#1F8A50', '#49B374', '#ABE0BD', '#1A7044', '#155738']
 
 const mockStats = [
   { label: 'Total Volume', value: '15,800 USDC', change: '+18%', icon: <DollarSign size={20} /> },
@@ -44,8 +44,8 @@ export function PlatformAnalytics() {
   if (!connected) {
     return (
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center py-16">
-        <h1 className="text-3xl font-bold mb-4">Platform Analytics</h1>
-        <p className="text-muted-100">Connect your wallet to view platform analytics.</p>
+        <h1 className="text-3xl font-display font-semibold text-text-primary tracking-tight mb-4">Platform Analytics</h1>
+        <p className="text-text-muted">Connect your wallet to view platform analytics.</p>
       </motion.div>
     )
   }
@@ -53,10 +53,10 @@ export function PlatformAnalytics() {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-8">
       <div className="flex items-center gap-3">
-        <TrendingUp className="text-warm-300" size={28} />
+        <TrendingUp className="text-accent-primary" size={28} />
         <div>
-          <h1 className="text-3xl font-bold">Platform Analytics</h1>
-          <p className="text-muted-100 mt-1">KindlePool platform-wide metrics</p>
+          <h1 className="text-3xl font-display font-semibold text-text-primary tracking-tight">Platform Analytics</h1>
+          <p className="text-text-muted mt-1">KindlePool platform-wide metrics</p>
         </div>
       </div>
 
@@ -64,11 +64,11 @@ export function PlatformAnalytics() {
         {mockStats.map((s) => (
           <Card key={s.label} className="!p-4 space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-muted-100">{s.icon}</span>
+              <span className="text-text-muted">{s.icon}</span>
               <span className="text-xs text-success font-medium">{s.change}</span>
             </div>
-            <div className="text-2xl font-bold">{s.value}</div>
-            <div className="text-xs text-muted-100">{s.label}</div>
+            <div className="text-2xl font-display font-semibold text-text-primary tracking-tight">{s.value}</div>
+            <div className="text-xs text-text-muted">{s.label}</div>
           </Card>
         ))}
       </div>
@@ -82,10 +82,10 @@ export function PlatformAnalytics() {
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={weeklyVolume}>
-                  <XAxis dataKey="week" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#8A7A6A' }} />
-                  <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#8A7A6A' }} />
+                  <XAxis dataKey="week" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#7E8A85' }} />
+                  <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#7E8A85' }} />
                   <Tooltip />
-                  <Bar dataKey="volume" fill="#C4956A" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="volume" fill="#1F8A50" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -96,10 +96,10 @@ export function PlatformAnalytics() {
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={weeklyVolume}>
-                  <XAxis dataKey="week" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#8A7A6A' }} />
-                  <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#8A7A6A' }} />
+                  <XAxis dataKey="week" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#7E8A85' }} />
+                  <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#7E8A85' }} />
                   <Tooltip />
-                  <Line type="monotone" dataKey="pools" stroke="#D4A574" strokeWidth={2} dot={{ fill: '#D4A574', r: 4 }} />
+                  <Line type="monotone" dataKey="pools" stroke="#49B374" strokeWidth={2} dot={{ fill: '#49B374', r: 4 }} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -110,7 +110,7 @@ export function PlatformAnalytics() {
       {activeTab === 'creators' && (
         <Card className="space-y-4">
           <h3 className="font-bold">Creator Growth</h3>
-          <p className="text-sm text-muted-100">Metrics will be available once data is indexed.</p>
+          <p className="text-sm text-text-muted">Metrics will be available once data is indexed.</p>
         </Card>
       )}
 
@@ -130,7 +130,7 @@ export function PlatformAnalytics() {
               {categoryBreakdown.map((d, i) => (
                 <div key={d.name} className="flex items-center gap-2 text-xs">
                   <span className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[i] }} />
-                  <span className="text-muted-100">{d.name}</span>
+                  <span className="text-text-muted">{d.name}</span>
                   <span className="font-medium">{d.value}%</span>
                 </div>
               ))}

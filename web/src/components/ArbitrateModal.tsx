@@ -58,7 +58,7 @@ export function ArbitrateModal({ open, onClose, poolId, disputeId, poolTitle, on
         <div className="flex gap-3">
           <button onClick={() => setVoteForCreator(true)}
             className={`flex-1 p-4 rounded-xl text-center transition-all ${
-              voteForCreator === true ? 'bg-success/20 border-2 border-success' : 'bg-surface-2 hover:bg-cream-300 border-2 border-transparent'
+              voteForCreator === true ? 'bg-success/20 border-2 border-success' : 'bg-surface-2 hover:bg-surface-hover border-2 border-transparent'
             }`}>
             <ThumbsUp size={24} className={`mx-auto mb-1 ${voteForCreator === true ? 'text-success' : 'text-text-muted'}`} />
             <p className={`text-sm font-medium ${voteForCreator === true ? 'text-success' : ''}`}>For Creator</p>
@@ -66,7 +66,7 @@ export function ArbitrateModal({ open, onClose, poolId, disputeId, poolTitle, on
           </button>
           <button onClick={() => setVoteForCreator(false)}
             className={`flex-1 p-4 rounded-xl text-center transition-all ${
-              voteForCreator === false ? 'bg-error/20 border-2 border-error' : 'bg-surface-2 hover:bg-cream-300 border-2 border-transparent'
+              voteForCreator === false ? 'bg-error/20 border-2 border-error' : 'bg-surface-2 hover:bg-surface-hover border-2 border-transparent'
             }`}>
             <ThumbsDown size={24} className={`mx-auto mb-1 ${voteForCreator === false ? 'text-error' : 'text-text-muted'}`} />
             <p className={`text-sm font-medium ${voteForCreator === false ? 'text-error' : ''}`}>For Supporters</p>

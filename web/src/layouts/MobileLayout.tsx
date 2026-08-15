@@ -11,7 +11,7 @@ export function MobileLayout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-surface-0 text-text-primary flex flex-col">
       <Header />
-      <main className="flex-1 w-full max-w-3xl mx-auto px-4 pt-4 pb-28">{children}</main>
+      <main className="flex-1 w-full max-w-3xl mx-auto px-4 sm:px-6 pt-6 pb-28">{children}</main>
       <BottomNav />
       <Footer />
     </div>

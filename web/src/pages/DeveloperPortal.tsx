@@ -50,13 +50,13 @@ export function DeveloperPortal() {
       <div className="flex items-center gap-3">
         <Code className="text-accent-primary" size={28} />
         <div>
-          <h1 className="text-3xl font-bold text-text-primary">Developer Portal</h1>
+          <h1 className="text-3xl font-display font-semibold text-text-primary tracking-tight text-text-primary">Developer Portal</h1>
           <p className="text-text-muted mt-1">Build on KindlePool with our API and SDK</p>
         </div>
       </div>
 
       <Card className="space-y-4">
-        <h2 className="text-xl font-bold text-text-primary">Quick Start</h2>
+        <h2 className="text-xl font-display font-semibold text-text-primary tracking-tight text-text-primary">Quick Start</h2>
         <div className="bg-surface-2 rounded-xl p-4 font-mono text-sm space-y-2">
           <p className="text-text-muted"># Install the SDK</p>
           <p className="text-text-primary font-medium">npm install @abbasiwa/kindlepool-sdk</p>
@@ -72,7 +72,7 @@ export function DeveloperPortal() {
       <Card className="space-y-4">
         <div className="flex items-center gap-3">
           <Key className="text-accent-primary" size={20} />
-          <h2 className="text-xl font-bold text-text-primary">API Keys</h2>
+          <h2 className="text-xl font-display font-semibold text-text-primary tracking-tight text-text-primary">API Keys</h2>
         </div>
         {!generatedKey ? (
           <div className="space-y-4">
@@ -89,7 +89,7 @@ export function DeveloperPortal() {
             <div className="flex items-center gap-2 bg-surface-2 rounded-xl p-3">
               <code className="flex-1 text-sm font-mono break-all">{generatedKey}</code>
               <button onClick={() => { copyToClipboard(generatedKey); setCopied(true) }}
-                className="p-2 rounded-lg hover:bg-cream-300 transition-colors">
+                className="p-2 rounded-lg hover:bg-surface-hover transition-colors">
                 {copied ? <Check size={16} className="text-success" /> : <Copy size={16} />}
               </button>
             </div>
@@ -102,7 +102,7 @@ export function DeveloperPortal() {
       <Card className="space-y-4">
         <div className="flex items-center gap-3">
           <Globe className="text-accent-primary" size={20} />
-          <h2 className="text-xl font-bold text-text-primary">API Endpoints</h2>
+          <h2 className="text-xl font-display font-semibold text-text-primary tracking-tight text-text-primary">API Endpoints</h2>
         </div>
         <div className="space-y-2">
           {API_ENDPOINTS.map((ep) => (

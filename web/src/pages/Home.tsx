@@ -1,34 +1,23 @@
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Card, Button, ProgressBar } from '../components/ui'
+import { Button, ProgressBar, Card } from '../components/ui'
+import { LeafGlyph } from '../components/ui'
 import { useWallet } from '../lib/wallet'
 import { getApi } from '../lib/sdk'
 import { useMeta } from '../lib/seo'
-import { Sparkles, Users, Shield } from 'lucide-react'
+import { Sparkles, Users, ShieldCheck } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import type { PoolData } from '@abbasiwa/kindlepool-sdk'
 
 const features = [
-  {
-    icon: <Sparkles size={24} />,
-    title: 'Fund Specific Work',
-    desc: 'Support a particular project, not a creator. Your money goes to the work you believe in.',
-  },
-  {
-    icon: <Users size={24} />,
-    title: 'Community Voted',
-    desc: 'Supporters vote on quality. Funds release only if the work meets the community standard.',
-  },
-  {
-    icon: <Shield size={24} />,
-    title: 'Automated Refunds',
-    desc: 'If the goal isn\'t met or work is rejected, funds automatically return to supporters.',
-  },
+  { icon: <Sparkles size={22} />, title: 'Fund Specific Work', desc: 'Support a particular project, not a creator. Your money goes to the work you believe in.' },
+  { icon: <Users size={22} />, title: 'Community Voted', desc: 'Supporters vote on quality. Funds release only if the work meets the community standard.' },
+  { icon: <ShieldCheck size={22} />, title: 'Automated Refunds', desc: "If the goal isn't met or work is rejected, funds automatically return to supporters." },
 ]
 
 function fmt(n: string): string {
   const big = BigInt(n || '0')
-  return big >= 1_000_000n ? `${Number(big) / 1_000_000} USDC` : `${big} units`
+  return big >= 1_000_000n ? `${(Number(big) / 1_000_000).toLocaleString()} USDC` : `${big.toLocaleString()} units`
 }
 
 function daysLeft(deadline: number): string {
@@ -47,85 +36,89 @@ export function Home() {
     let cancelled = false
     getApi().listPools({ limit: 3, sort: 'most_funded' })
       .then((r) => { if (!cancelled) setFeatured(r.data ?? []) })
-      .catch(() => { /* backend may be down; keep empty */ })
+      .catch(() => {})
     return () => { cancelled = true }
   }, [])
 
   return (
-    <div className="space-y-16">
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="text-center py-16 space-y-6"
-      >
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-text-light leading-tight max-w-2xl mx-auto">
-          Fund the <span className="text-warm-300">work</span>,<br />
-          not the creator
-        </h1>
-        <p className="text-lg text-muted-100 max-w-xl mx-auto leading-relaxed">
-          Micro-sponsor pools for creators. Money pools trustlessly on Stellar, 
-          releases only if quality thresholds are met, and auto-refunds otherwise.
-        </p>
-        <div className="flex items-center justify-center gap-4 pt-4">
-          <Button size="lg" onClick={() => navigate('/explore')}>Explore Pools</Button>
-          <Button size="lg" variant="secondary" onClick={() => navigate('/create')}>Create a Pool</Button>
+    <div className="space-y-20">
+      {/* Hero */}
+      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-surface-0 via-mint-50 to-surface-0 border border-border-subtle">
+        <div className="pointer-events-none absolute -top-24 -right-24 w-96 h-96 rounded-full bg-accent-soft blur-3xl opacity-60" />
+        <div className="pointer-events-none absolute -bottom-32 -left-20 w-80 h-80 rounded-full bg-leaf-200/30 blur-3xl" />
+        <div className="relative px-6 sm:px-12 py-16 sm:py-24 max-w-3xl">
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-soft text-accent-primary text-xs font-semibold uppercase tracking-wider mb-6">
+            <LeafGlyph size={14} /> On Stellar Soroban
+          </span>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-text-primary leading-[1.05] tracking-tight">
+            Fund the <span className="text-accent-primary">work</span>,
+            <br />
+            not the creator
+          </h1>
+          <p className="mt-6 text-lg text-text-secondary leading-relaxed max-w-xl">
+            Micro-sponsor pools for creators. Money pools trustlessly on Stellar, releases only if quality thresholds are met, and auto-refunds otherwise.
+          </p>
+          <div className="mt-8 flex flex-col sm:flex-row gap-3">
+            <Button size="xl" onClick={() => navigate('/explore')}>Explore Pools</Button>
+            <Button size="xl" variant="secondary" onClick={() => navigate('/create')}>Create a Pool</Button>
+          </div>
         </div>
-      </motion.section>
+      </section>
 
-      <motion.section
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="grid md:grid-cols-3 gap-6"
-      >
+      {/* Features */}
+      <section className="grid md:grid-cols-3 gap-5">
         {features.map((f, i) => (
-          <Card key={i} hover className="text-center space-y-4">
-            <div className="w-12 h-12 rounded-full bg-warm-100/50 flex items-center justify-center mx-auto text-warm-300">
-              {f.icon}
-            </div>
-            <h3 className="font-bold text-lg">{f.title}</h3>
-            <p className="text-sm text-muted-100 leading-relaxed">{f.desc}</p>
-          </Card>
+          <motion.div key={i} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.1 }}>
+            <Card hover className="h-full p-7 space-y-4">
+              <span className="inline-flex w-11 h-11 items-center justify-center rounded-2xl bg-accent-soft text-accent-primary">
+                {f.icon}
+              </span>
+              <h3 className="font-display font-semibold text-lg text-text-primary">{f.title}</h3>
+              <p className="text-sm text-text-muted leading-relaxed">{f.desc}</p>
+            </Card>
+          </motion.div>
         ))}
-      </motion.section>
+      </section>
 
-      <motion.section
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="space-y-6"
-      >
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold">Trending Pools</h2>
+      {/* Trending */}
+      <section className="space-y-8">
+        <div className="flex items-end justify-between">
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-display font-semibold text-text-primary tracking-tight">Trending Pools</h2>
+            <p className="text-text-muted mt-1">Discover what creators are raising right now</p>
+          </div>
           <Button variant="ghost" size="sm" onClick={() => navigate('/explore')}>View all →</Button>
         </div>
+
         {featured.length === 0 ? (
-          <p className="text-center text-muted-100 py-8">No pools yet. Be the first to create one!</p>
+          <div className="rounded-2xl border border-dashed border-border-strong py-20 px-6 text-center">
+            <LeafGlyph size={32} className="mx-auto mb-4 text-accent-primary" />
+            <p className="text-text-muted font-medium">No pools yet. Be the first to create one!</p>
+            <div className="mt-4">
+              <Button onClick={() => navigate('/create')}>Create a Pool</Button>
+            </div>
+          </div>
         ) : (
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-5">
             {featured.map((pool, i) => (
-              <motion.div
-                key={pool.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
-              >
+              <motion.div key={pool.id} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.1 }}>
                 <div onClick={() => navigate(`/pool/${pool.id}`)}>
-                  <Card hover className="space-y-4">
-                    <div>
-                      <h3 className="font-bold text-base">Pool #{pool.id}</h3>
-                      <p className="text-sm text-muted-100 font-mono">{`${pool.creator.slice(0, 8)}...${pool.creator.slice(-4)}`}</p>
+                  <Card hover className="h-full p-6 space-y-5">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <h3 className="font-display font-semibold text-lg text-text-primary">Pool #{pool.id}</h3>
+                        <p className="text-sm text-text-muted font-mono mt-0.5">{`${pool.creator.slice(0, 6)}...${pool.creator.slice(-4)}`}</p>
+                      </div>
+                      <span className="inline-flex w-9 h-9 items-center justify-center rounded-xl bg-accent-soft text-accent-primary">
+                        <LeafGlyph size={18} />
+                      </span>
                     </div>
                     <ProgressBar value={Number(pool.total_deposited || '0')} max={Number(pool.goal || '1')} />
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-100">{fmt(pool.total_deposited)} / {fmt(pool.goal)}</span>
-                      <span className="text-warm-300 font-medium">{pool.total_supporters} supporters</span>
+                      <span className="text-text-muted">{fmt(pool.total_deposited)} <span className="text-border-strong">/</span> {fmt(pool.goal)}</span>
+                      <span className="text-accent-primary font-medium">{pool.total_supporters} supporters</span>
                     </div>
-                    <div className="flex items-center justify-between text-xs text-muted-100">
+                    <div className="flex items-center justify-between text-xs text-text-muted">
                       <span>{daysLeft(pool.deadline)}</span>
                       <Button size="sm" onClick={(e) => { e.stopPropagation(); navigate(`/pool/${pool.id}`) }}>
                         {connected ? 'Fund' : 'View'}
@@ -137,7 +130,7 @@ export function Home() {
             ))}
           </div>
         )}
-      </motion.section>
+      </section>
     </div>
   )
 }

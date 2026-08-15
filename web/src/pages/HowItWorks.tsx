@@ -14,7 +14,7 @@ export function HowItWorks() {
   return (
     <div className="max-w-3xl mx-auto space-y-10">
       <div>
-        <h1 className="text-3xl md:text-4xl font-bold text-text-primary">How It Works</h1>
+        <h1 className="text-3xl md:text-4xl font-display font-bold text-text-primary tracking-tight text-text-primary">How It Works</h1>
         <p className="text-text-muted mt-2">A simple, trustless loop: create → fund → deliver → vote → settle.</p>
       </div>
       <div className="space-y-4">

@@ -13,7 +13,7 @@ export function About() {
   return (
     <div className="max-w-3xl mx-auto space-y-10">
       <div className="space-y-4">
-        <h1 className="text-3xl md:text-4xl font-bold text-text-primary">About KindlePool</h1>
+        <h1 className="text-3xl md:text-4xl font-display font-bold text-text-primary tracking-tight text-text-primary">About KindlePool</h1>
         <p className="text-lg text-text-muted leading-relaxed">
           KindlePool is a creator-funding platform on Stellar Soroban. Creators raise micro-sponsor pools for specific pieces of work — a video, a song, a feature, an article. Supporters fund the work, not the creator. If the goal isn't met or the work is rejected, funds automatically return.
         </p>
