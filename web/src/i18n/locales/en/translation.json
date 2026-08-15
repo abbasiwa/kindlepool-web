@@ -1,14 +1,11 @@
 {
   "nav": {
     "explore": "Explore",
-    "create": "Create",
     "dashboard": "Dashboard",
-    "addFunds": "Add Funds",
-    "connect": "Connect Wallet",
-    "disconnect": "Disconnect",
-    "connecting": "Connecting...",
     "home": "Home",
-    "more": "Menu"
+    "more": "Menu",
+    "signIn": "Sign In",
+    "signOut": "Sign Out"
   },
   "home": {
     "hero": {

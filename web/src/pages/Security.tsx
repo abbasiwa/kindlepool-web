@@ -18,7 +18,7 @@ export function Security() {
         </Card>
         <Card className="space-y-2">
           <h3 className="font-semibold">Audited contract</h3>
-          <p className="text-sm text-text-muted">84/84 tests, 98% coverage, B1.3 audit with all must-fix findings resolved.</p>
+          <p className="text-sm text-text-muted">The Soroban contract ships with a full test suite, exercised in CI against a simulated ledger.</p>
         </Card>
         <Card className="space-y-2">
           <h3 className="font-semibold">Auto-refunds</h3>

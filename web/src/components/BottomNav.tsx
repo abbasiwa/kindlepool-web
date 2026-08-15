@@ -1,21 +1,28 @@
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Home, Compass, PlusCircle, User, MoreHorizontal } from 'lucide-react'
+import { Home, Compass, UserCircle, MoreHorizontal } from 'lucide-react'
 import { MobileMenu } from './MobileMenu'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-
-const items = [
-  { to: '/', label: 'nav.home', icon: Home },
-  { to: '/explore', label: 'nav.explore', icon: Compass },
-  { to: '/create', label: 'nav.create', icon: PlusCircle, prominent: true },
-  { to: '/dashboard', label: 'nav.dashboard', icon: User },
-]
+import { useAuth } from '../lib/auth'
 
 export function BottomNav() {
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const { t } = useTranslation()
+  const { user } = useAuth()
   const [menuOpen, setMenuOpen] = useState(false)
+
+  const items = user
+    ? [
+        { to: '/', label: 'nav.home', icon: Home },
+        { to: '/explore', label: 'nav.explore', icon: Compass },
+        { to: '/dashboard', label: 'nav.dashboard', icon: UserCircle, prominent: true },
+      ]
+    : [
+        { to: '/', label: 'nav.home', icon: Home },
+        { to: '/explore', label: 'nav.explore', icon: Compass },
+        { to: '/login', label: 'nav.signIn', icon: UserCircle, prominent: true },
+      ]
 
   return (
     <>
@@ -29,7 +36,7 @@ export function BottomNav() {
                 <div key={item.to} className="relative flex-1 flex justify-center">
                   <button
                     onClick={() => navigate(item.to)}
-                    aria-label={item.label}
+                    aria-label={t(item.label)}
                     className={`absolute -top-5 flex flex-col items-center justify-center w-14 h-14 rounded-2xl border shadow-card transition-all ${
                       active
                         ? 'bg-accent-primary text-accent-foreground border-accent-hover'

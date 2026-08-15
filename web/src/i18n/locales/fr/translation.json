@@ -1,14 +1,11 @@
 {
   "nav": {
     "explore": "Explorer",
-    "create": "Créer",
     "dashboard": "Tableau de bord",
-    "addFunds": "Ajouter des fonds",
-    "connect": "Connecter le portefeuille",
-    "disconnect": "Déconnecter",
-    "connecting": "Connexion...",
     "home": "Accueil",
-    "more": "Menu"
+    "more": "Menu",
+    "signIn": "Se connecter",
+    "signOut": "Se déconnecter"
   },
   "home": {
     "hero": {

@@ -4,8 +4,10 @@ export interface AuthUser {
   id: string
   email: string
   displayName?: string
+  bio?: string
   walletAddress?: string | null
   linkedWallets?: string[]
+  preferences?: Record<string, unknown>
 }
 
 export interface AuthContextType {
@@ -17,6 +19,7 @@ export interface AuthContextType {
   verifyToken: (token: string) => Promise<{ ok: boolean; error?: string }>
   requestWalletChallenge: () => Promise<{ ok: boolean; challenge?: string; error?: string }>
   linkWallet: (wallet: string, challenge: string, signature: string) => Promise<{ ok: boolean; error?: string }>
+  updateProfile: (patch: { displayName?: string; bio?: string; preferences?: Record<string, unknown> }) => Promise<{ ok: boolean; error?: string }>
   refresh: () => Promise<void>
 }
 
@@ -28,7 +31,7 @@ const AuthContext = createContext<AuthContextType>({
   login: async () => ({ ok: false }), logout: async () => {},
   verifyToken: async () => ({ ok: false }),
   requestWalletChallenge: async () => ({ ok: false }),
-  linkWallet: async () => ({ ok: false }), refresh: async () => {},
+  linkWallet: async () => ({ ok: false }), updateProfile: async () => ({ ok: false }), refresh: async () => {},
 })
 
 function authHeaders(token: string): Record<string, string> {
@@ -151,8 +154,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [refresh])
 
+  const updateProfile = useCallback(async (patch: { displayName?: string; bio?: string; preferences?: Record<string, unknown> }) => {
+    const t = localStorage.getItem(TOKEN_KEY)
+    if (!t) return { ok: false, error: 'Not logged in' }
+    try {
+      const res = await apiFetch('/auth/me', {
+        method: 'PATCH',
+        headers: authHeaders(t),
+        body: JSON.stringify(patch),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) return { ok: false, error: data.error ?? 'Failed to update profile' }
+      persist(t, data.user)
+      setUser(data.user)
+      return { ok: true }
+    } catch {
+      return { ok: false, error: 'Network error' }
+    }
+  }, [])
+
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout, verifyToken, requestWalletChallenge, linkWallet, refresh }}>
+    <AuthContext.Provider value={{ user, token, loading, login, logout, verifyToken, requestWalletChallenge, linkWallet, updateProfile, refresh }}>
       {children}
     </AuthContext.Provider>
   )

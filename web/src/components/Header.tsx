@@ -2,28 +2,33 @@ import { useState, useRef, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useWallet } from '../lib/wallet'
 import { useAuth } from '../lib/auth'
 import { Button } from './ui'
 import { NotificationBell } from './NotificationBell'
 import { Logo } from './Logo'
-import { Wallet, Globe, Plus } from 'lucide-react'
+import { Globe, LogOut, UserCircle } from 'lucide-react'
 
-const NAV = [
+const PUBLIC_NAV = [
   { to: '/explore', key: 'nav.explore' },
-  { to: '/create', key: 'nav.create' },
+  { to: '/pricing', label: 'Pricing' },
+  { to: '/how-it-works', label: 'How It Works' },
+  { to: '/faq', label: 'FAQ' },
+  { to: '/docs', label: 'Docs' },
+]
+
+const AUTH_NAV = [
   { to: '/dashboard', key: 'nav.dashboard' },
+  { to: '/explore', key: 'nav.explore' },
+  { to: '/settings', label: 'Settings' },
 ]
 
 export function Header() {
   const { t, i18n } = useTranslation()
-  const { address, connected, connecting, connect, disconnect } = useWallet()
-  const { user } = useAuth()
+  const { user, logout } = useAuth()
   const [langOpen, setLangOpen] = useState(false)
   const langRef = useRef<HTMLDivElement>(null)
   const location = useLocation()
 
-  const truncate = (addr: string) => `${addr.slice(0, 4)}...${addr.slice(-4)}`
   const languages = [
     { code: 'en', label: 'EN' },
     { code: 'es', label: 'ES' },
@@ -38,6 +43,7 @@ export function Header() {
     return () => document.removeEventListener('mousedown', handler)
   }, [])
 
+  const nav = user ? AUTH_NAV : PUBLIC_NAV
   const active = (to: string) => location.pathname === to
 
   return (
@@ -48,9 +54,9 @@ export function Header() {
           <Logo size={30} />
         </Link>
 
-        {/* ── Tablet + Desktop: full nav ── */}
+        {/* ── Tablet + Desktop: role-aware nav ── */}
         <nav className="hidden md:flex items-center gap-1">
-          {NAV.map((item) => (
+          {nav.map((item) => (
             <Link
               key={item.to}
               to={item.to}
@@ -58,21 +64,14 @@ export function Header() {
                 active(item.to) ? 'text-accent-primary bg-accent-soft' : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'
               }`}
             >
-              {t(item.key)}
+              {item.label ?? t(item.key)}
             </Link>
           ))}
-          <Link
-            to="/add-funds"
-            className="ml-1 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold text-accent-foreground bg-accent-primary hover:bg-accent-hover transition-colors"
-          >
-            <Plus size={16} strokeWidth={2.5} />
-            {t('nav.addFunds')}
-          </Link>
         </nav>
 
         {/* ── Right actions ── */}
         <div className="flex items-center gap-1.5">
-          <NotificationBell />
+          {user && <NotificationBell />}
 
           {/* Language (desktop only) */}
           <div ref={langRef} className="relative hidden lg:block">
@@ -107,41 +106,44 @@ export function Header() {
             </AnimatePresence>
           </div>
 
-          {/* Mobile: menu is in bottom nav; desktop: wallet */}
-          <div className="hidden sm:block">
-            {connected ? (
-              <div className="flex items-center gap-2 pl-1">
-                <span className="text-sm text-text-muted">
-                  <Wallet size={14} className="inline mr-1" />
-                  {address ? truncate(address) : ''}
-                </span>
-                <Button size="sm" variant="ghost" onClick={disconnect}>{t('nav.disconnect')}</Button>
-              </div>
-            ) : (
-              <Button size="sm" onClick={connect} loading={connecting}>
-                {connecting ? t('nav.connecting') : user ? user.email?.split('@')[0] : t('nav.connect')}
+          {/* Auth-aware account area (desktop) */}
+          {user ? (
+            <div className="hidden md:flex items-center gap-2 pl-1">
+              <Link
+                to="/settings"
+                className="flex items-center gap-2 pl-1.5 pr-3 py-1.5 rounded-xl hover:bg-surface-hover transition-colors"
+              >
+                <UserCircle size={20} className="text-accent-primary" />
+                <span className="text-sm text-text-primary font-medium">{user.email?.split('@')[0]}</span>
+              </Link>
+              <Button size="sm" variant="ghost" onClick={logout}>
+                <LogOut size={15} /> {t('nav.signOut')}
               </Button>
-            )}
-          </div>
-
-          {/* Mobile: compact connect */}
-          {connected ? (
-            <button
-              onClick={disconnect}
-              className="sm:hidden p-2 rounded-xl text-accent-primary hover:bg-accent-soft transition-colors"
-              aria-label={t('nav.disconnect')}
-            >
-              <Wallet size={20} />
-            </button>
+            </div>
           ) : (
-            <button
-              onClick={connect}
-              className="sm:hidden inline-flex items-center gap-1.5 px-3 h-9 rounded-xl text-sm font-semibold text-accent-foreground bg-accent-primary hover:bg-accent-hover transition-colors"
-              aria-label={t('nav.connect')}
+            <div className="hidden md:block">
+              <Button size="sm" onClick={() => window.location.assign('/login')}>
+                {t('nav.signIn')}
+              </Button>
+            </div>
+          )}
+
+          {/* Mobile auth button */}
+          {user ? (
+            <Link
+              to="/settings"
+              className="sm:hidden inline-flex items-center justify-center w-9 h-9 rounded-xl text-accent-primary hover:bg-accent-soft transition-colors"
+              aria-label="Settings"
             >
-              <Wallet size={16} />
-              {connecting ? t('nav.connecting') : user ? user.email?.split('@')[0] : t('nav.connect')}
-            </button>
+              <UserCircle size={22} />
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              className="sm:hidden inline-flex items-center px-3 h-9 rounded-xl text-sm font-semibold text-accent-foreground bg-accent-primary hover:bg-accent-hover transition-colors"
+            >
+              {t('nav.signIn')}
+            </Link>
           )}
         </div>
       </div>

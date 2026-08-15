@@ -3,13 +3,11 @@ import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { Logo } from './Logo'
-import { useWallet } from '../lib/wallet'
 import { useAuth } from '../lib/auth'
 import { Button } from './ui'
 import {
-  LayoutDashboard, Trophy, AlertTriangle, Wallet, CreditCard,
-  Code2, BookOpen, CircleHelp, StickyNote, Activity, Info,
-  Shield, Scale, FileText, X, Globe,
+  LayoutDashboard, Wallet, Code2, BookOpen, CircleHelp, StickyNote, Info,
+  Shield, Scale, FileText, X, Globe, LogOut, Compass, Settings, CreditCard,
 } from 'lucide-react'
 
 interface MobileMenuProps {
@@ -17,25 +15,22 @@ interface MobileMenuProps {
   onClose: () => void
 }
 
-const primary = [
-  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/leaderboard', label: 'Leaderboard', icon: Trophy },
-  { to: '/disputes', label: 'Disputes', icon: AlertTriangle },
-  { to: '/add-funds', label: 'Add Funds', icon: CreditCard },
-]
-
-const platform = [
-  { to: '/pricing', label: 'Pricing', icon: Wallet },
-  { to: '/developers', label: 'Developers', icon: Code2 },
+const exploreItems = [
+  { to: '/explore', label: 'Explore', icon: Compass },
+  { to: '/pricing', label: 'Pricing', icon: CreditCard },
   { to: '/how-it-works', label: 'How It Works', icon: BookOpen },
   { to: '/faq', label: 'FAQ', icon: CircleHelp },
   { to: '/docs', label: 'Docs', icon: StickyNote },
+  { to: '/developers', label: 'Developers', icon: Code2 },
 ]
 
-const company = [
+const accountItems = [
+  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { to: '/settings', label: 'Settings', icon: Settings },
+]
+
+const companyItems = [
   { to: '/about', label: 'About', icon: Info },
-  { to: '/changelog', label: 'Changelog', icon: StickyNote },
-  { to: '/status', label: 'Status', icon: Activity },
   { to: '/security', label: 'Security', icon: Shield },
   { to: '/legal/privacy', label: 'Privacy', icon: Scale },
   { to: '/legal/terms', label: 'Terms', icon: FileText },
@@ -43,8 +38,7 @@ const company = [
 
 export function MobileMenu({ open, onClose }: MobileMenuProps) {
   const { t, i18n } = useTranslation()
-  const { connected, connecting, connect, disconnect, address } = useWallet()
-  const { user } = useAuth()
+  const { user, logout } = useAuth()
   const location = useLocation()
 
   // Close on route change
@@ -69,9 +63,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
     { code: 'fr', label: 'Français' },
   ]
 
-  const truncate = (a: string) => `${a.slice(0, 6)}...${a.slice(-4)}`
-
-  const Item = ({ item, onClick }: { item: (typeof primary)[number] | (typeof platform)[number] | (typeof company)[number]; onClick: () => void }) => {
+  const Item = ({ item, onClick }: { item: (typeof exploreItems)[number] | (typeof accountItems)[number] | (typeof companyItems)[number]; onClick: () => void }) => {
     const Icon = item.icon
     const isActive = location.pathname === item.to
     return (
@@ -124,48 +116,48 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
 
             {/* Account */}
             <div className="px-4 pt-3 pb-1 shrink-0">
-              {connected ? (
+              {user ? (
                 <div className="flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-surface-2">
                   <div className="flex items-center gap-2 min-w-0">
                     <Wallet size={16} className="text-accent-primary shrink-0" />
-                    <span className="font-mono text-sm text-text-primary truncate">{address ? truncate(address) : ''}</span>
+                    <span className="text-sm text-text-primary truncate">{user.email}</span>
                   </div>
                   <button
-                    onClick={disconnect}
-                    className="text-xs font-semibold text-text-muted hover:text-text-primary shrink-0"
+                    onClick={async () => { await logout(); onClose() }}
+                    className="text-xs font-semibold text-text-muted hover:text-text-primary shrink-0 flex items-center gap-1"
                   >
-                    {t('nav.disconnect')}
+                    <LogOut size={13} /> {t('nav.signOut')}
                   </button>
                 </div>
               ) : (
-                <Button className="w-full" size="sm" onClick={connect} loading={connecting}>
-                  <Wallet size={16} />
-                  {connecting ? t('nav.connecting') : t('nav.connect')}
+                <Button className="w-full" size="sm" onClick={onClose}>
+                  <Compass size={16} /> {t('nav.signIn')}
                 </Button>
-              )}
-              {user && (
-                <p className="mt-1.5 px-1 text-xs text-text-muted truncate">Signed in as {user.email}</p>
               )}
             </div>
 
             {/* Menu content — compact 2-col grid, fits viewport, no scroll */}
             <div className="flex-1 overflow-hidden px-4 pt-3 pb-2 flex flex-col gap-3">
-              <div>
-                <div className="px-1 pb-1.5 text-[11px] font-semibold uppercase tracking-wider text-text-muted">Account</div>
-                <div className="grid grid-cols-2 gap-1">
-                  {primary.map((item) => <Item key={item.to} item={item} onClick={onClose} />)}
+              {user && (
+                <div>
+                  <div className="px-1 pb-1.5 text-[11px] font-semibold uppercase tracking-wider text-text-muted">Account</div>
+                  <div className="grid grid-cols-2 gap-1">
+                    {accountItems.map((item) => <Item key={item.to} item={item} onClick={onClose} />)}
+                  </div>
                 </div>
-              </div>
+              )}
               <div>
-                <div className="px-1 pb-1.5 text-[11px] font-semibold uppercase tracking-wider text-text-muted">Platform</div>
+                <div className="px-1 pb-1.5 text-[11px] font-semibold uppercase tracking-wider text-text-muted">
+                  {user ? 'Explore' : 'Menu'}
+                </div>
                 <div className="grid grid-cols-2 gap-1">
-                  {platform.map((item) => <Item key={item.to} item={item} onClick={onClose} />)}
+                  {exploreItems.map((item) => <Item key={item.to} item={item} onClick={onClose} />)}
                 </div>
               </div>
               <div>
                 <div className="px-1 pb-1.5 text-[11px] font-semibold uppercase tracking-wider text-text-muted">Company</div>
                 <div className="grid grid-cols-2 gap-1">
-                  {company.map((item) => <Item key={item.to} item={item} onClick={onClose} />)}
+                  {companyItems.map((item) => <Item key={item.to} item={item} onClick={onClose} />)}
                 </div>
               </div>
             </div>

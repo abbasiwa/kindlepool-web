@@ -62,7 +62,7 @@ export function Login() {
         </form>
       </Card>
       <p className="text-xs text-text-muted text-center">
-        In development (no email provider configured) the link is printed to the backend logs.
+        A magic link is sent to your email. Links expire in 10 minutes.
       </p>
     </div>
   )

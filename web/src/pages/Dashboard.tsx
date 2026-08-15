@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Card, Tabs, ProgressBar, Badge } from '../components/ui'
-import { useWallet } from '../lib/wallet'
+import { Card, Tabs, ProgressBar, Badge, Button } from '../components/ui'
+import { useAuth } from '../lib/auth'
 import { getApi } from '../lib/sdk'
+import { useNavigate } from 'react-router-dom'
 import type { PoolData } from '@abbasiwa/kindlepool-sdk'
 
 const tabs = [
@@ -25,19 +26,22 @@ function badgeOf(status: string): 'default' | 'warning' | 'success' | 'error' {
 }
 
 export function Dashboard() {
-  const { connected, address } = useWallet()
+  const { user } = useAuth()
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('created')
   const [created, setCreated] = useState<PoolData[]>([])
   const [funded, setFunded] = useState<PoolData[]>([])
   const [loading, setLoading] = useState(true)
 
+  const wallet = user?.walletAddress ?? user?.linkedWallets?.[0] ?? null
+
   useEffect(() => {
-    if (!connected || !address) return
+    if (!wallet) return
     let cancelled = false
     setLoading(true)
     Promise.all([
-      getApi().getPoolsByCreator(address).catch(() => ({ data: [] as PoolData[] })),
-      getApi().getPoolsBySupporter(address).catch(() => ({ data: [] as PoolData[] })),
+      getApi().getPoolsByCreator(wallet).catch(() => ({ data: [] as PoolData[] })),
+      getApi().getPoolsBySupporter(wallet).catch(() => ({ data: [] as PoolData[] })),
     ])
       .then(([c, f]) => {
         if (cancelled) return
@@ -46,15 +50,18 @@ export function Dashboard() {
       })
       .finally(() => { if (!cancelled) setLoading(false) })
     return () => { cancelled = true }
-  }, [connected, address])
+  }, [wallet])
 
   const history = created.filter((p) => p.status === 'paid' || p.status === 'expired' || p.status === 'cancelled')
 
-  if (!connected) {
+  if (!wallet) {
     return (
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center py-16">
-        <h1 className="text-3xl font-display font-semibold text-text-primary tracking-tight mb-4">Dashboard</h1>
-        <p className="text-text-muted">Connect your wallet to view your dashboard.</p>
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center py-16 max-w-xl mx-auto space-y-4">
+        <h1 className="text-3xl font-display font-semibold text-text-primary tracking-tight">Dashboard</h1>
+        <p className="text-text-muted">
+          Link a Stellar wallet in Settings to see the pools you've created and funded.
+        </p>
+        <Button onClick={() => navigate('/settings')}>Go to Settings</Button>
       </motion.div>
     )
   }

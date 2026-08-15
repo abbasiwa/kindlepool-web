@@ -9,9 +9,8 @@ const faqs = [
   { q: 'Who decides if work is good enough?', a: 'Supporters vote. If the community approves, the creator is paid; if rejected, supporters are refunded.' },
   { q: 'Does it cost anything to use?', a: 'A small platform fee applies on successful payouts. Refunds are free.' },
   { q: 'Is this real money?', a: 'The beta runs on Stellar testnet — no real funds. Launch on mainnet will use real USDC.' },
-  { q: 'Do I need a crypto wallet?', a: 'Yes, the current beta uses a Stellar wallet (e.g. Freighter). Non-crypto login is planned.' },
-  { q: 'Can I dispute a decision?', a: 'Yes — disputed pools are resolved by community arbitrators with a dispute fee that returns if you win.' },
-  { q: 'What is the referral program?', a: 'Referrers earn up to a capped bonus from the platform fee when referred supporters fund a pool.' },
+  { q: 'Do I need a crypto wallet?', a: 'No. Sign in with your email. You can optionally link a Stellar wallet in Settings to view your pool activity.' },
+  { q: 'Can I dispute a decision?', a: 'Disputed pools are resolved by community arbitrators.' },
 ]
 
 export function FAQ() {

@@ -3,9 +3,8 @@ import { Logo } from './Logo'
 
 const product = [
   { to: '/explore', label: 'Explore Pools' },
-  { to: '/create', label: 'Create a Pool' },
   { to: '/pricing', label: 'Pricing' },
-  { to: '/leaderboard', label: 'Leaderboard' },
+  { to: '/developers', label: 'Developers' },
 ]
 
 const resources = [
@@ -13,8 +12,7 @@ const resources = [
   { to: '/faq', label: 'FAQ' },
   { to: '/how-it-works', label: 'How It Works' },
   { to: '/docs', label: 'Documentation' },
-  { to: '/changelog', label: 'Changelog' },
-  { to: '/status', label: 'Status' },
+  { to: '/security', label: 'Security' },
 ]
 
 const legal = [

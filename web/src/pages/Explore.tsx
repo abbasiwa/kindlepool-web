@@ -90,9 +90,6 @@ export function Explore() {
       ) : filtered.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-border-strong py-20 px-6 text-center">
           <p className="text-text-muted font-medium">No pools found.</p>
-          <Link to="/create" className="text-accent-primary mt-2 inline-block hover:text-accent-hover transition-colors">
-            Create one →
-          </Link>
         </div>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">

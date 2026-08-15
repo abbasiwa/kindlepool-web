@@ -1,14 +1,11 @@
 {
   "nav": {
     "explore": "Explorar",
-    "create": "Crear",
     "dashboard": "Panel",
-    "addFunds": "Añadir Fondos",
-    "connect": "Conectar Billetera",
-    "disconnect": "Desconectar",
-    "connecting": "Conectando...",
     "home": "Inicio",
-    "more": "Menú"
+    "more": "Menú",
+    "signIn": "Iniciar sesión",
+    "signOut": "Cerrar sesión"
   },
   "home": {
     "hero": {

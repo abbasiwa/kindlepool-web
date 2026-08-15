@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Button, ProgressBar, Card } from '../components/ui'
 import { LeafGlyph } from '../components/ui'
-import { useWallet } from '../lib/wallet'
 import { getApi } from '../lib/sdk'
 import { useMeta } from '../lib/seo'
 import { Sparkles, Users, ShieldCheck } from 'lucide-react'
@@ -28,7 +27,6 @@ function daysLeft(deadline: number): string {
 
 export function Home() {
   const navigate = useNavigate()
-  const { connected } = useWallet()
   const [featured, setFeatured] = useState<PoolData[]>([])
   useMeta({ description: 'Micro-sponsor pools for creators on Stellar Soroban. Fund specific work, auto-refunds if goals fail.', path: '/' })
 
@@ -60,7 +58,7 @@ export function Home() {
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
             <Button size="xl" onClick={() => navigate('/explore')}>Explore Pools</Button>
-            <Button size="xl" variant="secondary" onClick={() => navigate('/create')}>Create a Pool</Button>
+            <Button size="xl" variant="secondary" onClick={() => navigate('/how-it-works')}>How It Works</Button>
           </div>
         </div>
       </section>
@@ -93,10 +91,7 @@ export function Home() {
         {featured.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-border-strong py-20 px-6 text-center">
             <LeafGlyph size={32} className="mx-auto mb-4 text-accent-primary" />
-            <p className="text-text-muted font-medium">No pools yet. Be the first to create one!</p>
-            <div className="mt-4">
-              <Button onClick={() => navigate('/create')}>Create a Pool</Button>
-            </div>
+            <p className="text-text-muted font-medium">No pools yet.</p>
           </div>
         ) : (
           <div className="grid md:grid-cols-3 gap-5">
@@ -121,7 +116,7 @@ export function Home() {
                     <div className="flex items-center justify-between text-xs text-text-muted">
                       <span>{daysLeft(pool.deadline)}</span>
                       <Button size="sm" onClick={(e) => { e.stopPropagation(); navigate(`/pool/${pool.id}`) }}>
-                        {connected ? 'Fund' : 'View'}
+                        View
                       </Button>
                     </div>
                   </Card>
