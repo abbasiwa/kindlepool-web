@@ -83,7 +83,7 @@ export function Home() {
   const fadeUp = { hidden: { opacity: 0, y: 28 }, show: { opacity: 1, y: 0 } }
 
   return (
-    <div className="overflow-x-clip space-y-24 sm:space-y-32">
+    <div className="space-y-24 sm:space-y-32">
       {/* ── 1. HERO — full-bleed dark editorial split ── */}
       <section className="relative band-dark w-screen left-1/2 -translate-x-1/2 -mt-5 md:-mt-10">
         <div className="pointer-events-none absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #fff 1px, transparent 0)', backgroundSize: '28px 28px' }} />
