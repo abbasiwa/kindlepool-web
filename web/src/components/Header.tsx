@@ -28,6 +28,8 @@ export function Header() {
   const [langOpen, setLangOpen] = useState(false)
   const langRef = useRef<HTMLDivElement>(null)
   const location = useLocation()
+  const isHome = location.pathname === '/home'
+  const [scrolledPastHero, setScrolledPastHero] = useState(false)
 
   const languages = [
     { code: 'en', label: 'EN' },
@@ -43,11 +45,36 @@ export function Header() {
     return () => document.removeEventListener('mousedown', handler)
   }, [])
 
+  // On /home, keep the nav hidden over the full-bleed hero and only reveal it
+  // after the user scrolls past the hero (hero is 100svh tall).
+  useEffect(() => {
+    const update = () => setScrolledPastHero(window.scrollY > window.innerHeight - 40)
+    update()
+    window.addEventListener('scroll', update, { passive: true })
+    window.addEventListener('resize', update)
+    return () => {
+      window.removeEventListener('scroll', update)
+      window.removeEventListener('resize', update)
+    }
+  }, [])
+
+  // Sync the browser-tab color: dark while the hero is on screen, mint otherwise.
+  useEffect(() => {
+    const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')
+    if (!meta) return
+    const dark = isHome && !scrolledPastHero
+    meta.setAttribute('content', dark ? '#0C120F' : '#F0FAF7')
+  }, [isHome, scrolledPastHero])
+
+  const hidden = isHome && !scrolledPastHero
+
   const nav = user ? AUTH_NAV : PUBLIC_NAV
   const active = (to: string) => location.pathname === to
 
   return (
-    <header className="sticky top-0 z-40 bg-surface-1/85 backdrop-blur-xl border-b border-border-subtle">
+    <header
+      className={`sticky top-0 z-40 bg-surface-1/85 backdrop-blur-xl border-b border-border-subtle ${hidden ? 'hidden' : ''}`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
         {/* Brand */}
         <Link to="/home" className="flex items-center shrink-0" aria-label="KindlePool home">

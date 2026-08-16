@@ -83,15 +83,16 @@ export function Home() {
   const fadeUp = { hidden: { opacity: 0, y: 28 }, show: { opacity: 1, y: 0 } }
 
   return (
-    <div className="space-y-24 sm:space-y-32">
-      {/* ── 1. HERO — dark editorial split ── */}
-      <section className="relative overflow-hidden rounded-3xl band-dark">
+    <div className="overflow-x-clip space-y-24 sm:space-y-32">
+      {/* ── 1. HERO — full-bleed dark editorial split ── */}
+      <section className="relative band-dark w-screen left-1/2 -translate-x-1/2 -mt-5 md:-mt-10">
         <div className="pointer-events-none absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #fff 1px, transparent 0)', backgroundSize: '28px 28px' }} />
-        <div className="relative grid lg:grid-cols-12 gap-10 px-6 sm:px-12 py-16 sm:py-24 lg:py-28">
-          <div className="lg:col-span-7 space-y-8">
-            <motion.p variants={fadeUp} initial="hidden" animate="show" transition={{ duration: 0.5 }} className="kicker kicker-light">
-              EST. ON STELLAR — ESCROW, NOT AGENCY
-            </motion.p>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center min-h-[100svh]">
+          <div className="grid lg:grid-cols-12 gap-10 w-full py-16 sm:py-24 lg:py-28">
+            <div className="lg:col-span-7 space-y-8">
+              <motion.p variants={fadeUp} initial="hidden" animate="show" transition={{ duration: 0.5 }} className="kicker kicker-light">
+                EST. ON STELLAR — ESCROW, NOT AGENCY
+              </motion.p>
             <h1 className="display-hero font-display font-bold">
               <motion.span className="block" variants={fadeUp} initial="hidden" animate="show" transition={{ duration: 0.6, delay: 0.05 }}>
                 Fund the work,
@@ -154,6 +155,7 @@ export function Home() {
               )}
             </div>
           </motion.div>
+          </div>
         </div>
       </section>
 
