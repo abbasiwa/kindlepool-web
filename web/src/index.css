@@ -98,6 +98,7 @@
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-serif: 'Instrument Serif', Georgia, serif;
 
   /* ── Type scale (bigger, modern) ── */
   --text-xs: 0.75rem;        /* 12 */
@@ -312,4 +313,62 @@ code, pre, kbd, .font-mono {
   margin: 2rem 0;
 }
 .prose-docs img { border-radius: 0.9rem; max-width: 100%; }
+
+/* ═══════════════════════════════════════════════════════════
+   Editorial magazine utilities — landing page craft layer
+   ═══════════════════════════════════════════════════════════ */
+.font-serif { font-family: var(--font-serif); }
+.font-serif-italic { font-family: var(--font-serif); font-style: italic; }
+
+/* Oversized display scale (fluid clamp) */
+.display-hero { font-size: clamp(2.75rem, 7vw, 5.5rem); line-height: 0.98; letter-spacing: -0.035em; }
+.display-xl { font-size: clamp(2rem, 4.5vw, 3.5rem); line-height: 1.02; letter-spacing: -0.03em; }
+.display-lg { font-size: clamp(1.5rem, 3.2vw, 2.5rem); line-height: 1.1; letter-spacing: -0.02em; }
+
+/* Editorial kicker — mono, spaced, numbered */
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--color-text-muted);
+}
+.kicker-light { color: rgba(240, 250, 247, 0.55); }
+
+/* Giant index numerals */
+.index-num {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-accent-primary);
+  line-height: 1;
+}
+
+/* Hairline rules */
+.hairline-t { border-top: 1px solid var(--color-border-subtle); }
+.hairline-b { border-bottom: 1px solid var(--color-border-subtle); }
+.hairline-light { border-color: rgba(240, 250, 247, 0.14); }
+
+/* Dark editorial band */
+.band-dark { background: var(--color-ink-950); color: var(--color-ink-50); }
+.band-deep { background: var(--color-leaf-950); color: var(--color-ink-50); }
+
+/* Marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+
+/* Selection */
+::selection { background: var(--color-accent-primary); color: var(--color-ink-0); }
+
+/* Reveal helpers used with framer-motion */
+.reveal-clip { clip-path: inset(0 0 100% 0); }
 
