@@ -2,6 +2,9 @@
 // and writes it into public/docs/. The .md files remain the canonical source
 // in the api repo — the web renders them, it does not duplicate them.
 //
+// Only legal/regulatory docs are fetched from the repo. Product/help docs are
+// authored directly in public/docs/ (they must stay simple and SEO-friendly).
+//
 // Usage: node scripts/fetch-docs.mjs
 import { mkdirSync, writeFileSync } from 'fs'
 import { join, dirname } from 'path'
@@ -13,16 +16,13 @@ const API_REPO = process.env.VITE_DOCS_REPO ?? 'abbasiwa/kindlepool-api'
 const BRANCH = process.env.VITE_DOCS_BRANCH ?? 'main'
 const RAW = `https://raw.githubusercontent.com/${API_REPO}/${BRANCH}/docs`
 
+// Only safe, non-technical legal documents. Internal specs, audit reports,
+// known-issues ledgers, and coverage reports are NOT exposed on the public site.
 const DOCS = [
-  { file: 'SPEC.md', slug: 'contract' },
-  { file: 'known-issues.md', slug: 'known-issues' },
-  { file: 'coverage-report.md', slug: 'coverage' },
   { file: 'PRIVACY.md', slug: 'privacy' },
   { file: 'TERMS.md', slug: 'terms' },
   { file: 'BOUNTY.md', slug: 'bounty' },
   { file: 'SECURITY.md', slug: 'security' },
-  { file: 'ENTERPRISE_PLAN.md', slug: 'enterprise-plan' },
-  { file: 'audit/report-v1.md', slug: 'security-audit' },
 ]
 
 async function main() {

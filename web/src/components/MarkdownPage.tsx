@@ -12,10 +12,9 @@ interface MarkdownPageProps {
   path?: string
   fallback?: string
 }
-
 /**
  * Renders a markdown file fetched from public/docs/<slug>.md (populated at
- * build time by scripts/fetch-docs.mjs from the kindlepool-api repo).
+ * build time by scripts/fetch-docs.mjs or authored directly in public/docs).
  */
 export function MarkdownPage({ slug, title, description, path, fallback }: MarkdownPageProps) {
   const [html, setHtml] = useState<string | null>(null)
@@ -32,9 +31,9 @@ export function MarkdownPage({ slug, title, description, path, fallback }: Markd
   }, [slug, fallback])
 
   return (
-    <Card className="space-y-6">
+    <Card elevated className="p-6 sm:p-10">
       <article
-        className="prose max-w-none text-text-primary space-y-4 leading-relaxed"
+        className="prose-docs max-w-none"
         dangerouslySetInnerHTML={{ __html: html ?? '<p>Loading…</p>' }}
       />
     </Card>

@@ -14,12 +14,11 @@ export function BottomNav() {
 
   const items = user
     ? [
-        { to: '/', label: 'nav.home', icon: Home },
+        { to: '/home', label: 'nav.home', icon: Home },
         { to: '/explore', label: 'nav.explore', icon: Compass },
-        { to: '/dashboard', label: 'nav.dashboard', icon: UserCircle },
       ]
     : [
-        { to: '/', label: 'nav.home', icon: Home },
+        { to: '/home', label: 'nav.home', icon: Home },
         { to: '/explore', label: 'nav.explore', icon: Compass },
         { to: '/login', label: 'nav.signIn', icon: UserCircle },
       ]

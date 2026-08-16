@@ -200,3 +200,116 @@ code, pre, kbd, .font-mono {
 /* ── Safe-area helpers ── */
 .safe-top { padding-top: env(safe-area-inset-top); }
 .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+
+/* ═══════════════════════════════════════════════════════════
+   Docs / prose typography — modern, readable article styling
+   ═══════════════════════════════════════════════════════════ */
+.prose-docs {
+  color: var(--color-text-primary);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+.prose-docs > * + * { margin-top: 1.25rem; }
+.prose-docs h1 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0 0 0.5rem;
+}
+.prose-docs h2 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  margin-top: 2.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+.prose-docs h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-top: 1.75rem;
+}
+.prose-docs h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+}
+.prose-docs p { color: var(--color-text-secondary); }
+.prose-docs a {
+  color: var(--color-accent-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+.prose-docs a:hover { color: var(--color-accent-hover); text-decoration: underline; }
+.prose-docs strong { color: var(--color-text-primary); font-weight: 600; }
+.prose-docs ul, .prose-docs ol { padding-left: 1.5rem; color: var(--color-text-secondary); }
+.prose-docs ul { list-style: disc; }
+.prose-docs ol { list-style: decimal; }
+.prose-docs li { margin: 0.35rem 0; }
+.prose-docs li::marker { color: var(--color-accent-primary); }
+.prose-docs blockquote {
+  border-left: 3px solid var(--color-accent-primary);
+  background: var(--color-accent-soft);
+  padding: 0.75rem 1rem;
+  border-radius: 0 0.75rem 0.75rem 0;
+  color: var(--color-text-secondary);
+}
+.prose-docs blockquote p { margin: 0; }
+.prose-docs table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin: 1rem 0;
+}
+.prose-docs thead th {
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  padding: 0.6rem 0.75rem;
+  border-bottom: 2px solid var(--color-border-default);
+}
+.prose-docs tbody td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+  color: var(--color-text-secondary);
+  vertical-align: top;
+}
+.prose-docs tbody tr:hover { background: var(--color-surface-2); }
+.prose-docs code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border-subtle);
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.4rem;
+}
+.prose-docs pre {
+  background: var(--color-ink-900);
+  color: var(--color-ink-50);
+  padding: 1rem 1.25rem;
+  border-radius: 0.9rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+.prose-docs pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: inherit;
+}
+.prose-docs hr {
+  border: none;
+  border-top: 1px solid var(--color-border-subtle);
+  margin: 2rem 0;
+}
+.prose-docs img { border-radius: 0.9rem; max-width: 100%; }
+

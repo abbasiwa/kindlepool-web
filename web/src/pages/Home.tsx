@@ -28,7 +28,7 @@ function daysLeft(deadline: number): string {
 export function Home() {
   const navigate = useNavigate()
   const [featured, setFeatured] = useState<PoolData[]>([])
-  useMeta({ description: 'Micro-sponsor pools for creators on Stellar Soroban. Fund specific work, auto-refunds if goals fail.', path: '/' })
+  useMeta({ title: 'Home', description: 'Micro-sponsor pools for creators on Stellar Soroban. Fund specific work, auto-refunds if goals fail.', path: '/home' })
 
   useEffect(() => {
     let cancelled = false

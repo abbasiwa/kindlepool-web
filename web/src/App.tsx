@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom'
 import './i18n'
 import { ThemeProvider } from './lib/theme'
 import { AuthProvider } from './lib/auth'
@@ -42,7 +42,7 @@ function NotFound() {
     <div className="text-center py-24 space-y-4">
       <h1 className="text-4xl font-display font-bold text-text-primary tracking-tight">404</h1>
       <p className="text-text-muted">This page doesn't exist.</p>
-      <Link to="/" className="inline-block mt-4 text-accent-primary hover:text-accent-hover transition-colors">
+      <Link to="/home" className="inline-block mt-4 text-accent-primary hover:text-accent-hover transition-colors">
         ← Back home
       </Link>
     </div>
@@ -64,7 +64,8 @@ export default function App() {
             <NotificationProvider>
               <Shell>
                 <Routes>
-                  <Route path="/" element={<Home />} />
+                  <Route path="/" element={<Navigate to="/home" replace />} />
+                  <Route path="/home" element={<Home />} />
                   <Route path="/explore" element={<Explore />} />
                   <Route path="/pool/:id" element={<PoolDetail />} />
                   <Route path="/developers" element={<DeveloperPortal />} />

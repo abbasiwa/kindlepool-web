@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-const SITE = 'https://kindlepool.vercel.app'
+const SITE = 'https://kindlepool.app'
 const SITE_NAME = 'KindlePool'
 const DEFAULT_DESC = 'Fund the work, not the creator. Trustless micro-sponsor pools on Stellar Soroban.'
 

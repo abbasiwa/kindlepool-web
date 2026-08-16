@@ -6,27 +6,27 @@ import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-const BASE = 'https://kindlepool.vercel.app'
+const BASE = 'https://kindlepool.app'
 
 const staticRoutes = [
-  '/',
+  '/home',
   '/explore',
   '/pricing',
   '/about',
   '/faq',
   '/how-it-works',
-  '/changelog',
   '/security',
-  '/status',
-  '/leaderboard',
-  '/analytics',
   '/developers',
   '/docs',
+  '/docs/overview',
+  '/docs/getting-started',
+  '/docs/how-funding-works',
+  '/docs/refunds',
+  '/docs/security',
   '/legal/privacy',
   '/legal/terms',
   '/legal/cookies',
   '/legal/bounty',
-  '/legal/security',
   '/legal/dmca',
 ]
 

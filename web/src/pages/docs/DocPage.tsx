@@ -1,29 +1,44 @@
-import { useParams, Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { MarkdownPage } from '../../components/MarkdownPage'
+import { DocsLayout } from '../../layouts/DocsLayout'
 
-const TITLES: Record<string, string> = {
-  contract: 'Contract Specification',
-  'security-audit': 'Security Audit',
-  'known-issues': 'Known Issues',
-  coverage: 'Test Coverage',
-  privacy: 'Privacy Policy',
-  terms: 'Terms of Service',
-  bounty: 'Bug Bounty',
-  security: 'Security Overview',
-  'enterprise-plan': 'Enterprise Plan',
+const DOCS_META: Record<string, { title: string; description: string }> = {
+  overview: {
+    title: 'What is KindlePool?',
+    description: 'KindlePool is a simple creator-funding platform on Stellar. Supporters fund specific work, and funds release only when the community approves.',
+  },
+  'getting-started': {
+    title: 'Getting Started',
+    description: 'Sign in, create a pool or fund one, deliver work, and get paid — a quick guide to using KindlePool.',
+  },
+  'how-funding-works': {
+    title: 'How Funding Works',
+    description: 'The full KindlePool flow: create a pool, supporters contribute, the goal is met, work is reviewed, and funds settle automatically.',
+  },
+  refunds: {
+    title: 'Refunds',
+    description: 'When and how KindlePool refunds supporters automatically — unmet goals, rejected work, cancellations, and disputes.',
+  },
+  security: {
+    title: 'Security at KindlePool',
+    description: 'How KindlePool protects funds: smart-contract escrow, automatic refunds, community checks, and responsible disclosure.',
+  },
 }
 
 export function DocPage() {
   const { slug } = useParams()
   const s = slug ?? ''
+  const meta = DOCS_META[s]
+
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
-      <div className="flex items-center gap-3 text-sm">
-        <Link to="/docs" className="text-text-muted hover:text-accent-primary transition-colors">← Docs</Link>
-        <span className="text-text-muted">/</span>
-        <span className="text-accent-primary">{s}</span>
-      </div>
-      <MarkdownPage slug={s} title={TITLES[s] ?? 'Documentation'} path={`/docs/${s}`} />
-    </div>
+    <DocsLayout>
+      <MarkdownPage
+        slug={s}
+        title={meta?.title}
+        description={meta?.description}
+        path={`/docs/${s}`}
+        fallback="This document isn't available yet."
+      />
+    </DocsLayout>
   )
 }
