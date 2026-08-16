@@ -87,9 +87,9 @@ export function Home() {
       {/* ── 1. HERO — full-bleed dark editorial split ── */}
       <section className="relative band-dark w-screen left-1/2 -translate-x-1/2 -mt-5 md:-mt-10">
         <div className="pointer-events-none absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #fff 1px, transparent 0)', backgroundSize: '28px 28px' }} />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center min-h-[100svh]">
-          <div className="grid lg:grid-cols-12 gap-10 w-full py-16 sm:py-24 lg:py-28">
-            <div className="lg:col-span-7 space-y-8">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-start lg:items-center min-h-[100svh]">
+          <div className="grid lg:grid-cols-12 gap-10 w-full pt-28 pb-16 sm:py-24 lg:py-28">
+            <div className="lg:col-span-7 space-y-10">
             <h1 className="display-hero font-display font-bold">
               <motion.span className="block" variants={fadeUp} initial="hidden" animate="show" transition={{ duration: 0.6, delay: 0.05 }}>
                 Fund the work,
@@ -98,18 +98,18 @@ export function Home() {
                 <span className="font-serif-italic font-normal text-leaf-400">not the creator.</span>
               </motion.span>
             </h1>
-            <motion.p variants={fadeUp} initial="hidden" animate="show" transition={{ duration: 0.6, delay: 0.25 }} className="max-w-xl text-lg leading-relaxed text-ink-200">
+            <motion.p variants={fadeUp} initial="hidden" animate="show" transition={{ duration: 0.6, delay: 0.25 }} className="max-w-xl text-lg sm:text-xl leading-relaxed text-ink-200">
               Micro-sponsor pools for specific work. Money sits in escrow on-chain, releases only when the community approves, and refunds itself when it fails.
             </motion.p>
-            <motion.div variants={fadeUp} initial="hidden" animate="show" transition={{ duration: 0.6, delay: 0.35 }} className="flex flex-col sm:flex-row gap-3">
+            <motion.div variants={fadeUp} initial="hidden" animate="show" transition={{ duration: 0.6, delay: 0.35 }} className="flex flex-col sm:flex-row gap-4">
               <Button size="xl" onClick={() => navigate('/explore')}>Explore the pools</Button>
               <Button size="xl" variant="ghost" className="!text-white hover:bg-white/10" onClick={() => navigate('/how-it-works')}>Read the mechanism →</Button>
             </motion.div>
           </div>
 
-          {/* Ledger panel */}
+          {/* Ledger panel — desktop only */}
           <motion.div
-            className="lg:col-span-5"
+            className="lg:col-span-5 hidden lg:block"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}

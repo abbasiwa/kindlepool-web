@@ -322,9 +322,9 @@ code, pre, kbd, .font-mono {
 .font-serif-italic { font-family: var(--font-serif); font-style: italic; }
 
 /* Oversized display scale (fluid clamp) */
-.display-hero { font-size: clamp(2.75rem, 7vw, 5.5rem); line-height: 0.98; letter-spacing: -0.035em; }
-.display-xl { font-size: clamp(2rem, 4.5vw, 3.5rem); line-height: 1.02; letter-spacing: -0.03em; }
-.display-lg { font-size: clamp(1.5rem, 3.2vw, 2.5rem); line-height: 1.1; letter-spacing: -0.02em; }
+.display-hero { font-size: clamp(3.25rem, 8vw, 6.5rem); line-height: 0.98; letter-spacing: -0.035em; }
+.display-xl { font-size: clamp(2.25rem, 5vw, 4rem); line-height: 1.02; letter-spacing: -0.03em; }
+.display-lg { font-size: clamp(1.6rem, 3.5vw, 2.75rem); line-height: 1.1; letter-spacing: -0.02em; }
 
 /* Editorial kicker — mono, spaced, numbered */
 .kicker {
